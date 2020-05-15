@@ -2,7 +2,8 @@
 
 namespace Library
 {
-    public class Class1
+    class Text : Card
     {
+        
     }
 }
