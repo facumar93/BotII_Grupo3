@@ -1,12 +1,17 @@
 ﻿using System;
+using Library;
 
 namespace Program
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            SingletonBot bot = SingletonBot.Instance;
+            Screen.StartConfiguration();
+            Console.WriteLine(bot.config.LimitTime);
+            
         }
     }
-}
+} 
