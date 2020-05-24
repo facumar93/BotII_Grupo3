@@ -7,7 +7,7 @@ namespace Library
     {
         private static SingletonBot instance = null;
         public Config config { get; set; }
-        public List<Game> listGame{get;set;}
+        public List<Game> listGame { get; set; }
         private SingletonBot()
         {
             listGame=new List<Game>();
@@ -24,8 +24,7 @@ namespace Library
                 if (instance == null)
                 {
                     instance = new SingletonBot();
-                    
-                    
+                  
                 }
                 return instance;
                  

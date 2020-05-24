@@ -10,8 +10,15 @@ namespace Program
         {
             SingletonBot bot = SingletonBot.Instance;
             Screen.StartConfiguration();
-            Console.WriteLine(bot.config.LimitTime);
             
+            
+        }
+        public enum GameType
+        {
+            TEXT_PLUS_ANSWER_CARD,
+            TEXT_PLUS_FREE_ANSWER,
+            IMAGE_PLUS_ANSWER_CARD,
+            IMAGE_PLUS_FREE_ANSWER
         }
     }
 } 

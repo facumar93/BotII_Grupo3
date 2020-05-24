@@ -1,21 +1,19 @@
 using System;
-
+using System.Collections.Generic;
 namespace Library
 {
     public class Game 
     {
         public GameType Type { get; set; }
-        
+        public List<User> userList { get; set; }
         public Game(GameType type)
         {
-            Type=type;
+            Type = type;
         }
-    public enum GameType
+        public void AddUser(User user)
         {
-            TEXT_PLUS_ANSWER_CARD,
-            TEXT_PLUS_FREE_ANSWER,
-            IMAGE_PLUS_ANSWER_CARD,
-            IMAGE_PLUS_FREE_ANSWER
+            userList.Add(user);
         }
+    
     }
 }
