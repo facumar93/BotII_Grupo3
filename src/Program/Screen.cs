@@ -1,5 +1,4 @@
 using System;
-
 namespace Library 
 {
     public class Screen
@@ -81,7 +80,7 @@ namespace Library
                 opcion = Convert.ToInt32(Console.ReadLine());
             }
             
-            GameType type = (GameType)(opcion-1);
+            Game.GameType type = (Game.GameType)(opcion-1);
             Game game = new Game(type);
             SingletonBot.Instance.StartGame(game);
         }
