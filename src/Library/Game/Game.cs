@@ -6,6 +6,7 @@ namespace Library
     {
         public GameType Type { get; set; }
         public List<User> userList { get; set; }
+        public List<Round> rounds { get; set; }
         public Deck deck { get; set; }
         public Game(GameType type)
         {
@@ -27,12 +28,18 @@ namespace Library
 
     	        for(int l=1;l<=User.MAX_CARDS;l++)
                 {
-                    Card card=deck.GetCard(j);
+                    Card card=deck.GetNextCardWhite();
                     user.addCard(card);
                     j++; 
                 }
             
             }
+            User lastUser=userList[userList.Count-1];
+            Round round=new Round(lastUser,deck.GetNextCardBlack(Type));
+            
+            rounds.Add(round);
+
+
         }
 
         public enum GameType
