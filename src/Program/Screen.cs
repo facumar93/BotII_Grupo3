@@ -8,63 +8,41 @@ namespace Library
             int quantityTime;
             int quantityRounds;
                         
-            Console.WriteLine("Ingrese el tiempo");
+           
 
-            try{
-                quantityTime=Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Ingrese la cantidad veces que quiere ser Juez en un partido");
 
-            }
-            catch (FormatException)
+            try
             {
-                Console.WriteLine("Tiempo solamente numerico");
-                quantityTime=-1;
-            }
-            while (quantityTime <= 0)
-            {
-                Console.WriteLine("El tiempo deber ser mayor 0");
-                try
-                {
-                    quantityTime = Convert.ToInt32(Console.ReadLine());
-                }
-                catch(FormatException )
-                {
-                    Console.WriteLine("Tiempo solamente numerico");
-                    quantityTime =- 1;
-                }
-            }
-
-            Console.WriteLine("Ingrese la cantidad round");
-
-            try{
                 quantityRounds = Convert.ToInt32(Console.ReadLine());
-
             }
             catch(FormatException)
             {
-                Console.WriteLine("Round solamente numerico");
-                quantityRounds =- 1;
+                Console.WriteLine("Ingrese valor numerico");
+                quantityRounds = 0;
             }
-            while(quantityRounds <= 0)
+            while(quantityRounds < 1) //Se debería hacer tantas rondas como jugadores (como mínimo).
             {
-                Console.WriteLine("El round deber ser mayor 0");
+                Console.WriteLine("Es necesario una vez como mínimo");
                 try
                 {
                     quantityRounds = Convert.ToInt32(Console.ReadLine());
                 }
                 catch(FormatException )
                 {
-                    Console.WriteLine("Round solamente numerico");
-                    quantityRounds =- 1;
+                    Console.WriteLine("Ingrese la cantidad veces quiere ser Juez");
+                    quantityRounds = 0;
                 }
             }
             
-            Config config = new Config(quantityRounds,quantityTime);
-            SingletonBot.Instance.config=config;
+            Config config = new Config(quantityRounds);
+            SingletonBot.Instance.config = config;
         }
 
          public static void StartGame()
         {
-            String[] optionsArray = new string[] {"Texto y cartas de respuesta","Texto y respuesta libre","Imagen y cartas de respuesta","Imagen y respuesta libre"};
+            String[] optionsArray = new string[] {"CARTAS NEGRAS y CARTAS BLANCAS","CARTAS NEGRAS y RESPUESTA POR TECLADO"
+            ,"CARTAS NEGRAS DE IMAGENES y CARTAS BLANCAS","CARTAS NEGRAS DE IMAGENES y RESPUESTA POR TECLADO"};
 
             for (int i = 0 ; i < optionsArray.Length ; i++)
             {
@@ -82,7 +60,7 @@ namespace Library
             
             Game.GameType type = (Game.GameType)(opcion-1);
             Game game = new Game(type);
-            SingletonBot.Instance.StartGame(game);
+            SingletonBot.Instance.AddNewGameToListOfGames(game); //Se instancia varias veces el singleton, ¿es la idea en sí?, ¿da igual?
         }
     }
 }

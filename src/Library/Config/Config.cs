@@ -6,13 +6,13 @@ namespace Library
     public class Config 
     {
         
-        public int RoundNum{get;set;}
-        public int LimitTime{get;set;}
+        public int JudgeNum{get;set;} 
+        
 
-        public Config(int roundNum, int limitTime)
+        public Config(int judgeNum)
         {
-            this.RoundNum=roundNum;
-            this.LimitTime=limitTime;
+            this.JudgeNum=judgeNum;
+            
         }
     	
         
