@@ -11,6 +11,7 @@ namespace Program
             SingletonBot bot = SingletonBot.Instance; 
             Screen.StartConfiguration();
             
+            
            //previo
            /*for(int i=0;i<Game.)
             do{

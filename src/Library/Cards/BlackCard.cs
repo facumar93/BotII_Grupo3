@@ -2,7 +2,7 @@
 
 namespace Library
 {
-    class Text : Card
+    class BlackCard : Card
     {
         
     }

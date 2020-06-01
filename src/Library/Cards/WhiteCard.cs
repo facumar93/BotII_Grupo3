@@ -2,7 +2,7 @@ using System;
 
 namespace Library 
 {
-    public class Answer : Card
+    public class WhiteCard : Card
     {
         
     }

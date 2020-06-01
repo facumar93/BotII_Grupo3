@@ -5,15 +5,15 @@ namespace Library
 {
     public class Round 
     {
-        public IJudge judge;
-        public Card Black {get;set;}
+        public IJudge Judge;
+        public Card BlackCard {get;set;}
         public List<Card> ListAnswer{get;set;}
 
-        public Round(IJudge judge,Card cardBlack)
+        public Round(IJudge judge, Card blackCard)
         {
-            this.judge=judge;
-            this.Black=cardBlack;
-            ListAnswer=new List<Card>();
+            this.Judge = judge;
+            this.BlackCard = blackCard;
+            ListAnswer = new List<Card>();
 
         }
 
@@ -23,10 +23,19 @@ namespace Library
         }
         public void AssignJudge(User player)
         {
-            judge = player;
+            Judge = player;
             
         }
-        //Dar puntaje
+
+        internal void GiveBack() //devolver las cartas al mazo
+        {
+            BlackCard.Free = true;
+            foreach (Card card in ListAnswer)
+            {
+                card.Free = true;
+            }
+        }
         
+
     }
 }

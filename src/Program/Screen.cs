@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace Library 
 {
     public class Screen
@@ -10,7 +12,7 @@ namespace Library
                         
            
 
-            Console.WriteLine("Ingrese la cantidad veces que quiere ser Juez en un partido");
+            Console.WriteLine("Ingrese la cantidad de rondas por juego");
 
             try
             {
@@ -18,12 +20,12 @@ namespace Library
             }
             catch(FormatException)
             {
-                Console.WriteLine("Ingrese valor numerico");
+                Console.WriteLine("Ingrese valor numérico");
                 quantityRounds = 0;
             }
             while(quantityRounds < 1) //Se debería hacer tantas rondas como jugadores (como mínimo).
             {
-                Console.WriteLine("Es necesario una vez como mínimo");
+                Console.WriteLine("Es necesario un mínimo de una ronda para inicial el juego");
                 try
                 {
                     quantityRounds = Convert.ToInt32(Console.ReadLine());
@@ -34,9 +36,15 @@ namespace Library
                     quantityRounds = 0;
                 }
             }
+            try
+            {
+                SingletonBot.Instance.CreatConfiguration(quantityRounds);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             
-            Config config = new Config(quantityRounds);
-            SingletonBot.Instance.config = config;
         }
 
          public static void StartGame()
@@ -50,17 +58,18 @@ namespace Library
             }
 
             Console.WriteLine("Seleccione un modo de juego :");
-            int opcion = Convert.ToInt32(Console.ReadLine());
+            int option = Convert.ToInt32(Console.ReadLine());
 
-            while (opcion > optionsArray.Length || opcion < 1)
+            while (option > optionsArray.Length || option < 1)
             {
                 Console.WriteLine("No ha ingrsado una opción válida, pruebe nuevamente :");
-                opcion = Convert.ToInt32(Console.ReadLine());
+                option = Convert.ToInt32(Console.ReadLine());
             }
             
-            Game.GameType type = (Game.GameType)(opcion-1);
-            Game game = new Game(type);
-            SingletonBot.Instance.AddNewGameToListOfGames(game); //Se instancia varias veces el singleton, ¿es la idea en sí?, ¿da igual?
+            Game.GameType type = (Game.GameType)(option-1);
+            List<User> listUser = new List<User>();
+            Game game = new Game(type, listUser);
+            SingletonBot.Instance.CreateGame(type, listUser); 
         }
     }
 }

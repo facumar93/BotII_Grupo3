@@ -5,7 +5,7 @@ namespace Library
 {
     public class Deck
     {
-        private List<Card> cards{get;set;}
+        private List<Card> cards{ get; set; }
         private int lastCardWhite;
         private int lastCardBlack;
         public Deck()
@@ -27,15 +27,14 @@ namespace Library
         public Card GetNextCardWhite()
         {
             lastCardWhite++;
-            while (!cards[lastCardWhite].Free || !(cards[lastCardWhite] is Answer))
+            while (!cards[lastCardWhite].Free || !(cards[lastCardWhite] is WhiteCard))
             {
-
                 lastCardWhite++;
-                if(lastCardWhite==cards.Count)
-                    lastCardWhite=0;
+                if(lastCardWhite == cards.Count)
+                    lastCardWhite = 0;
             }
                 
-            cards[lastCardWhite].Free=false;
+            cards[lastCardWhite].Free = false;
 
             return cards[lastCardWhite];
         }
@@ -44,15 +43,15 @@ namespace Library
         {
             
             if (gameType == Game.GameType.TEXT_AND_ANSWER_CARD || gameType == Game.GameType.TEXT_AND_FREE_ANSWER) 
-                return cards[position] is Text;
+                return cards[position] is BlackCard;
             else
                 return cards[position] is Image;
         }
-        public Card GetNextCardBlack(Game.GameType tipo)
+        public Card GetNextCardBlack(Game.GameType type)
         {
 
            lastCardBlack++;
-            while (!cards[lastCardWhite].Free || !(IsBlack(tipo,lastCardBlack)))
+            while (!cards[lastCardWhite].Free || !(IsBlack(type,lastCardBlack)))
             {
                 lastCardBlack++;
                 if(lastCardBlack==cards.Count)
