@@ -18,12 +18,8 @@ namespace Library
         {
 
         }
-        public void load(Card card)
+        public void load()
         {
-
-            cards.Add(card);
-           
-            /*
             White white0 = new White();
             Black black0 = new Black();
             White white1 = new White();
@@ -37,8 +33,7 @@ namespace Library
             cards.Add(black1);
             cards.Add(white2);
             cards.Add(black2);
-            */
-
+    
         }
 
 
