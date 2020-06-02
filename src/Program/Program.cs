@@ -1,12 +1,32 @@
 ﻿using System;
+using Library;
 
 namespace Program
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            SingletonBot bot = SingletonBot.Instance; 
+            Screen.StartConfiguration();
+            
+            
+           //previo
+           /*for(int i=0;i<Game.)
+            do{
+                while(game.nextPlayer())
+                {
+                    // Player player=game.CurrentPlayer();
+                    //mostrar´
+
+                }
+            //mostrarle las anwser
+            //toma decision
+            //crear nuevo
+
+            }while(!game.finish());*/
         }
+        
     }
-}
+} 
