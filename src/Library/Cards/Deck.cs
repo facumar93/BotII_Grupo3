@@ -18,16 +18,34 @@ namespace Library
         {
 
         }
-        public void load()
+        public void load(Card card)
         {
-            //SingletonBot.Instance.config.
+
+            cards.Add(card);
+           
+            /*
+            White white0 = new White();
+            Black black0 = new Black();
+            White white1 = new White();
+            Black black1 = new Black();
+            White white2 = new White();
+            Black black2 = new Black();
+
+            cards.Add(white0);
+            cards.Add(black0);
+            cards.Add(white1);
+            cards.Add(black1);
+            cards.Add(white2);
+            cards.Add(black2);
+            */
+
         }
 
 
         public Card GetNextCardWhite()
         {
             lastCardWhite++;
-            while (!cards[lastCardWhite].Free || !(cards[lastCardWhite] is WhiteCard))
+            while (!cards[lastCardWhite].Free || !(cards[lastCardWhite] is White))
             {
                 lastCardWhite++;
                 if(lastCardWhite == cards.Count)
@@ -39,15 +57,15 @@ namespace Library
             return cards[lastCardWhite];
         }
  
-        private bool IsBlack(Game.GameType gameType, int position)
+        private bool IsBlack(TypeOfGameOptions typeOfGameOptions, int position) //podría ser estatico porque se usa solo en GetNextCardBlack?
         {
             
-            if (gameType == Game.GameType.TEXT_AND_ANSWER_CARD || gameType == Game.GameType.TEXT_AND_FREE_ANSWER) 
-                return cards[position] is BlackCard;
+            if (typeOfGameOptions == TypeOfGameOptions.IncompletTextAndAnswerText || typeOfGameOptions == TypeOfGameOptions.IncompletTextAndFreeAnswer) 
+                return cards[position] is Black;
             else
                 return cards[position] is Image;
         }
-        public Card GetNextCardBlack(Game.GameType type)
+        public Black GetNextCardBlack(TypeOfGameOptions type)
         {
 
            lastCardBlack++;
@@ -58,8 +76,8 @@ namespace Library
                     lastCardBlack=0;
             }
                 
-            cards[lastCardBlack].Free=false;
-            return cards[lastCardBlack];
+            cards[lastCardBlack].Free = false;
+            return (Black)cards[lastCardBlack];
 
         }
     }

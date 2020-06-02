@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Library.Test
 {
-    public class Tests
+    public class TestGame
     {
         [SetUp]
         public void Setup()

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace Library 
 {
-    public class Image : Card
+    public class White : Card
     {
-        
+    
     }
 }

@@ -66,10 +66,10 @@ namespace Library
                 option = Convert.ToInt32(Console.ReadLine());
             }
             
-            Game.GameType type = (Game.GameType)(option-1);
-            List<User> listUser = new List<User>();
-            Game game = new Game(type, listUser);
-            SingletonBot.Instance.CreateGame(type, listUser); 
+            //Game.GameType type = (Game.GameType)(option-1);
+            //List<User> listUser = new List<User>();
+            //Game game = new Game(type, listUser);
+            //SingletonBot.Instance.CreateGame(type, listUser); 
         }
     }
 }
