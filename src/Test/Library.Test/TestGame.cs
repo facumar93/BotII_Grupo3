@@ -6,32 +6,51 @@ namespace Library.Test
     public class TestGame
     {
         TypeOfGameOptions typeOfGameOptions;
-        Game game;
+
+        Game game; //Esto hay que hacerlo?
+
 
         [SetUp]
         public void Setup()
         {
-            typeOfGameOptions = new TypeOfGameOptions();
+
+
+            User testPlayer = new User("testPlayer");
+            User testJudge = new User("testJudge");
+            Black black = new Black(1);
+            Round testRound = new Round(testJudge,black);
+            typeOfGameOptions=TypeOfGameOptions.IncompletTextAndFreeAnswer;
+            game = new Game(typeOfGameOptions);
             
-        
+            game.AddUserToUserList(testJudge);
+            game.AddUserToUserList(testPlayer);
+           
+            game.Add(testRound);
+            game.NextPositionPlayer = 1;
 
         }
-
+        
         [Test]
-        public void Test1()
+        public void FirstPlayerMustReturnTrue()
         {
-            game = new Game(typeOfGameOptions);
-            IPlayer playerTest0 = new User("testName0");
-            IJudge playerTest1 = new User("testName1");
-            IPlayer playerTest2 = new User("testName2");
-            IPlayer playerTest3 = new User("testName3");
-            game.userList.Add((User)playerTest0);
-            game.userList.Add((User)playerTest1);
-            game.userList.Add((User)playerTest2);
-            game.userList.Add((User)playerTest3);
-            bool expected = false;
-            
-            Assert.AreEqual(expected, game.nextPlayer());
+            Assert.True(game.nextPlayer());            
+        }
+        [Test]
+        public void FirstPlayerMustReturnFalse()
+        {
+           
+            game.GetCurrentPlayer();
+
+            Assert.False(game.nextPlayer());
+        
+        }
+        [Test]
+        public void GetCurrentPlayer()
+        {
+            User testPlayer = new User("testPlayer");           
+            User user=game.GetCurrentPlayer();
+            Assert.AreEqual(testPlayer, user);
+        
 
         }
     }

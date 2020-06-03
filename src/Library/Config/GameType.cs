@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    public enum TypeOfGameOptions 
-    {
-        IncompletTextAndAnswerText,
-        IncompletTextAndFreeAnswer,
-        ImageAndAnswerText,
-        ImageAndFreeAnswer
-    }
+    /// <summary>
+    /// Este enumerado es una abstraccion de los tipos de juego
+    /// </summary>
+    public enum TypeOfGameOptions
+        {
+            IncompletTextAndAnswerText,
+            IncompletTextAndFreeAnswer,
+            ImageAndAnswerText,
+            ImageAndFreeAnswer
+        }
 }

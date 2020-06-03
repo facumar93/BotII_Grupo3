@@ -5,9 +5,10 @@ namespace Library
 {
     public  class User : IJudge , IPlayer
     {
-        private List<Card> cards = new List<Card>(); //private //agregar metodo para contar cartas
+        private List<Card> cards = new List<Card>();
         public string Name{get;set;}
-        public const int MaxCards = 10; //private
+        public const int MaxCards = 10;
+
         public int Points{get;set;}
 
         public User(String name)
@@ -21,6 +22,8 @@ namespace Library
         }
         public void addCardToUser(Card card)
         {
+         
+
             if (cards.Count < MaxCards) //Sería necesario controlar?.
                 cards.Add(card);
             else
@@ -32,27 +35,31 @@ namespace Library
             return cards.Contains(select);
         }
 
+        public int Count()
+        {
+            return cards.Count;
+        }
+
         public void win()
         {
            Points++;
         }
 
-        //metodo Equals(Object) de la clase Object
-        //Determina si el objeto especificado es igual al objeto actual.
-        //obj Object: Objeto que se va a comparar con el objeto actual.
+
         public override bool Equals(object obj)
         {
-            bool valido = false;
+            bool valido=false;
             if (obj is User)
             {
             User user=(User)obj;
-                if (user.Name == this.Name)
-                    valido = true;
+                if (user.Name==this.Name)
+                    valido=true;
+
             }
             return valido;
         }
 
-        //se usa el metodo ToString de la clase Ibject para devolver un string del nombre
+
         public override String ToString()
         {
             return  Name;
@@ -62,5 +69,16 @@ namespace Library
         {
             return cards[position];
         }
+
+
+        public override int GetHashCode()
+        {
+            int hashCode = -309160608;
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<Card>>.Default.GetHashCode(cards);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + Points.GetHashCode();
+            return hashCode;
+        }
+
     }
 }

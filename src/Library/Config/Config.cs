@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa la configuracion del juego y cumple con el principio de abstracciòn
+    /// </summary>
     public class Config 
     {
-        //número de veces q cada jugador será juez en el juego
-        //en función de esto se obtiene el número de rondas del juego
-        //tener en cuenta que también se depende del número de jugadores del juego
+
         public int JudgeNum { get; set; }  
         public int CountPlayer{ get; set; }
         public Config(int judgeNum,int countPlayer)

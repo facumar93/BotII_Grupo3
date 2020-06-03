@@ -24,18 +24,19 @@ namespace Library
         public void AssignJudge(User player)
         {
             judge = player;
-            
         }
 
         public void GiveBack()
         {
-            black.Free=true;
+            black.Free = true;
             foreach (Card card in ListAnswer)
             {
-                card.Free=true;
+                card.Free = true;
             }
         }
-       
+
+        //Dar puntaje
+
         public IEnumerator<Card> EnumeratorCardsAnswer()
         {
             return ListAnswer.GetEnumerator();

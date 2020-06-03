@@ -5,14 +5,19 @@ namespace Library
 
 {
     /// <summary>
-    ///This Class represents the "visual" of the bot
+
+    /// This Class represents the "visual" of the bot
+
     /// </summary>
     public class Screen
     {
         /// <summary>
         /// Propery for get count of player and judge replays
         /// </summary>
-        public static void SetConfiguration() //Se podría configurar tambien el tipo de juego y el ingreso de usuario acá.
+
+        static SingletonBot singletonBot = SingletonBot.Instance;
+        public static void SetConfiguration() 
+
         {
             int countPlayer;
             int judgeReplaysOnUser;
@@ -30,7 +35,9 @@ namespace Library
             }
             while(countPlayer < 4) 
             {
-                Console.WriteLine("Número de jugadores no permitido");//Sería lomismo ponerlo en catch?
+
+                Console.WriteLine("Número de jugadores no permitido");
+
                 try
                 {
                     countPlayer = Convert.ToInt32(Console.ReadLine());
@@ -66,23 +73,28 @@ namespace Library
                 }
             }
             
-            //Config config = new Config(judgeReplaysOnUser);´
+
+            
             try
             {
-                SingletonBot.Instance.CreateConfiguration(judgeReplaysOnUser,countPlayer);
-                
+                singletonBot.CreateConfiguration(judgeReplaysOnUser,countPlayer);
             }
             catch(Exception ex)
             {
-            
+
                 Console.WriteLine(ex.Message);
             }
                 
         }
+
+        /// <summary>
+        /// Propery for selection one type of game, registration as User with one name and start game.
+        /// </summary>
         
          public static void StartConfigGame()
         {
-            SingletonBot singletonBot = SingletonBot.Instance;
+            
+
             String[] typeOfGameOptionsArray = new string[] {"CARTAS NEGRAS y CARTAS BLANCAS","CARTAS NEGRAS y RESPUESTA POR TECLADO"
             ,"CARTAS NEGRAS DE IMAGENES y CARTAS BLANCAS","CARTAS NEGRAS DE IMAGENES y RESPUESTA POR TECLADO"};
 
@@ -110,7 +122,9 @@ namespace Library
                 {
                     Console.WriteLine("Ingrese un apodo para registrarse como jugador");
                     String name = Console.ReadLine();
-                    singletonBot.AddUserToUserList(name);
+
+                    singletonBot.CreatUser(name);
+
     	            aux++;
                 }
                 catch(Exception ex)
@@ -122,46 +136,56 @@ namespace Library
             }
             singletonBot.StartGame();
 
-
+        
         }
-        public static void StartGame()
+        /// <summary>
+        /// Propery for selection one type of game, registration as User with one name and start game.
+        /// </summary>
+        public static void PlayGame()
         {
-            SingletonBot aux = SingletonBot.Instance;
-    	    for(int round = 1; round <= aux.config.CountRound(); round++)
+           
+    	    for(int round = 1 ; round <= singletonBot.config.CountRound() ; round++)
             {
-                Console.WriteLine("El juez : " + aux.GetJudge().ToString());
-                Console.WriteLine("Mostrar pregunta :¨"+aux.CardBlack().ToString());
+                Console.WriteLine("El juez : " + singletonBot.GetJudge().ToString());
+                Console.WriteLine("Mostrar pregunta : " + singletonBot.CardBlack().ToString());
                 Console.WriteLine("Empezar repartir respuesta");
 
-                while(aux.NextPlayer())
+                while(singletonBot.NextPlayer())
                 {
-                    User user = aux.CurrentPlayer();
-                    Console.WriteLine("Usuario :"+user.ToString());
-                    Card card = seeCards(user.EnumeratorCards());
-                    aux.AddAnswer(card);
+                    User user = singletonBot.CurrentPlayer();
+                    Console.WriteLine("Usuario :" + user.ToString());
+                    Card card = PlayerSeeCards(user.EnumeratorCards());
+                    singletonBot.AddAnswer(card);
                 }
 
                 Console.WriteLine("Veredicto");
-                Card selection=seeCards(aux.EnumeratorCardsAnswer());
-                aux.Win(selection);
+                Card selection = PlayerSeeCards(singletonBot.EnumeratorCardsAnswer());
+                singletonBot.Win(selection);
             }
 
         }
-
-        private static Card seeCards(IEnumerator<Card> enumerator)
+        
+        /// <summary>
+        /// Property for seen and selection cards.
+        /// </summary>
+        /// <param name="enumerator"></param>
+        /// <returns></returns>
+        private static Card PlayerSeeCards(IEnumerator<Card> enumerator)
         {
-           
+           List<Card>lista=new List<Card>();
             Console.WriteLine("Seleccione una carta");
             
-            int position=1;
+            int position = 1;
             while(enumerator.MoveNext())
             {
-                Card card=enumerator.Current;
-                Console.WriteLine(position+":"+card.ToString());
+                Card card = enumerator.Current;
+                lista.Add(card);
+                Console.WriteLine(position + ":" + card.ToString());
                 position++;
             }
             Console.Write("Seleccione una carta :");
-            int pos=0;
+            int pos = 0;
+
             try{
                 pos=Convert.ToInt32(Console.ReadLine());
             }            
@@ -185,9 +209,8 @@ namespace Library
                
             }
 
-            //agrege esto para q no me de error pero hay q verlo
-            User user = new User("ana");
-            return user.GetCard(pos-1);
+            return lista[pos]; //No reconoce el objeto necesario user
+
 
         }
     }

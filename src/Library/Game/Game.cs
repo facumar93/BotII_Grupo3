@@ -2,18 +2,26 @@ using System;
 using System.Collections.Generic;
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa las funcionalidades principales del juego y cumple con el principio de abstraccion
+    /// </summary>
     public class Game 
     {
         public TypeOfGameOptions typeOfGameOption { get; set; }
-        public List<User> userList { get; set; }
-        public List<Round> rounds { get; set; }
+        private List<User> userList { get; set; }
+        private List<Round> rounds { get; set; }
         public Deck deck { get; set; }
-        public int NextPositionPlayer{get;set;} 
+
+        public int NextPositionPlayer { get; set;} 
+
         
         public Game(TypeOfGameOptions typeOfGameOption)
         {
             this.typeOfGameOption = typeOfGameOption;
             userList = new List<User>();
+
+            rounds=new List<Round>();
+
             Deck deck = new Deck();
             NextPositionPlayer = 0;
         }
@@ -21,13 +29,19 @@ namespace Library
         public IJudge GetJudge()
         {
             return rounds[rounds.Count-1].judge;
-        } 
+        }
+
+        public void Add(Round round)
+        {
+            rounds.Add(round);
+        }
+
         public void AddUserToUserList(User user)
         {
             if(!userList.Contains(user))
                 userList.Add(user);
             else
-                throw new Exception("El usuario ya esta registrado");
+                throw new Exception("Usuario ya esta registrado");
         }
         public void DealCards() 
         {                       
@@ -70,11 +84,14 @@ namespace Library
             rounds[rounds.Count-1].AddAnswer(card);
         }
 
+        //Metodo nextPlayer y GetCurrentPlayer - Diseño de patron Iterador(Iterator)
         public bool nextPlayer()
         {
-            return !userList[NextPositionPlayer].Equals(rounds[rounds.Count-1].judge);
+            return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
         }
-       
+
+        //Precondicion :nextPlayer()
+
         public User GetCurrentPlayer()
         {
             User current = userList[NextPositionPlayer];
@@ -98,7 +115,12 @@ namespace Library
                 validate = true;
             }
             return validate;
+
         }
-        public IEnumerator<Card> EnumeratorCardsAnswer() => rounds[rounds.Count - 1].EnumeratorCardsAnswer();
+        public IEnumerator<Card> EnumeratorCardsAnswer() 
+        {
+            return rounds[rounds.Count - 1].EnumeratorCardsAnswer();
+        }
+
     }
 }
