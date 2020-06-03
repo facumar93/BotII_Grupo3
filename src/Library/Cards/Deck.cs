@@ -20,12 +20,12 @@ namespace Library
         }
         public void load()
         {
-            White white0 = new White();
-            Black black0 = new Black();
-            White white1 = new White();
-            Black black1 = new Black();
-            White white2 = new White();
-            Black black2 = new Black();
+            White white0 = new White(0);
+            Black black0 = new Black(1);
+            White white1 = new White(2);
+            Black black1 = new Black(3);
+            White white2 = new White(4);
+            Black black2 = new Black(5);
 
             cards.Add(white0);
             cards.Add(black0);

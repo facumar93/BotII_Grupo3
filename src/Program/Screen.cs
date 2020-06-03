@@ -127,7 +127,7 @@ namespace Library
         public static void StartGame()
         {
             SingletonBot aux = SingletonBot.Instance;
-    	    for(int round=1;round<=aux.config.CountRound();round++)
+    	    for(int round = 1; round <= aux.config.CountRound(); round++)
             {
                 Console.WriteLine("El juez : " + aux.GetJudge().ToString());
                 Console.WriteLine("Mostrar pregunta :¨"+aux.CardBlack().ToString());
@@ -135,9 +135,9 @@ namespace Library
 
                 while(aux.NextPlayer())
                 {
-                    User user =aux.CurrentPlayer();
+                    User user = aux.CurrentPlayer();
                     Console.WriteLine("Usuario :"+user.ToString());
-                    Card card =seeCards(user.EnumeratorCards());
+                    Card card = seeCards(user.EnumeratorCards());
                     aux.AddAnswer(card);
                 }
 
@@ -184,6 +184,9 @@ namespace Library
                 }
                
             }
+
+            //agrege esto para q no me de error pero hay q verlo
+            User user = new User("ana");
             return user.GetCard(pos-1);
 
         }

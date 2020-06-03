@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Library;
 
 namespace Program
@@ -8,25 +9,26 @@ namespace Program
         
         public static void Main(string[] args)
         {
-            SingletonBot bot = SingletonBot.Instance; 
-            Screen.StartConfiguration();
+            /*
+            Deck deck = new Deck();
+            deck.load();
+            Console.WriteLine(deck.GetNextCardWhite());
+            Console.WriteLine(deck.GetNextCardWhite());
+            */
             
+            List<Card> lista = new List<Card>();
             
-           //previo
-           /*for(int i=0;i<Game.)
-            do{
-                while(game.nextPlayer())
-                {
-                    // Player player=game.CurrentPlayer();
-                    //mostrar´
+            White white0 = new White(1);
+            Black black0 = new Black(2);
+            White white1 = new White(3);
+            Black black1 = new Black(4);
+            White white2 = new White(5);
+            Black black2 = new Black(6);
 
-                }
-            //mostrarle las anwser
-            //toma decision
-            //crear nuevo
+            lista.Add(white0);
+            lista.Add(black0);
 
-            }while(!game.finish());*/
-        }
-        
+            Console.WriteLine(lista[0]);
+        }   
     }
 } 
