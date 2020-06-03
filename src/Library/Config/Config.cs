@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa la configuracion del juego y cumple con el principio de abstracciòn
+    /// </summary>
     public class Config 
     {
         public int JudgeNum { get; set; }  

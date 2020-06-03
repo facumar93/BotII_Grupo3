@@ -2,6 +2,9 @@
 
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa una carta negra y hereda de de la clase "Card" por el principio de herencia
+    /// </summary>
     public class Black : Card 
     {
         public Black(int id):base(id)

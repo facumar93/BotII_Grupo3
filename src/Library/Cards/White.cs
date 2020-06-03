@@ -2,6 +2,9 @@ using System;
 
 namespace Library 
 {
+    /// <summary>
+    /// Esta clase representa una carta blanca y hereda de de la clase "Card" por el principio de herencia
+    /// </summary>
     public class White : Card
     {
         public White(int id) : base(id)

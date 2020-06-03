@@ -5,7 +5,7 @@ using static Library.Game;
 namespace Library 
 {
     /// <summary>
-    /// This class represents the Bot.
+    /// This class represents the Bot. Patron Singleton, Fachada(Facade)
     /// </summary>
     public class SingletonBot
     {
@@ -78,37 +78,64 @@ namespace Library
         {
             return listOfGames[listOfGames.Count-1];
         }
+
+        /// <summary>
+        /// Se recupera el juez de la mano actual
+        /// </summary>
+        /// <returns>devuelve juez</returns>
         public IJudge GetJudge()
         {
            return GetCurrentGame().GetJudge();
         }
 
+        /// <summary>
+        /// Se recupera el usuario de la mano actual
+        /// </summary>
+        /// <returns>retorna usuario</returns>
         public User GetUserActually()
         {
             return GetCurrentGame().GetCurrentPlayer();
         } 
 
-
+        /// <summary>
+        /// Agrega un juego a una lista que contiene Games
+        /// </summary>
+        /// <param name="game">Recibe un Game</param>
         public void AddGameToListOfGames(Game game) 
         {
             listOfGames.Add(game);
         }
 
+        /// <summary>
+        /// Comienza el juego repartiendo cartas y eligiendo un juez
+        /// </summary>
         public void StartGame()
         {
             GetCurrentGame().DealCards();
         }
 
+        /// <summary>
+        /// Verifica si hay mas jugadores para jugar
+        /// </summary>
+        /// <returns>retorna true si hay mas jugadores</returns>
         public bool NextPlayer()
         {
             return GetCurrentGame().nextPlayer();
         }
 
+        /// <summary>
+        /// Recupera al jugador actual
+        /// </summary>
+        /// <returns>retorna User</returns>
         public User CurrentPlayer()
         {
             return GetCurrentGame().GetCurrentPlayer();
         }
-
+        
+        /// <summary>
+        /// Agrega un una carta White a una Round, es la jugada de Player 
+        /// </summary>
+        /// <param name="card"></param>
         public void AddAnswer(Card card)
         {
             GetCurrentGame().AddAnswer(card);

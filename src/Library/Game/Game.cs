@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa las funcionalidades principales del juego y cumple con el principio de abstraccion
+    /// </summary>
     public class Game 
     {
         public TypeOfGameOptions typeOfGameOption { get; set; }
-        public List<User> userList { get; set; }
-        public List<Round> rounds { get; set; }
+        private List<User> userList { get; set; }
+        private List<Round> rounds { get; set; }
         public Deck deck { get; set; }
         public int NextPositionPlayer { get; set;} 
         
@@ -22,15 +25,21 @@ namespace Library
         public IJudge GetJudge()
         {
             return rounds[rounds.Count-1].judge;
-        } 
+        }
+
+        public void Add(Round round)
+        {
+            rounds.Add(round);
+        }
+
         public void AddUserToUserList(User user)
         {
             if(!userList.Contains(user))
                 userList.Add(user);
             else
-                throw new Exception("Usuario ya esta registrado");//DEBE MOSTRARSE EN LA VISUAL
+                throw new Exception("Usuario ya esta registrado");
         }
-        public void DealCards() //Se deberían repartir cartas si, el modo de juego es con cartas blancas.
+        public void DealCards() 
         {                       
             int j = 0;
             deck.ravel();
@@ -71,6 +80,7 @@ namespace Library
             rounds[rounds.Count-1].AddAnswer(card);
         }
 
+        //Metodo nextPlayer y GetCurrentPlayer - Diseño de patron Iterador(Iterator)
         public bool nextPlayer()
         {
             return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
@@ -100,7 +110,7 @@ namespace Library
             }
             return validate;
         }
-        public IEnumerator<Card> EnumeratorCardsAnswer() //Falta un return.
+        public IEnumerator<Card> EnumeratorCardsAnswer() 
         {
             return rounds[rounds.Count - 1].EnumeratorCardsAnswer();
         }

@@ -22,7 +22,7 @@ namespace Library.Test
             game.AddUserToUserList(testJudge);
             game.AddUserToUserList(testPlayer);
            
-            game.rounds.Add(testRound);
+            game.Add(testRound);
             game.NextPositionPlayer = 1;
 
         }
@@ -30,11 +30,7 @@ namespace Library.Test
         [Test]
         public void FirstPlayerMustReturnTrue()
         {
-            
-            Assert.True(game.nextPlayer());
-            
-            
-        
+            Assert.True(game.nextPlayer());            
         }
         [Test]
         public void FirstPlayerMustReturnFalse()
