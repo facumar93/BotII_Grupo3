@@ -9,8 +9,11 @@ namespace Program
         public static void Main(string[] args)
         {
             SingletonBot bot = SingletonBot.Instance; 
-            Screen.StartConfiguration();
+            Screen.SetConfiguration();
             
+            
+           
+
            //previo
            /*for(int i=0;i<Game.)
             do{

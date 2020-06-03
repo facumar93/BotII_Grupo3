@@ -5,7 +5,7 @@ namespace Library
 {
     public class Deck
     {
-        private List<Card> cards{get;set;}
+        private List<Card> cards{ get; set; }
         private int lastCardWhite;
         private int lastCardBlack;
         public Deck()
@@ -20,47 +20,64 @@ namespace Library
         }
         public void load()
         {
-            //SingletonBot.Instance.config.
+            White white0 = new White(1);
+            Black black0 = new Black(2);
+            White white1 = new White(3);
+            Black black1 = new Black(4);
+            White white2 = new White(5);
+            Black black2 = new Black(6);
+
+            cards.Add(white0);
+            cards.Add(black0);
+            cards.Add(white1);
+            cards.Add(black1);
+            cards.Add(white2);
+            cards.Add(black2);
+
+            foreach(Card card in cards)
+            {
+                Console.WriteLine(card);
+            }
+
         }
 
 
         public Card GetNextCardWhite()
         {
             lastCardWhite++;
-            while (!cards[lastCardWhite].Free || !(cards[lastCardWhite] is Answer))
+            while (!cards[lastCardWhite].Free || !(cards[lastCardWhite] is White))
             {
-
                 lastCardWhite++;
-                if(lastCardWhite==cards.Count)
-                    lastCardWhite=0;
+                if(lastCardWhite == cards.Count)
+                    lastCardWhite = 0;
             }
                 
-            cards[lastCardWhite].Free=false;
+            cards[lastCardWhite].Free = false;
 
             return cards[lastCardWhite];
         }
  
-        private bool IsBlack(Game.GameType gameType, int position)
+        private bool IsBlack(TypeOfGameOptions typeOfGameOptions, int position) //podría ser estatico porque se usa solo en GetNextCardBlack?
         {
             
-            if (gameType == Game.GameType.TEXT_AND_ANSWER_CARD || gameType == Game.GameType.TEXT_AND_FREE_ANSWER) 
-                return cards[position] is Text;
+            if (typeOfGameOptions == TypeOfGameOptions.IncompletTextAndAnswerText || typeOfGameOptions == TypeOfGameOptions.IncompletTextAndFreeAnswer) 
+                return cards[position] is Black;
             else
                 return cards[position] is Image;
         }
-        public Card GetNextCardBlack(Game.GameType tipo)
+        public Black GetNextCardBlack(TypeOfGameOptions type)
         {
 
            lastCardBlack++;
-            while (!cards[lastCardWhite].Free || !(IsBlack(tipo,lastCardBlack)))
+            while (!cards[lastCardWhite].Free || !(IsBlack(type,lastCardBlack)))
             {
                 lastCardBlack++;
                 if(lastCardBlack==cards.Count)
                     lastCardBlack=0;
             }
                 
-            cards[lastCardBlack].Free=false;
-            return cards[lastCardBlack];
+            cards[lastCardBlack].Free = false;
+            return (Black)cards[lastCardBlack];
 
         }
     }

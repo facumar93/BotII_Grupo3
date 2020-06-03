@@ -6,14 +6,14 @@ namespace Library
     public class Round 
     {
         public IJudge judge;
-        public Card Black {get;set;}
-        public List<Card> ListAnswer{get;set;}
+        public Black black { get; set;}
+        private List<Card> ListAnswer { get; set; }
 
-        public Round(IJudge judge,Card cardBlack)
+        public Round(IJudge judge, Black blackCard)
         {
-            this.judge=judge;
-            this.Black=cardBlack;
-            ListAnswer=new List<Card>();
+            this.judge = judge;
+            this.black = blackCard;
+            ListAnswer = new List<Card>();
 
         }
 
@@ -24,9 +24,20 @@ namespace Library
         public void AssignJudge(User player)
         {
             judge = player;
-            
+        }
+
+        public void GiveBack()
+        {
+            black.Free = true;
+            foreach (Card card in ListAnswer)
+            {
+                card.Free = true;
+            }
         }
         //Dar puntaje
-        
+        public IEnumerator<Card> EnumeratorCardsAnswer()
+        {
+            return ListAnswer.GetEnumerator();
+        }
     }
 }

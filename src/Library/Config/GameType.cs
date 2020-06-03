@@ -2,8 +2,11 @@ using System;
 
 namespace Library
 {
-    public enum GameType 
-    {
-        
-    }
+    public enum TypeOfGameOptions
+        {
+            IncompletTextAndAnswerText,
+            IncompletTextAndFreeAnswer,
+            ImageAndAnswerText,
+            ImageAndFreeAnswer
+        }
 }
