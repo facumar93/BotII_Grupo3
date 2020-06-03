@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Library;
 
 namespace Library.Test
 {
     public class TestDeck
     {
         int lastCardWhite;
+   //cargar archivo de prueba
    
 
         [SetUp]
@@ -20,7 +22,11 @@ namespace Library.Test
         {
             Deck deck = new Deck();
             deck.load();
-            Assert.AreEqual("white0", Convert.ToString(deck.GetNextCardWhite()));
+            int excpected = 0;
+            Card card = deck.GetNextCardWhite();
+
+            //Assert.AreEquals(excpected, card.  );
+            //Assert.AreEqual("white0", Convert.ToString(deck.GetNextCardWhite()));
         }
     }
 }

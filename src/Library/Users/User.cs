@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    public  class User :IJudge,IPlayer
+    public  class User : IJudge , IPlayer
     {
-        public List<Card> cards = new List<Card>();
+        private List<Card> cards = new List<Card>(); //private //agregar metodo para contar cartas
         public string Name{get;set;}
-        public const int MaxCards = 10;
+        public const int MaxCards = 10; //private
         public int Points{get;set;}
 
         public User(String name)
@@ -21,8 +21,6 @@ namespace Library
         }
         public void addCardToUser(Card card)
         {
-           
-
             if (cards.Count < MaxCards) //Sería necesario controlar?.
                 cards.Add(card);
             else
@@ -44,12 +42,12 @@ namespace Library
         //obj Object: Objeto que se va a comparar con el objeto actual.
         public override bool Equals(object obj)
         {
-            bool valido=false;
+            bool valido = false;
             if (obj is User)
             {
             User user=(User)obj;
-                if (user.Name==this.Name)
-                    valido=true;
+                if (user.Name == this.Name)
+                    valido = true;
             }
             return valido;
         }
