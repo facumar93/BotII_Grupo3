@@ -8,6 +8,7 @@ namespace Library
     /// </summary>
     public class Config 
     {
+
         public int JudgeNum { get; set; }  
         public int CountPlayer{ get; set; }
         public Config(int judgeNum,int countPlayer)

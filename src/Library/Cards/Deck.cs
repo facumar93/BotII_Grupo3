@@ -20,12 +20,14 @@ namespace Library
         }
         public void load()
         {
+
             White white0 = new White(1);
             Black black0 = new Black(2);
             White white1 = new White(3);
             Black black1 = new Black(4);
             White white2 = new White(5);
             Black black2 = new Black(6);
+
 
             cards.Add(white0);
             cards.Add(black0);
@@ -34,10 +36,12 @@ namespace Library
             cards.Add(white2);
             cards.Add(black2);
 
+
             foreach(Card card in cards)
             {
                 Console.WriteLine(card);
             }
+
 
         }
 

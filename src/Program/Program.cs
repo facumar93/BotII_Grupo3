@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Library;
 
 namespace Program
@@ -8,6 +9,7 @@ namespace Program
         
         public static void Main(string[] args)
         {
+
             SingletonBot bot = SingletonBot.Instance; 
             Screen.SetConfiguration();
         }

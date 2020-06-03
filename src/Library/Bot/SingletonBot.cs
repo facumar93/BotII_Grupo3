@@ -4,6 +4,7 @@ using static Library.Game;
 
 namespace Library 
 {
+
     /// <summary>
     /// This class represents the Bot. Patron Singleton, Fachada(Facade)
     /// </summary>
@@ -12,6 +13,7 @@ namespace Library
         private static SingletonBot instance = null;
         public Config config { get; private set; }
         public List<Game> listOfGames { get; set; }
+
 
         /// <summary>
         /// Propery for instance Bot or return Bot
@@ -30,6 +32,7 @@ namespace Library
             }
         }
 
+
         /// <summary>
         /// Propery for instance new Config
         /// </summary>
@@ -46,6 +49,7 @@ namespace Library
         /// <summary>
         /// Construct Propery to instance new list of games 
         /// </summary>
+
         private SingletonBot()
         {
             listOfGames = new List<Game>();
@@ -137,9 +141,11 @@ namespace Library
         /// </summary>
         /// <param name="card"></param>
         public void AddAnswer(Card card)
+
         {
             GetCurrentGame().AddAnswer(card);
         }
+
 
         public Black CardBlack()
         {

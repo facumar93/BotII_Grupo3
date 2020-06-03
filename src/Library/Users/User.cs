@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    public  class User :IJudge,IPlayer
+    public  class User : IJudge , IPlayer
     {
         private List<Card> cards = new List<Card>();
         public string Name{get;set;}
         public const int MaxCards = 10;
+
         public int Points{get;set;}
 
         public User(String name)
@@ -44,6 +45,7 @@ namespace Library
            Points++;
         }
 
+
         public override bool Equals(object obj)
         {
             bool valido=false;
@@ -52,9 +54,11 @@ namespace Library
             User user=(User)obj;
                 if (user.Name==this.Name)
                     valido=true;
+
             }
             return valido;
         }
+
 
         public override String ToString()
         {
@@ -66,6 +70,7 @@ namespace Library
             return cards[position];
         }
 
+
         public override int GetHashCode()
         {
             int hashCode = -309160608;
@@ -74,5 +79,6 @@ namespace Library
             hashCode = hashCode * -1521134295 + Points.GetHashCode();
             return hashCode;
         }
+
     }
 }

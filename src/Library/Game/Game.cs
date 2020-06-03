@@ -11,13 +11,17 @@ namespace Library
         private List<User> userList { get; set; }
         private List<Round> rounds { get; set; }
         public Deck deck { get; set; }
+
         public int NextPositionPlayer { get; set;} 
+
         
         public Game(TypeOfGameOptions typeOfGameOption)
         {
             this.typeOfGameOption = typeOfGameOption;
             userList = new List<User>();
+
             rounds=new List<Round>();
+
             Deck deck = new Deck();
             NextPositionPlayer = 0;
         }
@@ -85,7 +89,9 @@ namespace Library
         {
             return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
         }
+
         //Precondicion :nextPlayer()
+
         public User GetCurrentPlayer()
         {
             User current = userList[NextPositionPlayer];
@@ -109,10 +115,12 @@ namespace Library
                 validate = true;
             }
             return validate;
+
         }
         public IEnumerator<Card> EnumeratorCardsAnswer() 
         {
             return rounds[rounds.Count - 1].EnumeratorCardsAnswer();
         }
+
     }
 }

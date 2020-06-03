@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Library.Test
 {
-    public class TestDeck
+    public class TestCard
     {
         
 

@@ -1,5 +1,8 @@
 using System;
 
+
+
+
 namespace Library 
 {
     /// <summary>
@@ -10,6 +13,7 @@ namespace Library
         public White(int id) : base(id)
         {
         }
+
 
         public override bool Equals(object obj)
         {
@@ -30,5 +34,6 @@ namespace Library
             hashCode = hashCode * -1521134295 + Free.GetHashCode();
             return hashCode;
         }
+
     }
 }
