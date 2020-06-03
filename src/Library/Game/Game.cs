@@ -8,13 +8,17 @@ namespace Library
         public List<User> userList { get; set; }
         public List<Round> rounds { get; set; }
         public Deck deck { get; set; }
+
         public int NextPositionPlayer { get; set;} 
+
         
         public Game(TypeOfGameOptions typeOfGameOption)
         {
             this.typeOfGameOption = typeOfGameOption;
             userList = new List<User>();
+
             rounds=new List<Round>();
+
             Deck deck = new Deck();
             NextPositionPlayer = 0;
         }
@@ -28,9 +32,11 @@ namespace Library
             if(!userList.Contains(user))
                 userList.Add(user);
             else
+
                 throw new Exception("Usuario ya esta registrado");//DEBE MOSTRARSE EN LA VISUAL
         }
         public void DealCards() //Se deberían repartir cartas si, el modo de juego es con cartas blancas.
+
         {                       
             int j = 0;
             deck.ravel();
@@ -75,7 +81,9 @@ namespace Library
         {
             return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
         }
+
         //Precondicion :nextPlayer()
+
         public User GetCurrentPlayer()
         {
             User current = userList[NextPositionPlayer];
@@ -99,10 +107,12 @@ namespace Library
                 validate = true;
             }
             return validate;
+
         }
         public IEnumerator<Card> EnumeratorCardsAnswer() //Falta un return.
         {
             return rounds[rounds.Count - 1].EnumeratorCardsAnswer();
         }
+
     }
 }

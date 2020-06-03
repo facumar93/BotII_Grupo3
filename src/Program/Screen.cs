@@ -5,15 +5,19 @@ namespace Library
 
 {
     /// <summary>
+
     /// This Class represents the "visual" of the bot
+
     /// </summary>
     public class Screen
     {
         /// <summary>
         /// Propery for get count of player and judge replays
         /// </summary>
+
         static SingletonBot singletonBot = SingletonBot.Instance;
         public static void SetConfiguration() 
+
         {
             int countPlayer;
             int judgeReplaysOnUser;
@@ -31,7 +35,9 @@ namespace Library
             }
             while(countPlayer < 4) 
             {
+
                 Console.WriteLine("Número de jugadores no permitido");
+
                 try
                 {
                     countPlayer = Convert.ToInt32(Console.ReadLine());
@@ -67,6 +73,7 @@ namespace Library
                 }
             }
             
+
             
             try
             {
@@ -74,10 +81,12 @@ namespace Library
             }
             catch(Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
             }
                 
         }
+
         /// <summary>
         /// Propery for selection one type of game, registration as User with one name and start game.
         /// </summary>
@@ -85,6 +94,7 @@ namespace Library
          public static void StartConfigGame()
         {
             
+
             String[] typeOfGameOptionsArray = new string[] {"CARTAS NEGRAS y CARTAS BLANCAS","CARTAS NEGRAS y RESPUESTA POR TECLADO"
             ,"CARTAS NEGRAS DE IMAGENES y CARTAS BLANCAS","CARTAS NEGRAS DE IMAGENES y RESPUESTA POR TECLADO"};
 
@@ -112,7 +122,9 @@ namespace Library
                 {
                     Console.WriteLine("Ingrese un apodo para registrarse como jugador");
                     String name = Console.ReadLine();
+
                     singletonBot.CreatUser(name);
+
     	            aux++;
                 }
                 catch(Exception ex)
@@ -123,6 +135,7 @@ namespace Library
                 
             }
             singletonBot.StartGame();
+
         
         }
         /// <summary>
@@ -172,6 +185,7 @@ namespace Library
             }
             Console.Write("Seleccione una carta :");
             int pos = 0;
+
             try{
                 pos=Convert.ToInt32(Console.ReadLine());
             }            
@@ -194,7 +208,9 @@ namespace Library
                 }
                
             }
+
             return lista[pos]; //No reconoce el objeto necesario user
+
 
         }
     }

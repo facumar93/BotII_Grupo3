@@ -29,7 +29,9 @@ namespace Library.Test
         public void AlAgregarUnaCartaAlUsuarioEstaSeAgregaASuListaDeCartas()
         {
             user1.addCardToUser(whiteCard1); //AddCard en mayuscula
+
             Assert.AreEqual(1,user1.cards.Count());   
+
         }
 
         [Test]

@@ -34,7 +34,9 @@ namespace Library
                 card.Free = true;
             }
         }
+
         //Dar puntaje
+
         public IEnumerator<Card> EnumeratorCardsAnswer()
         {
             return ListAnswer.GetEnumerator();

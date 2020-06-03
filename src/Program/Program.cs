@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Library;
 
 namespace Program
@@ -8,6 +9,7 @@ namespace Program
         
         public static void Main(string[] args)
         {
+
             SingletonBot bot = SingletonBot.Instance; 
             Screen.SetConfiguration();
             
@@ -22,13 +24,11 @@ namespace Program
                     // Player player=game.CurrentPlayer();
                     //mostrar´
 
-                }
-            //mostrarle las anwser
-            //toma decision
-            //crear nuevo
 
-            }while(!game.finish());*/
-        }
-        
+            lista.Add(white0);
+            lista.Add(black0);
+
+            Console.WriteLine(lista[0]);
+        }   
     }
 } 

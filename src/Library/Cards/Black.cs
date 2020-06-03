@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace Library
 {
     public class Black : Card 
@@ -26,6 +27,7 @@ namespace Library
             hashCode = hashCode * -1521134295 + id.GetHashCode();
             hashCode = hashCode * -1521134295 + Free.GetHashCode();
             return hashCode;
+
         }
     }
 }

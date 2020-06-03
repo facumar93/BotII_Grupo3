@@ -6,11 +6,14 @@ namespace Library.Test
     public class TestGame
     {
         TypeOfGameOptions typeOfGameOptions;
+
         Game game; //Esto hay que hacerlo?
+
 
         [SetUp]
         public void Setup()
         {
+
 
             User testPlayer = new User("testPlayer");
             User testJudge = new User("testJudge");
@@ -52,6 +55,7 @@ namespace Library.Test
             User user=game.GetCurrentPlayer();
             Assert.AreEqual(testPlayer, user);
         
+
         }
     }
 }
