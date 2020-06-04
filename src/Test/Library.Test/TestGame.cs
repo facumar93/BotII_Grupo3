@@ -6,19 +6,21 @@ namespace Library.Test
     public class TestGame
     {
         TypeOfGameOptions typeOfGameOptions;
-
-        Game game; //Esto hay que hacerlo?
-
+        Game game;
+        User testPlayer;
+        User testJudge;
+        BlackCard black;
+        Round testRound;
 
         [SetUp]
         public void Setup()
         {
 
 
-            User testPlayer = new User("testPlayer");
-            User testJudge = new User("testJudge");
-            Black black = new Black(1);
-            Round testRound = new Round(testJudge,black);
+            testPlayer = new User("testPlayer");
+            testJudge = new User("testJudge");
+            black = new BlackCardText(1);
+            testRound = new Round(testJudge,black);
             typeOfGameOptions=TypeOfGameOptions.IncompletTextAndFreeAnswer;
             game = new Game(typeOfGameOptions);
             
@@ -27,31 +29,27 @@ namespace Library.Test
            
             game.Add(testRound);
             game.NextPositionPlayer = 1;
-
         }
         
         [Test]
         public void FirstPlayerMustReturnTrue()
         {
-            Assert.True(game.nextPlayer());            
+            Assert.True(game.ToNextPlayer());            
         }
+
         [Test]
         public void FirstPlayerMustReturnFalse()
         {
-           
             game.GetCurrentPlayer();
-
-            Assert.False(game.nextPlayer());
-        
+            Assert.False(game.ToNextPlayer());
         }
+
         [Test]
         public void GetCurrentPlayer()
         {
             User testPlayer = new User("testPlayer");           
             User user=game.GetCurrentPlayer();
             Assert.AreEqual(testPlayer, user);
-        
-
         }
     }
 }

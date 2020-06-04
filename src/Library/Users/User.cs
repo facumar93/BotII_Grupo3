@@ -3,49 +3,89 @@ using System.Collections.Generic;
 
 namespace Library
 {
+    /// <summary>
+    /// Clase que representa al usuario
+    /// </summary>
     public  class User : IJudge , IPlayer
     {
-        private List<Card> cards = new List<Card>();
-        public string Name{get;set;}
+        /// <summary>
+        /// lista de las cartas del usuario ("mano").
+        /// </summary>
+        /// <typeparam name="Card">tipo Carta</typeparam>
+        /// <returns></returns>
+        private List<Card> userCards = new List<Card>();
+
+        /// <summary>
+        /// Nombre del usuario.
+        /// </summary>
+        /// <value></value>
+        public string Name{ get; set; }
+
+        /// <summary>
+        /// Seteo del máximo de cartas blancas por usuario.
+        /// </summary>
         public const int MaxCards = 10;
 
-        public int Points{get;set;}
+        /// <summary>
+        /// Puntaje del usuario.
+        /// </summary>
+        /// <value></value>
+        public int Points{ get; set; } 
 
+        /// <summary>
+        /// Constructor usuario.
+        /// </summary>
+        /// <param name="name">Nombre del usuario.</param>
         public User(String name)
         {
             Name=name;
         }
 
-        public IEnumerator<Card>  EnumeratorCards()
+        /// <summary>
+        /// Enumera las cartas del mazo.
+        /// </summary>
+        /// <returns>IEnumerator tipo Card.</returns>
+        public IEnumerator<Card> EnumeratorCards()
         {
-            return cards.GetEnumerator();
+            return userCards.GetEnumerator();
         }
-        public void addCardToUser(Card card)
-        {
-         
 
-            if (cards.Count < MaxCards) //Sería necesario controlar?.
-                cards.Add(card);
+        /// <summary>
+        /// Método para agregar cartas blancas a la mano del usuario "userCards".
+        /// </summary>
+        /// <param name="card">carta</param>
+        public void AddCardToUser(Card card)
+        {
+            if (userCards.Count < MaxCards) 
+                userCards.Add(card);
             else
                 throw new Exception("No se puede dar mas de 10 cartas");
         }
 
+        /// <summary>
+        /// Verifica a que jugador corresponde la carta seleccionada por el juez.
+        /// Agregado por Expert ya que User conoce userCards.
+        /// </summary>
+        /// <param name="select">Carta seleccionada por el juez.</param>
+        /// <returns></returns>
         public bool belongs(Card select)
         {
-            return cards.Contains(select);
+            return userCards.Contains(select);
         }
 
-        public int Count()
-        {
-            return cards.Count;
-        }
-
+        /// <summary>
+        /// Incrementa puntaje en 1.
+        /// </summary>
         public void win()
         {
            Points++;
         }
 
-
+        /// <summary>
+        /// Determina si el objeto especificado es igual al objeto actual.
+        /// </summary>
+        /// <param name="obj">objeto que se va a comparar con el actual</param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             bool valido=false;
@@ -60,21 +100,31 @@ namespace Library
         }
 
 
+        /// <summary>
+        /// Devuelve una cadena que representa el objeto actual Nombre
+        /// </summary>
+        /// <returns>cadena que retorna el objeto actual Nombre</returns>
         public override String ToString()
         {
             return  Name;
         }
 
+        /// <summary>
+        /// Devuelve una carta de la mano del usuario según la posición en userCards.
+        /// /// Agregado por Expert ya que User conoce userCards.
+        /// </summary>
+        /// <param name="position">Índice de la carta que se quiere devolver.</param>
+        /// <returns></returns>
         public Card GetCard(int position)
         {
-            return cards[position];
+            return userCards[position];
         }
 
 
         public override int GetHashCode()
         {
             int hashCode = -309160608;
-            hashCode = hashCode * -1521134295 + EqualityComparer<List<Card>>.Default.GetHashCode(cards);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<Card>>.Default.GetHashCode(userCards);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + Points.GetHashCode();
             return hashCode;

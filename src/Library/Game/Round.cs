@@ -6,40 +6,59 @@ namespace Library
     public class Round 
     {
         public IJudge judge;
-        public Black black { get; set;}
-        private List<Card> ListAnswer { get; set; }
+        public Card blackCard { get; set;}
+        private List<Card> listWhiteCardsAnswer { get; set; }
 
-        public Round(IJudge judge, Black blackCard)
+        /// <summary>
+        /// Constructor de una ronda "round"
+        /// </summary>
+        /// <param name="judge">juez</param>
+        /// <param name="blackCard">carta negra</param>
+        public Round(IJudge judge, Card blackCard)
         {
             this.judge = judge;
-            this.black = blackCard;
-            ListAnswer = new List<Card>();
+            this.blackCard = blackCard;
+            listWhiteCardsAnswer = new List<Card>();
 
         }
 
+        /// <summary>
+        /// Agrega las cartas blancas de respuesta a una lista "listWhiteCarsArwer"
+        /// </summary>
+        /// <param name="card"></param>
         public void AddAnswer(Card card)
         {
-            ListAnswer.Add(card);
+            listWhiteCardsAnswer.Add(card);
         }
+
+        /// <summary>
+        /// Método para declarar a un jugador "player" como juez "judge".
+        /// </summary>
+        /// <param name="player"></param>
         public void AssignJudge(User player)
         {
             judge = player;
         }
 
-        public void GiveBack()
+        /// <summary>
+        /// Cambia el estado de la carta para que esté disponible en el mazo.
+        /// </summary>
+        public void GiveBackBlackCard()
         {
-            black.Free = true;
-            foreach (Card card in ListAnswer)
+            blackCard.Free = true;
+            foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;
             }
         }
 
-        //Dar puntaje
-
-        public IEnumerator<Card> EnumeratorCardsAnswer()
+        /// <summary>
+        /// Enumera la lista de cartas blancas de respuesta "listWhiteCardsAnswer".
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<Card> GetEnumeratorForListWhiteCardsAnswer()
         {
-            return ListAnswer.GetEnumerator();
+            return listWhiteCardsAnswer.GetEnumerator();
         }
     }
 }
