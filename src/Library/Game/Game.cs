@@ -3,37 +3,36 @@ using System.Collections.Generic;
 namespace Library
 {
     /// <summary>
-    /// Esta clase representa las funcionalidades principales del juego y cumple con el principio de abstraccion
-    /// y expert
+    /// Esta clase representa las funcionalidades principales del juego.
     /// </summary>
     public class Game 
     {
         /// <summary>
-        /// Método que Representa los tipos de juego
+        /// Propiedad para obtener los distintos tipos de juego
         /// </summary>
         /// <value>tipo enum</value>
-        public TypeOfGameOptions typeOfGameOption { get; set; }
+        public TypeOfGameOptions GameType { get; set; }
 
         /// <summary>
-        /// Lista que almacena los jugadores
+        /// Lista que almacena los usuarios.
         /// </summary>
         /// <value>tipo Usuario</value>
         private List<User> userList { get; set; }
 
         /// <summary>
-        /// Lista que almacena las rondas
+        /// Lista que almacena las rondas.
         /// </summary>
         /// <value>tipo Round</value>
         private List<Round> rounds { get; set; }
 
         /// <summary>
-        /// Contiene un Deck 
+        /// Propiedad para obtener un Deck.
         /// </summary>
         /// <value></value>
         public Deck deck { get; set; }
 
         /// <summary>
-        /// atributo numero de Game
+        /// Propiedad para obtener la posición de los jugadores en la lista de usuarios "userList" del juego.
         /// </summary>
         /// <value></value>
         public int NextPositionPlayer { get; set;} 
@@ -41,12 +40,12 @@ namespace Library
 
         /// <summary>
         /// Constructor de Game
-        /// Patrón Creator
+        /// Patrón Creator para generar un mazo "Deck" al inicializar un juego
         /// </summary>
         /// <param name="typeOfGameOption">Tipo de juego</param>
         public Game(TypeOfGameOptions typeOfGameOption)
         {
-            this.typeOfGameOption = typeOfGameOption;
+            this.GameType = typeOfGameOption;
             userList = new List<User>();
 
             rounds=new List<Round>();
@@ -56,16 +55,16 @@ namespace Library
         }
         
         /// <summary>
-        /// Obtiene el juez de la ronda actual
+        /// Obtiene el juez "Judge" de la ronda actual
         /// </summary>
-        /// <returns>Juez</returns>
+        /// <returns>Judge</returns>
         public IJudge GetJudge()
         {
             return rounds[rounds.Count-1].judge;
         }
 
         /// <summary>
-        /// Agrega una ronda a la lista de rondas
+        /// Agrega una ronda "round" a la lista de rondas "roundList".
         /// </summary>
         /// <param name = "round">Una ronda</param>
         public void Add(Round round)
@@ -74,7 +73,7 @@ namespace Library
         }
 
         /// <summary>
-        /// Agrega un usuario a la lista de usuarios
+        /// Agrega un usuario a la lista de usuarios "userList"
         /// </summary>
         /// <param name="user">Un usuario</param>
         public void AddUserToUserList(User user)
@@ -85,8 +84,11 @@ namespace Library
                 throw new Exception("Usuario ya esta registrado");
         }
 
+        
         /// <summary>
-        /// Reparte las cartas
+        /// Se reparte a cada usuario de la lista del juego las cartas blancas.
+        /// Se crea la primera ronda, de modo que el juez sea el último usuario de la lista.
+        /// Agregado por Patrón expert, ya que Game se crean las listas de ronda y jugadores.
         /// </summary>
         public void DealCards() 
         {                       
@@ -105,12 +107,13 @@ namespace Library
             }
 
             User lastUserInList = userList[userList.Count-1];
-            Round round = new Round(lastUserInList, deck.GetNextCardBlack(typeOfGameOption)); 
+            Round round = new Round(lastUserInList, deck.GetNextCardBlack(GameType)); 
             rounds.Add(round);
         }
 
         /// <summary>
-        /// Permite que User seleccione un ganador
+        /// Método para que el juez seleccione al jugador.
+        /// Agregado por expert, ya que en Game se crea la lista de jugadores.
         /// </summary>
         /// <param name="select">Carta seleccionada por el juez</param>
         public void Winner(Card select)
@@ -125,22 +128,29 @@ namespace Library
         }
 
         /// <summary>
-        /// Permite retornar la carta negra actual de la ronda
+        /// Retorna la carta negra actual de la ronda "blackCard"
+        /// Agregado por expert ya que Game conoce las rondas.
         /// </summary>
         /// <returns>Carta negra</returns>
-        public BlackCard GetCurrentBlackCard()
+        public Card GetCurrentBlackCard()
         {
             return rounds[rounds.Count-1].blackCard;
         }
+
+        /// <summary>
+        /// Método usado para responder en cada ronda con una carta blanca.
+        /// Agregado por expert ya que Game conoce las rondas.
+        /// </summary>
+        /// <param name="card"></param>
         public void AddAnswer(Card card)
         {
             rounds[rounds.Count-1].AddAnswer(card);
         }
 
-        // y GetCurrentPlayer - Diseño de patron Iterador(Iterator)
+     
         /// <summary>
-        ///  Metodo ToNextPlayer retorna falso si encuentra al Judge actual en la lista userList
-        ///  Tanto ToNextPlayer() como GetCurrentPlayer cumplen con el patron Iterator 
+        ///  Metodo ToNextPlayer retorna falso si encuentra al juez "Judge" actual en la lista de jugadores "userList".
+        ///  Agregado por patrón Iterator 
         /// </summary>
         /// <returns>booleano</returns>
         public bool ToNextPlayer()
@@ -151,6 +161,7 @@ namespace Library
        
         /// <summary>
         /// Este método retorna el jugador actual
+        /// Agregado por patrón Iterator
         /// </summary>
         /// <returns></returns>
         public User GetCurrentPlayer()
@@ -164,10 +175,10 @@ namespace Library
         }
 
         /// <summary>
-        /// Método que crea una nueva ronda 
+        /// Crear siguientes rondas, devolviendo al mazo (vuelve a estar desocupada - True) la carta negra "blackCard" usada en la ronda anterior.
         /// </summary>
         /// <returns></returns>
-        public bool CreateNextRound() //No se usa validate
+        public bool CreateNextRound() 
         {
             rounds[rounds.Count - 1].GiveBackBlackCard();
             NextPositionPlayer++;
@@ -176,7 +187,7 @@ namespace Library
             bool validate = false;
             if(SingletonBot.Instance.configuration.RoundsCount() > rounds.Count)
             {
-                Round round=new Round(userList[NextPositionPlayer], deck.GetNextCardBlack(typeOfGameOption)); //Agregué el método de Deck.
+                Round round=new Round(userList[NextPositionPlayer], deck.GetNextCardBlack(GameType));
                 rounds.Add(round);
                 validate = true;
             }
@@ -184,10 +195,9 @@ namespace Library
 
         }
         /// <summary>
-        /// Método que retorna
-        /// una lista enumerada del tipo card de una ronda
+        /// Método que retorna una lista enumerada del tipo Card de una ronda.
         /// </summary>
-        /// <returns>lista enumerad de tipo Card</returns> //Cómo comento esto ?
+        /// <returns>lista enumerad de tipo Card</returns> 
         public IEnumerator<Card> EnumeratorCardsAnswer() 
         {
             return rounds[rounds.Count - 1].GetEnumeratorForListWhiteCardsAnswer();

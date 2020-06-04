@@ -16,9 +16,8 @@ namespace Library.Test
         {
             user1 = new User("xx");
             user2 = new User("yy");
-            whiteCard1 = new White(1);
-            blackCard = new BlackCard(2);
-
+            whiteCard1 = new WhiteCard(1);
+            blackCard = new BlackCardText(2);
         }
 
         [Test]
@@ -27,15 +26,6 @@ namespace Library.Test
             user1.AddCardToUser(whiteCard1);
             bool result = user1.EnumeratorCards().MoveNext();
             Assert.AreEqual(true, result);   
-        }
-
-        [Test]
-        public void SeleccionCartaGanadoraUsuario1LeAumentaElPuntaje()
-        {
-            user1.AddCardToUser(whiteCard1);
-            user2.AddCardToUser(blackCard);
-            
-
         }
     }
 }

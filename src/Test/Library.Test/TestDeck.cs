@@ -9,9 +9,11 @@ namespace Library.Test
 {
     public class TestDeck
     {
-        White whiteCard1;
-        White whiteCard3;
+        WhiteCard whiteCard1;
+        WhiteCard  whiteCard3; 
         BlackCard blackCard2;
+
+        BlackCardImage blackImage;
         Deck deck;
 
    
@@ -19,9 +21,10 @@ namespace Library.Test
         [SetUp]
         public void Setup()
         {
-            whiteCard1 = new White(1);
-            blackCard2 = new BlackCard(2);
-            whiteCard3 = new White(3);
+            whiteCard1 = new WhiteCard(1);
+            blackCard2 = new BlackCardText(2);
+            whiteCard3 = new WhiteCard(3);
+            blackImage= new BlackCardImage(7);
             deck = new Deck();
             deck.load();
 
@@ -41,12 +44,20 @@ namespace Library.Test
             Assert.AreEqual(whiteCard3, deck.GetNextCardWhite());
         }
         
-     /*(REVISAR POR QUE DA MAL
+     
          [Test]
-        public void VerifyFirstBlackCardInDeck()
+        public void VerifyFirstBlackCardTextInDeck()
         {   
-            Assert.AreEqual(blackCard2, deck.GetNextCardBlack());
-        }*/
+            TypeOfGameOptions tipo = TypeOfGameOptions.IncompletTextAndAnswerText;
+            Assert.AreEqual(blackCard2, deck.GetNextCardBlack(tipo));
+        }
+
+         [Test]
+        public void VerifyFirstBlackCardImageInDeck()
+        {   
+            TypeOfGameOptions tipo = TypeOfGameOptions.ImageAndFreeAnswer;
+            Assert.AreEqual(blackImage, deck.GetNextCardBlack(tipo));
+        }
     }
 }
 

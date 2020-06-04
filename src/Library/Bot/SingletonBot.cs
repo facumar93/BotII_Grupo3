@@ -150,7 +150,7 @@ namespace Library
         /// Recupera la carta negra BlackCard que tiene Round
         /// </summary>
         /// <returns>retorna una carta negra</returns>
-        public BlackCard AskBlackCard() 
+        public Card AskBlackCard() 
         {
             return GetCurrentGame().GetCurrentBlackCard();
         }

@@ -5,23 +5,24 @@ namespace Library
 
 {
     /// <summary>
-
-    /// This Class represents the "visual" of the bot
-
+    /// Representa la visual del bot.
     /// </summary>
     public class Screen
     {
+    
         /// <summary>
-        /// Propery for get count of player and judge replays
+        /// Crea instacia del Bot.
         /// </summary>
-
         static SingletonBot singletonBot = SingletonBot.Instance;
-        public static void SetConfiguration() 
 
+        /// <summary>
+        /// Método para configurar la cantidad de jugadores y número de veces en que un jugador es juez.  
+        /// </summary>
+        public static void SetConfiguration() 
         {
             int countPlayer;
             int judgeReplaysOnUser;
-            
+    
             Console.WriteLine("Ingrese la cantidad de jugadores, 4 como mínimo :"); 
             
             try
@@ -84,13 +85,11 @@ namespace Library
         }
 
         /// <summary>
-        /// Propery for selection one type of game, registration as User with one name and start game.
+        /// Método para seleccionar un tipo de juego, registrar usuario y dar inicio a un juego.
         /// </summary>
         
          public static void StartConfigGame()
         {
-            
-
             String[] typeOfGameOptionsArray = new string[] {"CARTAS NEGRAS y CARTAS BLANCAS","CARTAS NEGRAS y RESPUESTA POR TECLADO"
             ,"CARTAS NEGRAS DE IMAGENES y CARTAS BLANCAS","CARTAS NEGRAS DE IMAGENES y RESPUESTA POR TECLADO"};
 
@@ -162,7 +161,7 @@ namespace Library
         }
         
         /// <summary>
-        /// Property for seen and selection cards.
+        /// Método para que el usuario vea y seleccione cartas.
         /// </summary>
         /// <param name="enumerator"></param>
         /// <returns></returns>
@@ -202,13 +201,8 @@ namespace Library
                     Console.WriteLine("Solamente ingrese numero");
                     pos=0;
                 }
-               
             }
-
-           
-            return lista[pos]; //No reconoce el objeto necesario user
-
-
+            return lista[pos];
         }
     }
 }

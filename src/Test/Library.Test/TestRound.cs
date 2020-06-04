@@ -9,7 +9,7 @@ namespace Library.Test
         User player;
         User judge;
         BlackCard black;
-        White white;
+        WhiteCard white;
         Round round;
         
         
@@ -18,8 +18,8 @@ namespace Library.Test
         {
             player = new User("xx");
             judge = new User("yy");
-            black = new BlackCard(1);
-            white = new White(2);
+            black = new BlackCardText(1);
+            white = new WhiteCard(2);
             player.AddCardToUser(white);
             round = new Round(judge, black);
             typeOfGameOptions=TypeOfGameOptions.IncompletTextAndFreeAnswer;
@@ -29,7 +29,7 @@ namespace Library.Test
         }
 
         [Test]
-        public void Test1()
+        public void Increment1PointToUserWhenHisCardIsSelected()
         {
             round.AddAnswer(white);
             game.Winner(white);

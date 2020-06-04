@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace Library
 {
     /// <summary>
-    /// Clase abstracta que repesenta las cartas cumpliendo con
-    /// princiopio de polimorfismo por abstracción
+    /// Clase abstracta que repesenta las cartas.
+    /// Implementación de polimorfismo por abstracción.
     /// </summary>
     public abstract class Card 
     {

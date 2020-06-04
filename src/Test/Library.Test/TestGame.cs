@@ -19,7 +19,7 @@ namespace Library.Test
 
             testPlayer = new User("testPlayer");
             testJudge = new User("testJudge");
-            black = new BlackCard(1);
+            black = new BlackCardText(1);
             testRound = new Round(testJudge,black);
             typeOfGameOptions=TypeOfGameOptions.IncompletTextAndFreeAnswer;
             game = new Game(typeOfGameOptions);
