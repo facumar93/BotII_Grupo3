@@ -72,16 +72,12 @@ namespace Library
                     judgeReplaysOnUser = 0;
                 }
             }
-            
-
-            
             try
             {
                 singletonBot.CreateConfiguration(judgeReplaysOnUser,countPlayer);
             }
             catch(Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
             }
                 
@@ -116,7 +112,7 @@ namespace Library
             singletonBot.CreateGame(type);
 
             int aux = 0;
-            while(aux < singletonBot.config.CountPlayer)
+            while(aux < singletonBot.configuration.CountPlayer)
             {
                 try
                 {
@@ -139,28 +135,28 @@ namespace Library
         
         }
         /// <summary>
-        /// Propery for selection one type of game, registration as User with one name and start game.
+        /// Método que permite el funcionamiento del juego mostrando por pantalla.
         /// </summary>
         public static void PlayGame()
         {
            
-    	    for(int round = 1 ; round <= singletonBot.config.CountRound() ; round++)
+    	    for(int round = 1 ; round <= singletonBot.configuration.RoundsCount() ; round++)
             {
                 Console.WriteLine("El juez : " + singletonBot.GetJudge().ToString());
-                Console.WriteLine("Mostrar pregunta : " + singletonBot.CardBlack().ToString());
+                Console.WriteLine("Mostrar pregunta : " + singletonBot.AskBlackCard().ToString());
                 Console.WriteLine("Empezar repartir respuesta");
 
-                while(singletonBot.NextPlayer())
+                while(singletonBot.AskNextPlayer())
                 {
-                    User user = singletonBot.CurrentPlayer();
+                    User user = singletonBot.AskCurrentPlayer();
                     Console.WriteLine("Usuario :" + user.ToString());
                     Card card = PlayerSeeCards(user.EnumeratorCards());
                     singletonBot.AddAnswer(card);
                 }
 
                 Console.WriteLine("Veredicto");
-                Card selection = PlayerSeeCards(singletonBot.EnumeratorCardsAnswer());
-                singletonBot.Win(selection);
+                Card selection = PlayerSeeCards(singletonBot.AskEnumeratorCardsAnswer());
+                singletonBot.AskWinner(selection);
             }
 
         }
@@ -209,6 +205,7 @@ namespace Library
                
             }
 
+           
             return lista[pos]; //No reconoce el objeto necesario user
 
 

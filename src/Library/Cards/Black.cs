@@ -4,24 +4,40 @@
 namespace Library
 {
     /// <summary>
-    /// Esta clase representa una carta negra y hereda de de la clase "Card" por el principio de herencia
+    /// Esta clase representa una carta imagen y hereda de de la clase "Card" 
+    /// cumploendo con polimorfismos por abstracción
     /// </summary>
-    public class Black : Card 
+    public class BlackCard : Card 
     {
-        public Black(int id):base(id)
+        public BlackCard(int id):base(id)
         {
 
-        } 
+        }
+
+        /// <summary>
+        /// Permite comparar los ID de las cartas
+        /// </summary>
+        /// <param name="obj">Un objeto</param>
+        /// <returns>true o false</returns>
         public override bool Equals(object obj)
         {
-            bool valido = false;
-            if(obj is Black)
+            bool valid = false;
+            if(obj is BlackCard)
             {
-                Black black = (Black)obj;
-                if (black.id==id)
-                    valido = true;
+                BlackCard black = (BlackCard)obj;
+                if(black.id == id)
+                    valid = true;
             }
-            return valido;
+            return valid;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1941850917;
+            hashCode = hashCode * -1521134295 + id.GetHashCode();
+            hashCode = hashCode * -1521134295 + Free.GetHashCode();
+            return hashCode;
+
         }
     }
 }

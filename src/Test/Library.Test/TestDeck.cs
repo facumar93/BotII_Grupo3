@@ -11,7 +11,8 @@ namespace Library.Test
     {
         White whiteCard1;
         White whiteCard3;
-        Black blackCard2;
+        BlackCard blackCard2;
+        Deck deck;
 
    
 
@@ -19,28 +20,32 @@ namespace Library.Test
         public void Setup()
         {
             whiteCard1 = new White(1);
-            blackCard2 = new Black(2);
+            blackCard2 = new BlackCard(2);
             whiteCard3 = new White(3);
+            deck = new Deck();
+            deck.load();
+
             
         }
 
         [Test]
-        public void VerifyNextCardWhiteIsFistIndexOfList()
+        public void VerifyFirstWhiteCardInDeck()
         {
-            Deck deck = new Deck();
-            deck.load();
             Assert.AreEqual(whiteCard1, deck.GetNextCardWhite());
         }
 
         [Test]
-        public void Verify2()
-        {
-            //White expected = new White(1);
-            
-            Deck deck = new Deck();
-            deck.load();
+        public void VerifyNextWhiteCardInDeck()
+        {   
             deck.GetNextCardWhite();
             Assert.AreEqual(whiteCard3, deck.GetNextCardWhite());
+        }
+        
+        //REVISAR POR QUE DA MAL
+         [Test]
+        public void VerifyFirstBlackCardInDeck()
+        {   
+            Assert.AreEqual(blackCard2, deck.GetNextCardBlack());
         }
     }
 }

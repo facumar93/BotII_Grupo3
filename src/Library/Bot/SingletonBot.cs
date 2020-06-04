@@ -6,17 +6,17 @@ namespace Library
 {
 
     /// <summary>
-    /// This class represents the Bot. Patron Singleton, Fachada(Facade)
+    /// Representa al bot. Patrón Singleton y Facade
     /// </summary>
     public class SingletonBot
     {
         private static SingletonBot instance = null;
-        public Config config { get; private set; }
+        public Configuration configuration { get; private set; }
         public List<Game> listOfGames { get; set; }
 
 
         /// <summary>
-        /// Propery for instance Bot or return Bot
+        /// Método para instanciar el Bot o retornarlo
         /// </summary>
         /// <value></value>
         public static SingletonBot Instance
@@ -34,29 +34,28 @@ namespace Library
 
 
         /// <summary>
-        /// Propery for instance new Config
+        /// Método para instanciar una configuración
         /// </summary>
         /// <param name="judgeNum">Cantidad de </param>
         /// <param name="countPlayer"></param>
-        public void CreateConfiguration(int judgeNum , int countPlayer)
+        public void CreateConfiguration(int judgeNum , int countPlayer) //No se usa.
         { 
-            if(judgeNum > 0 && countPlayer > 3)  //ESTO YA LO CONTROLAMOS EN SCREEN
-                config = new Config(judgeNum , countPlayer);
+            if(judgeNum > 0 && countPlayer > 3)  //Ya controlamos en Screen
+                configuration = new Configuration(judgeNum , countPlayer);
             else
-                throw new Exception("Número no adecuado al juego."); //DEBE SER MOSTRANDO EN LA VISUAL
+                throw new Exception("Número no adecuado al juego."); 
         }
 
         /// <summary>
-        /// Construct Propery to instance new list of games 
+        /// Constructor, instancia una nueva lista de juegos 
         /// </summary>
-
         private SingletonBot()
         {
             listOfGames = new List<Game>();
         }
 
         /// <summary>
-        /// Propery for instance new Game and add to a list of games
+        /// Instancia un nuevo jeugo y lo agrega a una lista
         /// </summary>
         /// <param name="typeOfGameOption"></param>
         public void CreateGame(TypeOfGameOptions typeOfGameOption)
@@ -66,7 +65,8 @@ namespace Library
             
         }
         /// <summary>
-        /// Propery for instance new User and add to a list of users in Game class
+        /// Instancia un usuario y guarda en una lista de juegos
+        /// Agregado por Creator
         /// </summary>
         /// <param name="name">parameter represents the name of the player</param>
         public void CreatUser(string name)
@@ -76,7 +76,7 @@ namespace Library
         }
 
         /// <summary>
-        /// Propery for get the current game in list of games
+        /// Retorna el juego actual en la lista de juegos
         /// </summary>
         private Game GetCurrentGame()
         {
@@ -122,16 +122,16 @@ namespace Library
         /// Verifica si hay mas jugadores para jugar
         /// </summary>
         /// <returns>retorna true si hay mas jugadores</returns>
-        public bool NextPlayer()
+        public bool AskNextPlayer()
         {
-            return GetCurrentGame().nextPlayer();
+            return GetCurrentGame().ToNextPlayer();
         }
 
         /// <summary>
         /// Recupera al jugador actual
         /// </summary>
         /// <returns>retorna User</returns>
-        public User CurrentPlayer()
+        public User AskCurrentPlayer()
         {
             return GetCurrentGame().GetCurrentPlayer();
         }
@@ -146,21 +146,32 @@ namespace Library
             GetCurrentGame().AddAnswer(card);
         }
 
-
-        public Black CardBlack()
+        /// <summary>
+        /// Recupera la carta negra BlackCard que tiene Round
+        /// </summary>
+        /// <returns>retorna una carta negra</returns>
+        public BlackCard AskBlackCard() 
         {
-            return GetCurrentGame().CardBlack();
+            return GetCurrentGame().GetCurrentBlackCard();
         }
 
-        public IEnumerator<Card> EnumeratorCardsAnswer()
+        /// <summary>
+        /// Recupera una una lista enumerada del tipo Card
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<Card> AskEnumeratorCardsAnswer()
         {
             return GetCurrentGame().EnumeratorCardsAnswer();
         }
 
-        public void Win(Card selection)
+        /// <summary>
+        /// Recupera el ganador e inicia una nueva Round
+        /// </summary>
+        /// <param name="selection"></param>
+        public void AskWinner(Card selection)
         {
-            GetCurrentGame().decide(selection);
-            GetCurrentGame().createNextRound();
+            GetCurrentGame().Winner(selection);
+            GetCurrentGame().CreateNextRound();
         }
     }
 }

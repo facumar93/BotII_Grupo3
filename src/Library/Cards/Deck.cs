@@ -12,6 +12,7 @@ namespace Library
         {
             cards = new List<Card>();
             lastCardWhite =  -1;
+            lastCardBlack = -1; //AGREGU'E ESTO
         }
 
         public void ravel()
@@ -20,14 +21,12 @@ namespace Library
         }
         public void load()
         {
-
             White white0 = new White(1);
-            Black black0 = new Black(2);
+            BlackCard black0 = new  BlackCard(2);
             White white1 = new White(3);
-            Black black1 = new Black(4);
+            BlackCard black1 = new  BlackCard(4);
             White white2 = new White(5);
-            Black black2 = new Black(6);
-
+            BlackCard black2 = new  BlackCard(6);
 
             cards.Add(white0);
             cards.Add(black0);
@@ -36,13 +35,10 @@ namespace Library
             cards.Add(white2);
             cards.Add(black2);
 
-
-            foreach(Card card in cards)
+            foreach(Card card in cards) //este metodo para q est'a?
             {
                 Console.WriteLine(card);
             }
-
-
         }
 
 
@@ -65,11 +61,11 @@ namespace Library
         {
             
             if (typeOfGameOptions == TypeOfGameOptions.IncompletTextAndAnswerText || typeOfGameOptions == TypeOfGameOptions.IncompletTextAndFreeAnswer) 
-                return cards[position] is Black;
+                return cards[position] is  BlackCard;
             else
                 return cards[position] is Image;
         }
-        public Black GetNextCardBlack(TypeOfGameOptions type)
+        public BlackCard GetNextCardBlack(TypeOfGameOptions type)
         {
 
            lastCardBlack++;
@@ -81,8 +77,26 @@ namespace Library
             }
                 
             cards[lastCardBlack].Free = false;
-            return (Black)cards[lastCardBlack];
+            return (BlackCard)cards[lastCardBlack];
 
+        }
+
+
+        //YO HAR'IA ESTO EN VEZ DE LOS DOS METODOS ANTERIORES
+        //TENER EN CUENTA Q LAS IMAGENES SON CARTAS NEGRAS TMB
+        public Card GetNextCardBlack()
+        {
+            lastCardBlack++;
+            while (!cards[lastCardBlack].Free || (cards[lastCardWhite] is White))
+            {
+                lastCardBlack++;
+                if(lastCardWhite == cards.Count)
+                    lastCardWhite = 0;
+            }
+                
+            cards[lastCardBlack].Free = false;
+
+            return cards[lastCardBlack];
         }
     }
 }

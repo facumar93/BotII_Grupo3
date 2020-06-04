@@ -6,30 +6,30 @@ namespace Library
     public class Round 
     {
         public IJudge judge;
-        public Black black { get; set;}
-        private List<Card> ListAnswer { get; set; }
+        public BlackCard blackCard { get; set;}
+        private List<Card> listWhiteCardsAnswer { get; set; }
 
-        public Round(IJudge judge, Black blackCard)
+        public Round(IJudge judge, BlackCard blackCard)
         {
             this.judge = judge;
-            this.black = blackCard;
-            ListAnswer = new List<Card>();
+            this.blackCard = blackCard;
+            listWhiteCardsAnswer = new List<Card>();
 
         }
 
         public void AddAnswer(Card card)
         {
-            ListAnswer.Add(card);
+            listWhiteCardsAnswer.Add(card);
         }
         public void AssignJudge(User player)
         {
             judge = player;
         }
 
-        public void GiveBack()
+        public void GiveBackBlackCard()
         {
-            black.Free = true;
-            foreach (Card card in ListAnswer)
+            blackCard.Free = true;
+            foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;
             }
@@ -37,9 +37,9 @@ namespace Library
 
         //Dar puntaje
 
-        public IEnumerator<Card> EnumeratorCardsAnswer()
+        public IEnumerator<Card> GetEnumeratorForListWhiteCardsAnswer()
         {
-            return ListAnswer.GetEnumerator();
+            return listWhiteCardsAnswer.GetEnumerator();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Library.Test
             user1 = new User("xx");
             user2 = new User("yy");
             whiteCard1 = new White(1);
-            blackCard = new Black(2);
+            blackCard = new BlackCard(2);
             userList = new List<User>();
             userList.Add(user1);
             userList.Add(user2);
