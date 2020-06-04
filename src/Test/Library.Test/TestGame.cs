@@ -6,7 +6,7 @@ namespace Library.Test
     public class TestGame
     {
         TypeOfGameOptions typeOfGameOptions;
-        Game game; //Esto hay que hacerlo?
+        Game game;
         User testPlayer;
         User testJudge;
         BlackCard black;

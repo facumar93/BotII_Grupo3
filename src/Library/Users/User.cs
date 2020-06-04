@@ -6,10 +6,10 @@ namespace Library
     public  class User : IJudge , IPlayer
     {
         private List<Card> cards = new List<Card>();
-        public string Name{get;set;}
+        public string Name{ get; set; }
         public const int MaxCards = 10;
 
-        public int Points{get;set;}
+        public int Points{ get; set; } 
 
         public User(String name)
         {
@@ -20,10 +20,8 @@ namespace Library
         {
             return cards.GetEnumerator();
         }
-        public void addCardToUser(Card card)
+        public void AddCardToUser(Card card)
         {
-         
-
             if (cards.Count < MaxCards) //Sería necesario controlar?.
                 cards.Add(card);
             else
@@ -33,11 +31,6 @@ namespace Library
         public bool belongs(Card select)
         {
             return cards.Contains(select);
-        }
-
-        public int Count()
-        {
-            return cards.Count;
         }
 
         public void win()

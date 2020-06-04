@@ -13,6 +13,7 @@ namespace Library
     {
         public White(int id) : base(id)
         {
+            
         }
 
 

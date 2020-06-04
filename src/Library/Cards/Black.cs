@@ -9,7 +9,7 @@ namespace Library
     /// </summary>
     public class BlackCard : Card 
     {
-        public BlackCard(int id):base(id)
+        public BlackCard(int id) : base(id)
         {
 
         }

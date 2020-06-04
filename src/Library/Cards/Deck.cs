@@ -81,7 +81,6 @@ namespace Library
 
         }
 
-
         //YO HAR'IA ESTO EN VEZ DE LOS DOS METODOS ANTERIORES
         //TENER EN CUENTA Q LAS IMAGENES SON CARTAS NEGRAS TMB
         public Card GetNextCardBlack()

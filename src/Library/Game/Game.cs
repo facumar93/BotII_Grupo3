@@ -41,6 +41,7 @@ namespace Library
 
         /// <summary>
         /// Constructor de Game
+        /// Patrón Creator
         /// </summary>
         /// <param name="typeOfGameOption">Tipo de juego</param>
         public Game(TypeOfGameOptions typeOfGameOption)
@@ -53,6 +54,7 @@ namespace Library
             Deck deck = new Deck();
             NextPositionPlayer = 0;
         }
+        
         /// <summary>
         /// Obtiene el juez de la ronda actual
         /// </summary>
@@ -97,7 +99,7 @@ namespace Library
     	        for (int l = 1 ; l <= User.MaxCards ; l++)
                 {
                     Card card = deck.GetNextCardWhite();
-                    user.addCardToUser(card);
+                    user.AddCardToUser(card);
                     j++; 
                 }
             }

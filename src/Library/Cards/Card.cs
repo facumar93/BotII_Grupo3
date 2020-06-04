@@ -5,7 +5,7 @@ namespace Library
 {
     /// <summary>
     /// Clase abstracta que repesenta las cartas cumpliendo con
-    /// princiopio de polimorfismos por abstracción
+    /// princiopio de polimorfismo por abstracción
     /// </summary>
     public abstract class Card 
     {

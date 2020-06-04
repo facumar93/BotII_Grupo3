@@ -10,8 +10,6 @@ namespace Library.Test
         User user2;
         Card whiteCard1;
         Card blackCard;
-        List<User> userList;
-
 
         [SetUp]
         public void Setup()
@@ -20,23 +18,23 @@ namespace Library.Test
             user2 = new User("yy");
             whiteCard1 = new White(1);
             blackCard = new BlackCard(2);
-            userList = new List<User>();
-            userList.Add(user1);
-            userList.Add(user2);
+
         }
 
         [Test]
-        public void AlAgregarUnaCartaAlUsuarioEstaSeAgregaASuListaDeCartas()
+        public void AddOneCardToUserAndVerifyItWasAddedToCardsOfUser()
         {
-            user1.addCardToUser(whiteCard1); //AddCard en mayuscula
-            Assert.AreEqual(1,user1.Count());   
+            user1.AddCardToUser(whiteCard1);
+            bool result = user1.EnumeratorCards().MoveNext();
+            Assert.AreEqual(true, result);   
         }
 
         [Test]
         public void SeleccionCartaGanadoraUsuario1LeAumentaElPuntaje()
         {
-            user1.addCardToUser(whiteCard1);
-            user2.addCardToUser(blackCard);
+            user1.AddCardToUser(whiteCard1);
+            user2.AddCardToUser(blackCard);
+            
 
         }
     }
