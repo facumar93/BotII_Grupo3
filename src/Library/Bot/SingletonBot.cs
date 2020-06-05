@@ -35,6 +35,7 @@ namespace Library
 
         /// <summary>
         /// Método para instanciar una configuración
+        /// Agregado por Creator
         /// </summary>
         /// <param name="judgeNum">Cantidad de </param>
         /// <param name="countPlayer"></param>
