@@ -6,7 +6,7 @@ namespace Library
     public class Round 
     {
         public IJudge judge;
-        public Card blackCard { get; set;}
+        public Card BlackCard { get; set;}
         private List<Card> listWhiteCardsAnswer { get; set; }
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace Library
         public Round(IJudge judge, Card blackCard)
         {
             this.judge = judge;
-            this.blackCard = blackCard;
+            this.BlackCard = blackCard;
             listWhiteCardsAnswer = new List<Card>();
 
         }
@@ -45,7 +45,7 @@ namespace Library
         /// </summary>
         public void GiveBackBlackCard()
         {
-            blackCard.Free = true;
+            BlackCard.Free = true;
             foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;

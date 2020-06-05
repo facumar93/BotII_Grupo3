@@ -26,7 +26,7 @@ namespace Library.Test
             whiteCard3 = new WhiteCard(3);
             blackImage= new BlackCardImage(7);
             deck = new Deck();
-            deck.load();
+            deck.Load();
 
             
         }

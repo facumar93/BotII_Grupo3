@@ -9,7 +9,7 @@ namespace Library
     /// </summary>
     public class BlackCard : Card 
     {
-        public BlackCard(int id):base(id)
+        public BlackCard(int id) : base(id)
         {
 
         }
@@ -33,11 +33,12 @@ namespace Library
 
         public override int GetHashCode()
         {
-            int hashCode = -1941850917;
-            hashCode = hashCode * -1521134295 + id.GetHashCode();
-            hashCode = hashCode * -1521134295 + Free.GetHashCode();
-            return hashCode;
+            return base.GetHashCode();
+        }
 
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }

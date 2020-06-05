@@ -68,7 +68,7 @@ namespace Library
         /// </summary>
         /// <param name="select">Carta seleccionada por el juez.</param>
         /// <returns></returns>
-        public bool belongs(Card select)
+        public bool Belongs(Card select)
         {
             return userCards.Contains(select);
         }
@@ -76,7 +76,7 @@ namespace Library
         /// <summary>
         /// Incrementa puntaje en 1.
         /// </summary>
-        public void win()
+        public void Win()
         {
            Points++;
         }
@@ -120,15 +120,9 @@ namespace Library
             return userCards[position];
         }
 
-
         public override int GetHashCode()
         {
-            int hashCode = -309160608;
-            hashCode = hashCode * -1521134295 + EqualityComparer<List<Card>>.Default.GetHashCode(userCards);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + Points.GetHashCode();
-            return hashCode;
+            return base.GetHashCode();
         }
-
     }
 }
