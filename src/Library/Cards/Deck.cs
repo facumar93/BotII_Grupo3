@@ -21,6 +21,7 @@ namespace Library
 
         /// <summary>
         /// Método para entreverar el orden de la lista de cartas "cards".
+        /// Agregado por Expert dado que Deck conoce todas las cartas.
         /// Falta implementación.
         /// </summary>
         public void Ravel()
