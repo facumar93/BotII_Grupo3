@@ -12,7 +12,7 @@ namespace Library.Test
         {
             WhiteCard expected = new WhiteCard(1);
             Deck deck = new Deck();
-            deck.load();
+            deck.Load();
             Assert.AreEqual(expected, deck.GetNextCardWhite());
         }
     }

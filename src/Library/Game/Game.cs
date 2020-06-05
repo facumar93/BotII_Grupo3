@@ -29,7 +29,7 @@ namespace Library
         /// Propiedad para obtener un Deck.
         /// </summary>
         /// <value></value>
-        public Deck deck { get; set; }
+        public Deck Deck { get; set; }
 
         /// <summary>
         /// Propiedad para obtener la posición de los jugadores en la lista de usuarios "userList" del juego.
@@ -93,21 +93,21 @@ namespace Library
         public void DealCards() 
         {                       
             int j = 0;
-            deck.ravel();
+            Deck.Ravel();
             for (int i = 0 ; i < userList.Count ; i++)
             {
                 User user = userList[i];
 
     	        for (int l = 1 ; l <= User.MaxCards ; l++)
                 {
-                    Card card = deck.GetNextCardWhite();
+                    Card card = Deck.GetNextCardWhite();
                     user.AddCardToUser(card);
                     j++; 
                 }
             }
 
             User lastUserInList = userList[userList.Count-1];
-            Round round = new Round(lastUserInList, deck.GetNextCardBlack(GameType)); 
+            Round round = new Round(lastUserInList, Deck.GetNextCardBlack(GameType)); 
             rounds.Add(round);
         }
 
@@ -120,9 +120,9 @@ namespace Library
         {
             foreach(User user in userList)
             {
-                if(user.belongs(select))
+                if(user.Belongs(select))
                 {
-                    user.win();
+                    user.Win();
                 }
             }
         }
@@ -134,7 +134,7 @@ namespace Library
         /// <returns>Carta negra</returns>
         public Card GetCurrentBlackCard()
         {
-            return rounds[rounds.Count-1].blackCard;
+            return rounds[rounds.Count-1].BlackCard;
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Library
             bool validate = false;
             if(SingletonBot.Instance.configuration.RoundsCount() > rounds.Count)
             {
-                Round round=new Round(userList[NextPositionPlayer], deck.GetNextCardBlack(GameType));
+                Round round=new Round(userList[NextPositionPlayer], Deck.GetNextCardBlack(GameType));
                 rounds.Add(round);
                 validate = true;
             }

@@ -5,6 +5,10 @@ namespace Library
 {
     public class Deck
     {
+        /// <summary>
+        /// Lista de todas las cartas, tanto negras como blancas.
+        /// </summary>
+        /// <value>tipo Carta</value>
         private List<Card> cards{ get; set; }
         private int lastCardWhite;
         private int lastCardBlack;
@@ -12,14 +16,23 @@ namespace Library
         {
             cards = new List<Card>();
             lastCardWhite =  -1;
-            lastCardBlack = -1; //AGREGU'E ESTO
+            lastCardBlack = -1;
         }
 
-        public void ravel()
+        /// <summary>
+        /// Método para entreverar el orden de la lista de cartas "cards".
+        /// Falta implementación.
+        /// </summary>
+        public void Ravel()
         {
 
         }
-        public void load()
+
+        /// <summary>
+        /// Método para cargar el contenido de las cartas desde un archivo externo.
+        /// Contenido de prueba para los test.
+        /// </summary>
+        public void Load()
         {
             WhiteCard white0 = new WhiteCard(1);
             BlackCard black0 = new  BlackCardText(2);
@@ -36,13 +49,17 @@ namespace Library
             cards.Add(white2);
             cards.Add(black2);
 
-            foreach(Card card in cards) //este metodo para q est'a?
+            foreach(Card card in cards) 
             {
                 Console.WriteLine(card);
             }
         }
 
-
+        /// <summary>
+        /// Retorna la primera carta blanca disponible en la lista.
+        /// Agregado por Expert dado que Deck conoce la lista de todas las cartas.
+        /// </summary>
+        /// <returns>WhiteCard</returns>
         public Card GetNextCardWhite()
         {
             lastCardWhite++;
@@ -60,7 +77,7 @@ namespace Library
             return cards[lastCardWhite];
         }
         
- 
+    
         private bool IsBlack(TypeOfGameOptions typeOfGameOptions, int position) 
         {
             
@@ -69,6 +86,12 @@ namespace Library
             else
                 return cards[position] is BlackCardImage;
         }
+
+        /// <summary>
+        /// Retorna la primera carta negra de la lista de cartas "cards", teniendo en cuenta que puede ser tipo imagen o texto.
+        /// </summary>
+        /// <param name="type">tipo de juego</param>
+        /// <returns></returns>
         public Card GetNextCardBlack(TypeOfGameOptions type)
         {
            lastCardBlack++;
