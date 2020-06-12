@@ -7,13 +7,12 @@ namespace Library.Test
     public class TestCard
     {
         
-
         [Test]
         public void GetNextCardWhite()
         {
-            White expected = new White(1);
+            WhiteCard expected = new WhiteCard(1);
             Deck deck = new Deck();
-            deck.load();
+            deck.Load();
             Assert.AreEqual(expected, deck.GetNextCardWhite());
         }
     }
