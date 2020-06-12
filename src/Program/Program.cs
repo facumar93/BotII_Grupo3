@@ -12,6 +12,7 @@ namespace Program
 
             SingletonBot bot = SingletonBot.Instance; 
             Screen.SetConfiguration();
+            Screen.PlayGame();
         }
         
     }
