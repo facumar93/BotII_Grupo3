@@ -24,7 +24,7 @@ namespace Library
         /// Agregado por Expert dado que Deck conoce todas las cartas.
         /// Falta implementación.
         /// </summary>
-        public void Ravel()
+        public void Shuffle()
         {
 
         }

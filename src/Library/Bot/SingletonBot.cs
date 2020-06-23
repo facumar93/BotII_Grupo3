@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using static Library.Game;
 
 namespace Library 
 {
-
     /// <summary>
     /// Representa al bot. Patrón Singleton y Facade
     /// </summary>
     public class SingletonBot
     {
         private static SingletonBot instance = null;
-        public Configuration configuration { get; private set; }
-        public List<Game> listOfGames { get; set; }
+        public Configuration Configuration { get; private set; }
+        public List<Game> ListOfGames { get; set; }
 
 
         /// <summary>
@@ -32,37 +30,23 @@ namespace Library
             }
         }
 
-
-        /// <summary>
-        /// Método para instanciar una configuración
-        /// Agregado por Creator
-        /// </summary>
-        /// <param name="judgeNum">Cantidad de </param>
-        /// <param name="countPlayer"></param>
-        public void CreateConfiguration(int judgeNum , int countPlayer) //No se usa.
-        { 
-            if(judgeNum > 0 && countPlayer > 3)  //Ya controlamos en Screen
-                configuration = new Configuration(judgeNum , countPlayer);
-            else
-                throw new Exception("Número no adecuado al juego."); 
-        }
-
         /// <summary>
         /// Constructor, instancia una nueva lista de juegos 
         /// </summary>
         private SingletonBot()
         {
-            listOfGames = new List<Game>();
+            ListOfGames = new List<Game>();
         }
 
         /// <summary>
-        /// Instancia un nuevo jeugo y lo agrega a una lista
+        /// Instancia un nuevo juego y lo agrega a una lista
         /// </summary>
-        /// <param name="typeOfGameOption"></param>
-        public void CreateGame(TypeOfGameOptions typeOfGameOption)
+        /// <param name="path">path del archivo que contiene la configuración del juego</param>
+        public void CreateGame(string path)
         {
-            Game game = new Game(typeOfGameOption);
-            listOfGames.Add(game);
+            Configuration configuration = new Configuration(path);
+            Game game = new Game(configuration);
+            ListOfGames.Add(game);
             
         }
         /// <summary>
@@ -70,10 +54,10 @@ namespace Library
         /// Agregado por Creator
         /// </summary>
         /// <param name="name">parameter represents the name of the player</param>
-        public void CreatUser(string name)
+        public void CreatUser(string name, int id)
         {
-            User user = new User(name);
-            listOfGames[listOfGames.Count-1].AddUserToUserList(user);
+            User user = new User(name, id);
+            ListOfGames[ListOfGames.Count-1].AddUserToUserList(user);
         }
 
         /// <summary>
@@ -81,7 +65,7 @@ namespace Library
         /// </summary>
         private Game GetCurrentGame()
         {
-            return listOfGames[listOfGames.Count-1];
+            return ListOfGames[ListOfGames.Count-1];
         }
 
         /// <summary>
@@ -108,7 +92,7 @@ namespace Library
         /// <param name="game">Recibe un Game</param>
         public void AddGameToListOfGames(Game game) 
         {
-            listOfGames.Add(game);
+            ListOfGames.Add(game);
         }
 
         /// <summary>
