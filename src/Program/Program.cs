@@ -9,6 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Library;
+
 namespace Telegram.Bot.Examples.Echo
 {
     public static class Program
@@ -34,8 +35,10 @@ namespace Telegram.Bot.Examples.Echo
         {
             Bot = new TelegramBotClient(Token);
             var cts = new CancellationTokenSource();
-            SingletonBot bot = SingletonBot.Instance; 
-            bot.CreateGame("configuration.csv");
+
+            //SingletonBot bot = SingletonBot.Instance; 
+            //bot.CreateGame("configuration.csv");
+
             // Comenzamos a escuchar mensajes. Esto se hace en otro hilo (en _background_).
             Bot.StartReceiving(
                 new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
@@ -75,17 +78,6 @@ namespace Telegram.Bot.Examples.Echo
             }
         }
 
-        private string Analysis(string texto)
-        {
-            if(texto.ToLower().Contains("jugar"))
-                return "jugar";
-            else
-                if(texto.ToLower().Contains("alias"))
-                    return "alias";
-                else
-                    return "chau";
-            
-        }
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
         /// Lo único que hacemos por ahora es escuchar 3 tipos de mensajes:
@@ -98,33 +90,26 @@ namespace Telegram.Bot.Examples.Echo
         private static async Task HandleMessageReceived(Message message)
         {
             Console.WriteLine($"Received a message from {message.From.FirstName} saying: {message.Text}");
+            
             SingletonBot bot = SingletonBot.Instance;
-            string response;
-            string comando=Analysis(message.Text);
-            switch(comando)
+            //bot.CreateGame("configuration.csv");
+
+            string response = "";
+
+            switch(message.Text.ToLower())
             {
-                case "jugar": 
-                    response="Excelente, dame un alias. Por favor ingrese la palabra alias";
-                    break;
-                case "alias":
-                    string userName=message.Text.Split(" ")[1];
-                    bot.CreatUser(userName,message.Chat.Id);
-                    break;
-                    
-                case "¿Cómo está el día?": 
-                    response = "El día se presenta nublado con probabildiad de precipitaciones";
+                case "jugar":
+                case "game":
+                case "start":
+                    response = "Bienvenido! Crea tu alias";
                     break;
 
-                case "chau": 
-                    response = "Chau! Que andes bien!";
+                case "alias": 
+                    string userName=message.Text;
+                    bot.CreatUser(userName, message.Chat.Id);
                     break;
 
-                case "foto":
-                    // si nos piden una foto, mandamos la foto en vez de responder
-                    // con un mensaje de texto.
-                    await SendProfileImage(message);
-                    return;
-                
+            
 
                 default: 
                     response = "Disculpa, no se qué hacer con ese mensaje!";

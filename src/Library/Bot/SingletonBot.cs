@@ -54,7 +54,7 @@ namespace Library
         /// Agregado por Creator
         /// </summary>
         /// <param name="name">parameter represents the name of the player</param>
-        public void CreatUser(string name, int id)
+        public void CreatUser(string name, long id)
         {
             User user = new User(name, id);
             ListOfGames[ListOfGames.Count-1].AddUserToUserList(user);

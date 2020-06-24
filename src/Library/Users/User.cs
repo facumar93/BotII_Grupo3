@@ -14,7 +14,7 @@ namespace Library
         /// <typeparam name="Card">tipo Carta</typeparam>
         /// <returns></returns>
         private List<Card> userCards = new List<Card>();
-        private int ID {get;set;}
+        private long ID {get;set;}
         /// <summary>
         /// Nombre del usuario.
         /// </summary>
@@ -36,7 +36,7 @@ namespace Library
         /// Constructor usuario.
         /// </summary>
         /// <param name="name">Nombre del usuario.</param>
-        public User(String name,int id)
+        public User(String name, long id)
         {
             Name=name;
             ID=id;
