@@ -33,6 +33,8 @@ namespace Library
         /// Método para cargar el contenido de las cartas desde un archivo externo.
         /// Contenido de prueba para los test.
         /// </summary>
+        
+        //***
         public void Load()
         {
             WhiteCard white0 = new WhiteCard(1);

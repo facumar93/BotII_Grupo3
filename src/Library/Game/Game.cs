@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Library;
 namespace Library
 {
     /// <summary>
@@ -31,17 +32,17 @@ namespace Library
         /// Propiedad para obtener la posición de los jugadores en la lista de usuarios "userList" del juego.
         /// </summary>
         /// <value></value>
-        public int NextPositionPlayer { get; set;} 
+        private int NextPositionPlayer { get; set;} 
         
-
+        private Configuration Configuration{get;set;}
         /// <summary>
         /// Constructor de Game
         /// Patrón Creator para generar un mazo "Deck" al inicializar un juego
         /// </summary>
         
-        public Game()
+        public Game(Configuration configuration)
         {
-            
+            Configuration=configuration;
             userList = new List<User>();
 
             rounds=new List<Round>();
@@ -50,6 +51,11 @@ namespace Library
             NextPositionPlayer = 0;
         }
         
+        public int CountPlayer()
+        {
+            return userList.Count;
+        }
+
         /// <summary>
         /// Obtiene el juez "Judge" de la ronda actual
         /// </summary>
@@ -63,10 +69,10 @@ namespace Library
         /// Agrega una ronda "round" a la lista de rondas "roundList".
         /// </summary>
         /// <param name = "round">Una ronda</param>
-        public void Add(Round round)
+        /*public void Add(Round round)
         {
             rounds.Add(round);
-        }
+        }*/
 
         /// <summary>
         /// Agrega un usuario a la lista de usuarios "userList"
@@ -77,7 +83,7 @@ namespace Library
             if(!userList.Contains(user))
                 userList.Add(user);
             else
-                throw new Exception("Usuario ya esta registrado");
+                throw new UserException("Usuario ya esta registrado");
         }
 
         
@@ -107,10 +113,10 @@ namespace Library
             rounds.Add(round);
         }
 
-        public void ConfigRound( TypeOfGameOptions GameType)
+        public void ConfigRound( )
         {
-            rounds[rounds.Count-1].BlackCard=Deck.GetNextCardBlack(GameType);
-            rounds[rounds.Count-1].GameType=GameType;
+            rounds[rounds.Count-1].BlackCard=Deck.GetNextCardBlack(Configuration.GameType);
+            rounds[rounds.Count-1].GameType=Configuration.GameType;
         }
 
 
@@ -204,6 +210,11 @@ namespace Library
         public IEnumerator<Card> EnumeratorCardsAnswer() 
         {
             return rounds[rounds.Count - 1].GetEnumeratorForListWhiteCardsAnswer();
+        }
+
+        public IEnumerator<User> EnumeratorUser()
+        {
+            return userList.GetEnumerator();
         }
 
     }

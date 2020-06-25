@@ -19,7 +19,9 @@ namespace Library
         /// Método para instanciar el Bot o retornarlo
         /// </summary>
         /// <value></value>
-        public static SingletonBot Instance
+        
+        //****
+        public static SingletonBot Instance 
         {
             get 
             {
@@ -39,13 +41,13 @@ namespace Library
         /// </summary>
         /// <param name="judgeNum">Cantidad de </param>
         /// <param name="countPlayer"></param>
-        public void CreateConfiguration(int judgeNum , int countPlayer) //No se usa.
+       /* public void CreateConfiguration(int judgeNum , int countPlayer) //No se usa.
         { 
             if(judgeNum > 0 && countPlayer > 3)  //Ya controlamos en Screen
                 configuration = new Configuration(judgeNum , countPlayer);
             else
                 throw new Exception("Número no adecuado al juego."); 
-        }
+        }*/
 
         /// <summary>
         /// Constructor, instancia una nueva lista de juegos 
@@ -59,21 +61,27 @@ namespace Library
         /// Instancia un nuevo jeugo y lo agrega a una lista
         /// </summary>
         /// <param name="typeOfGameOption"></param>
-        public void CreateGame()
+        public void CreateGame(string path)
         {
-            Game game = new Game();
+            configuration=new Configuration(path);
+            Game game = new Game(configuration);
             listOfGames.Add(game);
             
         }
+
+        
+
+
         /// <summary>
         /// Instancia un usuario y guarda en una lista de juegos
         /// Agregado por Creator
         /// </summary>
         /// <param name="name">parameter represents the name of the player</param>
-        public void CreatUser(string name)
+        public void CreatUser(string name,long id)
         {
-            User user = new User(name);
+            User user = new User(name,id);
             listOfGames[listOfGames.Count-1].AddUserToUserList(user);
+            
         }
 
         /// <summary>
@@ -114,16 +122,30 @@ namespace Library
         /// <summary>
         /// Comienza el juego repartiendo cartas y eligiendo un juez
         /// </summary>
-        public void StartGame()
+        public bool StartGame()
         {
-            listOfGames.Add(new Game());
-            GetCurrentGame().DealCards();
+            Console.WriteLine("entro");
+            Console.WriteLine(this.configuration.CountPlayer);
+            if(GetCurrentGame().CountPlayer()==this.configuration.CountPlayer)
+            {
+         //       GetCurrentGame().DealCards();
+                return true;
+            }
+            else
+            {
+                return false;   
+            }
+            
         }
 
-        public void ConfigRound(TypeOfGameOptions typeGame)
+        public IEnumerator<User> GetListUser()
+        {
+            return GetCurrentGame().EnumeratorUser();
+        }
+       /* public void ConfigRound(TypeOfGameOptions typeGame)
         {
             GetCurrentGame().ConfigRound(typeGame);
-        }
+        }*/
 
         /// <summary>
         /// Verifica si hay mas jugadores para jugar
