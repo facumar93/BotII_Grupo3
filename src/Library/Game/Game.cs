@@ -47,6 +47,11 @@ namespace Library
             Deck deck = new Deck();
             nextPositionPlayer = 0;
         }
+
+        public int CountPlayer()
+        {
+            return userList.Count;
+        }
         
         /// <summary>
         /// Obtiene el juez "Judge" de la ronda actual
@@ -66,7 +71,7 @@ namespace Library
             if(!userList.Contains(user))
                 userList.Add(user);
             else
-                throw new Exception("Usuario ya esta registrado");
+                throw new UserException("Usuario ya esta registrado");
         }
 
         
@@ -192,6 +197,11 @@ namespace Library
         public IEnumerator<Card> EnumeratorCardsAnswer() 
         {
             return rounds[rounds.Count - 1].GetEnumeratorForListWhiteCardsAnswer();
+        }
+
+        public IEnumerator<User> EnumeratorUser()
+        {
+            return userList.GetEnumerator();
         }
 
     }

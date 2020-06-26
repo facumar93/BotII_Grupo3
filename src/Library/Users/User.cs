@@ -14,7 +14,7 @@ namespace Library
         /// <typeparam name="Card">tipo Carta</typeparam>
         /// <returns></returns>
         private List<Card> userCards = new List<Card>();
-        private long ID {get;set;}
+        public long Id { get; }
         /// <summary>
         /// Nombre del usuario.
         /// </summary>
@@ -38,8 +38,8 @@ namespace Library
         /// <param name="name">Nombre del usuario.</param>
         public User(String name, long id)
         {
-            Name=name;
-            ID=id;
+            Name = name;
+            Id = id;
         }
 
         /// <summary>
@@ -89,12 +89,12 @@ namespace Library
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            bool valido=false;
+            bool valido = false;
             if (obj is User)
             {
-            User user=(User)obj;
-                if (user.Name==this.Name)
-                    valido=true;
+            User user = (User)obj;
+                if (user.Name == this.Name)
+                    valido = true;
 
             }
             return valido;

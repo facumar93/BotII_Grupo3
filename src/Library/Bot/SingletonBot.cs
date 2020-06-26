@@ -44,8 +44,8 @@ namespace Library
         /// <param name="path">path del archivo que contiene la configuración del juego</param>
         public void CreateGame(string path)
         {
-            Configuration configuration = new Configuration(path);
-            Game game = new Game(configuration);
+            Configuration = new Configuration(path);
+            Game game = new Game(Configuration);
             ListOfGames.Add(game);
             
         }
@@ -98,9 +98,23 @@ namespace Library
         /// <summary>
         /// Comienza el juego repartiendo cartas y eligiendo un juez
         /// </summary>
-        public void StartGame()
+        public bool StartGame()
         {
-            GetCurrentGame().DealCards();
+            Console.WriteLine("entro");
+            Console.WriteLine(this.Configuration.CountPlayer);
+            if(GetCurrentGame().CountPlayer() == this.Configuration.CountPlayer)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public IEnumerator<User> GetListUser()
+        {
+            return GetCurrentGame().EnumeratorUser();
         }
 
         /// <summary>
