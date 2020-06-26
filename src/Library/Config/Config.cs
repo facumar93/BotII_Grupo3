@@ -12,12 +12,12 @@ namespace Library
 
         public int JudgeNum { get; set; }  
         public int CountPlayer{ get; set; }
-        public TypeOfGameOptions GameType{ get; set; }
+        public TypeOfGameOptions GameType{get;set;}
         public Configuration(string path)
-        {
-            List<string> config = Archive.Read(path);
-            string aux = config[0];
-            string[] paraments=aux.Split(';');
+        {   
+            List<string> config=Archive.Read(path);
+            string aux=config[0];
+            string[] paraments=aux.Split(";");
             this.JudgeNum = Convert.ToInt32(paraments[0]);
             this.CountPlayer = Convert.ToInt32(paraments[1]);
             this.GameType=(TypeOfGameOptions)Convert.ToInt32(paraments[2]);
@@ -30,7 +30,7 @@ namespace Library
         /// <returns></returns>
         public int RoundsCount()
         {
-            return JudgeNum * CountPlayer;
+            return JudgeNum*CountPlayer;
         }
     }
 }

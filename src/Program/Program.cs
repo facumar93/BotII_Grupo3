@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,8 +10,6 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Library;
-using System.Collections.Generic;
-
 namespace Telegram.Bot.Examples.Echo
 {
     public static class Program
@@ -27,7 +26,7 @@ namespace Telegram.Bot.Examples.Echo
         /// Para probar este ejemplo, crea un bot nuevo y eeemplaza este 
         /// token por el de tu bot.
         /// </summary>
-        private static string Token = "1233573256:AAHEaVfEcObCTrJ27hQJOclZ-eTtRKS8JPE";
+        private static string Token = "1197891428:AAHjKKfBOPX2cryAx_a1af8RYj14fXePPUg";
 
         /// <summary>
         /// Punto de entrada.
@@ -36,10 +35,8 @@ namespace Telegram.Bot.Examples.Echo
         {
             Bot = new TelegramBotClient(Token);
             var cts = new CancellationTokenSource();
-
             SingletonBot bot = SingletonBot.Instance; 
             bot.CreateGame("configuration.csv");
-
             // Comenzamos a escuchar mensajes. Esto se hace en otro hilo (en _background_).
             Bot.StartReceiving(
                 new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
@@ -81,97 +78,105 @@ namespace Telegram.Bot.Examples.Echo
 
         static private string Analysis(string texto)
         {
-            if(texto.ToLower().Contains("alias"))
-                return "alias";
+            if(texto.ToLower().Contains("jugar"))
+                return "jugar";
             else
-                return texto.ToLower(); 
+                if(texto.ToLower().Contains("alias"))
+                    return "alias";
+                else
+                    return "chau";
+            
         }
         private static async void notifyPlayer(IEnumerator<Library.User> listUser)
         {
             while(listUser.MoveNext())
             {
-                Library.User user = listUser.Current;
-                await Bot.SendTextMessageAsync(user.Id, "Empieza el juego");
+                Library.User user=listUser.Current;
+                await Bot.SendTextMessageAsync(user.ID, "Empieza el juego");
             }
             
         }
 
+
+
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
+        /// Lo único que hacemos por ahora es escuchar 3 tipos de mensajes:
+        /// - "hola": responde con texto
+        /// - "chau": responde con texto
+        /// - "foto": responde con una foto
         /// </summary>
         /// <param name="message">El mensaje recibido</param>
         /// <returns></returns>
         private static async Task HandleMessageReceived(Message message)
         {
             Console.WriteLine($"Received a message from {message.From.FirstName} saying: {message.Text}");
-            
             SingletonBot bot = SingletonBot.Instance;
-            bot.CreateGame("configuration.csv");
-
             string response = "";
-            string messageContain = Analysis(message.Text);
-
-            switch(messageContain)
+            string comando=Analysis(message.Text);
+            switch(comando)
             {
-                case "hola":
-                    response = "hola como estas? Querés jugar a las cartas? Responde si o no.";
+                case "jugar": 
+                    response="Excelente, dame un alias. Por favor ingrese la palabra alias";
                     break;
-
-                case "no":
-                    response = "Esperamos verte nuevamente!";
-                    break;
-                
-                case "jugar":
-                case "game":
-                case "start":
-                case "si":
-                    response = "Bienvenido! Crea tu alias";
-                    break;
-
-                case "alias": 
-                    try
-                    {
-                        string userName = message.Text.Split(" ")[1];
-                        bot.CreatUser(userName, message.Chat.Id);
-                        bool empezo = bot.StartGame();
-                        response = "Bienvenido " + userName;
+                case "alias":
+                    try{
+                        string userName=message.Text.Split(" ")[1];
+                        bot.CreatUser(userName,message.Chat.Id);
+                        bool empezo=bot.StartGame();
+                        response="Bienvenido "+userName;
                     
                         if (empezo)
                         {
                             notifyPlayer(bot.GetListUser());
                         }
-                    }
-                    catch(UserException e)
+                    
+                    }catch(UserException user)
                     {
-                        response = "Lamentablemente te ganaron de mano en el alias. Ingrese otra alias";
+                        
+
+                        response="Lamentablemente te ganaron de mano el alias. Ingrese otra alias";
                     }
                     
-                    catch(FormatException e)
+                    
+                    catch(FormatException ex)
                     {
 
                     }
-
                     catch(IndexOutOfRangeException ex)
                     {
                         response="Che, te dije alias separado con un espacio";
                     }
-
                     catch(Exception ex)
                     {
                         response="Sabes que, no tengo ni idea que paso";
                     }
                     break;
+                    
+                case "¿Cómo está el día?": 
+                    response = "El día se presenta nublado con probabildiad de precipitaciones";
+                    break;
+
+                case "chau": 
+                    response = "Chau! Que andes bien!";
+                    break;
+
+                case "foto":
+                    // si nos piden una foto, mandamos la foto en vez de responder
+                    // con un mensaje de texto.
+                    await SendProfileImage(message);
+                    return;
+                
 
                 default: 
-                   response = "Disculpa, no se qué hacer con ese mensaje!";
+                    response = "Disculpa, no se qué hacer con ese mensaje!";
                     break;
             }
 
             // enviamos el texto de respuesta
-            //Console.WriteLine(message.Chat.Id);
-            await Bot.SendTextMessageAsync(message.Chat.Id, response);
+           await Bot.SendTextMessageAsync(message.Chat.Id, response);
+            
         }
-
 
         /// <summary>
         /// Envía una imágen como respuesta al mensaje recibido.

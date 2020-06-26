@@ -24,7 +24,7 @@ namespace Library
         /// Agregado por Expert dado que Deck conoce todas las cartas.
         /// Falta implementación.
         /// </summary>
-        public void Shuffle()
+        public void Ravel()
         {
 
         }
@@ -33,6 +33,8 @@ namespace Library
         /// Método para cargar el contenido de las cartas desde un archivo externo.
         /// Contenido de prueba para los test.
         /// </summary>
+        
+        //***
         public void Load()
         {
             WhiteCard white0 = new WhiteCard(1);

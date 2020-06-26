@@ -14,7 +14,7 @@ namespace Library
         /// <typeparam name="Card">tipo Carta</typeparam>
         /// <returns></returns>
         private List<Card> userCards = new List<Card>();
-        public long Id { get; }
+        public long ID {get;}
         /// <summary>
         /// Nombre del usuario.
         /// </summary>
@@ -36,10 +36,10 @@ namespace Library
         /// Constructor usuario.
         /// </summary>
         /// <param name="name">Nombre del usuario.</param>
-        public User(String name, long id)
+        public User(String name,long id)
         {
-            Name = name;
-            Id = id;
+            Name=name;
+            ID=id;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Library
             if (userCards.Count < MaxCards) 
                 userCards.Add(card);
             else
-                throw new Exception("No se puede dar mas de 10 cartas");
+                throw new CardException("No se puede dar mas de 10 cartas");
         }
 
         /// <summary>
@@ -89,12 +89,12 @@ namespace Library
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            bool valido = false;
+            bool valido=false;
             if (obj is User)
             {
-            User user = (User)obj;
-                if (user.Name == this.Name)
-                    valido = true;
+            User user=(User)obj;
+                if (user.Name==this.Name)
+                    valido=true;
 
             }
             return valido;

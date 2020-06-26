@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Library;
 namespace Library
 {
     /// <summary>
@@ -7,6 +8,8 @@ namespace Library
     /// </summary>
     public class Game 
     {
+        
+
         /// <summary>
         /// Lista que almacena los usuarios.
         /// </summary>
@@ -29,30 +32,30 @@ namespace Library
         /// Propiedad para obtener la posición de los jugadores en la lista de usuarios "userList" del juego.
         /// </summary>
         /// <value></value>
-        private int nextPositionPlayer { get; set;}
-        private Configuration configuration { get; set; } 
+        private int NextPositionPlayer { get; set;} 
         
-
+        private Configuration Configuration{get;set;}
         /// <summary>
         /// Constructor de Game
         /// Patrón Creator para generar un mazo "Deck" al inicializar un juego
         /// </summary>
-        /// <param name="configuration">Configuración del juego</param>
         
         public Game(Configuration configuration)
         {
-            this.configuration = configuration;
+            Configuration=configuration;
             userList = new List<User>();
-            rounds = new List<Round>();
-            Deck deck = new Deck();
-            nextPositionPlayer = 0;
-        }
 
+            rounds=new List<Round>();
+
+            Deck deck = new Deck();
+            NextPositionPlayer = 0;
+        }
+        
         public int CountPlayer()
         {
             return userList.Count;
         }
-        
+
         /// <summary>
         /// Obtiene el juez "Judge" de la ronda actual
         /// </summary>
@@ -61,6 +64,15 @@ namespace Library
         {
             return rounds[rounds.Count-1].judge;
         }
+
+        /// <summary>
+        /// Agrega una ronda "round" a la lista de rondas "roundList".
+        /// </summary>
+        /// <param name = "round">Una ronda</param>
+        /*public void Add(Round round)
+        {
+            rounds.Add(round);
+        }*/
 
         /// <summary>
         /// Agrega un usuario a la lista de usuarios "userList"
@@ -81,9 +93,9 @@ namespace Library
         /// Agregado por Patrón expert, ya que Game se crean las listas de ronda y jugadores.
         /// </summary>
         public void DealCards() 
-        {                      
+        {                       
             int j = 0;
-            Deck.Shuffle();
+            Deck.Ravel();
             for (int i = 0 ; i < userList.Count ; i++)
             {
                 User user = userList[i];
@@ -103,9 +115,10 @@ namespace Library
 
         public void ConfigRound( )
         {
-            rounds[rounds.Count-1].BlackCard = Deck.GetNextCardBlack(configuration.GameType);
-            rounds[rounds.Count-1].GameType = configuration.GameType;
+            rounds[rounds.Count-1].BlackCard=Deck.GetNextCardBlack(Configuration.GameType);
+            rounds[rounds.Count-1].GameType=Configuration.GameType;
         }
+
 
         /// <summary>
         /// Método para que el juez seleccione al jugador.
@@ -151,7 +164,7 @@ namespace Library
         /// <returns>booleano</returns>
         public bool ToNextPlayer()
         {
-            return !userList[nextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
+            return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
         }
 
        
@@ -162,10 +175,10 @@ namespace Library
         /// <returns></returns>
         public User GetCurrentPlayer()
         {
-            User current = userList[nextPositionPlayer];
-            nextPositionPlayer++;
-            if(nextPositionPlayer == userList.Count)
-                nextPositionPlayer = 0;
+            User current = userList[NextPositionPlayer];
+            NextPositionPlayer++;
+            if(NextPositionPlayer == userList.Count)
+                NextPositionPlayer = 0;
             return current;
 
         }
@@ -177,13 +190,13 @@ namespace Library
         public bool CreateNextRound() 
         {
             rounds[rounds.Count - 1].GiveBackBlackCard();
-            nextPositionPlayer++;
-            if(nextPositionPlayer == userList.Count)
-                nextPositionPlayer = 0;
+            NextPositionPlayer++;
+            if(NextPositionPlayer == userList.Count)
+                NextPositionPlayer = 0;
             bool validate = false;
-            if(SingletonBot.Instance.Configuration.RoundsCount() > rounds.Count)
+            if(SingletonBot.Instance.configuration.RoundsCount() > rounds.Count)
             {
-                Round round=new Round(userList[nextPositionPlayer]);
+                Round round=new Round(userList[NextPositionPlayer]);
                 rounds.Add(round);
                 validate = true;
             }

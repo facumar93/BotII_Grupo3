@@ -1,23 +1,27 @@
 using System;
 using System.Collections.Generic;
+using static Library.Game;
 
 namespace Library 
 {
+
     /// <summary>
     /// Representa al bot. Patrón Singleton y Facade
     /// </summary>
     public class SingletonBot
     {
         private static SingletonBot instance = null;
-        public Configuration Configuration { get; private set; }
-        public List<Game> ListOfGames { get; set; }
+        public Configuration configuration { get; private set; }
+        public List<Game> listOfGames { get; set; }
 
 
         /// <summary>
         /// Método para instanciar el Bot o retornarlo
         /// </summary>
         /// <value></value>
-        public static SingletonBot Instance
+        
+        //****
+        public static SingletonBot Instance 
         {
             get 
             {
@@ -30,34 +34,54 @@ namespace Library
             }
         }
 
+
+        /// <summary>
+        /// Método para instanciar una configuración
+        /// Agregado por Creator
+        /// </summary>
+        /// <param name="judgeNum">Cantidad de </param>
+        /// <param name="countPlayer"></param>
+       /* public void CreateConfiguration(int judgeNum , int countPlayer) //No se usa.
+        { 
+            if(judgeNum > 0 && countPlayer > 3)  //Ya controlamos en Screen
+                configuration = new Configuration(judgeNum , countPlayer);
+            else
+                throw new Exception("Número no adecuado al juego."); 
+        }*/
+
         /// <summary>
         /// Constructor, instancia una nueva lista de juegos 
         /// </summary>
         private SingletonBot()
         {
-            ListOfGames = new List<Game>();
+            listOfGames = new List<Game>();
         }
 
         /// <summary>
-        /// Instancia un nuevo juego y lo agrega a una lista
+        /// Instancia un nuevo jeugo y lo agrega a una lista
         /// </summary>
-        /// <param name="path">path del archivo que contiene la configuración del juego</param>
+        /// <param name="typeOfGameOption"></param>
         public void CreateGame(string path)
         {
-            Configuration = new Configuration(path);
-            Game game = new Game(Configuration);
-            ListOfGames.Add(game);
+            configuration=new Configuration(path);
+            Game game = new Game(configuration);
+            listOfGames.Add(game);
             
         }
+
+        
+
+
         /// <summary>
         /// Instancia un usuario y guarda en una lista de juegos
         /// Agregado por Creator
         /// </summary>
         /// <param name="name">parameter represents the name of the player</param>
-        public void CreatUser(string name, long id)
+        public void CreatUser(string name,long id)
         {
-            User user = new User(name, id);
-            ListOfGames[ListOfGames.Count-1].AddUserToUserList(user);
+            User user = new User(name,id);
+            listOfGames[listOfGames.Count-1].AddUserToUserList(user);
+            
         }
 
         /// <summary>
@@ -65,7 +89,7 @@ namespace Library
         /// </summary>
         private Game GetCurrentGame()
         {
-            return ListOfGames[ListOfGames.Count-1];
+            return listOfGames[listOfGames.Count-1];
         }
 
         /// <summary>
@@ -92,7 +116,7 @@ namespace Library
         /// <param name="game">Recibe un Game</param>
         public void AddGameToListOfGames(Game game) 
         {
-            ListOfGames.Add(game);
+            listOfGames.Add(game);
         }
 
         /// <summary>
@@ -101,21 +125,27 @@ namespace Library
         public bool StartGame()
         {
             Console.WriteLine("entro");
-            Console.WriteLine(this.Configuration.CountPlayer);
-            if(GetCurrentGame().CountPlayer() == this.Configuration.CountPlayer)
+            Console.WriteLine(this.configuration.CountPlayer);
+            if(GetCurrentGame().CountPlayer()==this.configuration.CountPlayer)
             {
+         //       GetCurrentGame().DealCards();
                 return true;
             }
             else
             {
-                return false;
+                return false;   
             }
+            
         }
 
         public IEnumerator<User> GetListUser()
         {
             return GetCurrentGame().EnumeratorUser();
         }
+       /* public void ConfigRound(TypeOfGameOptions typeGame)
+        {
+            GetCurrentGame().ConfigRound(typeGame);
+        }*/
 
         /// <summary>
         /// Verifica si hay mas jugadores para jugar

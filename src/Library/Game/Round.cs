@@ -24,6 +24,8 @@ namespace Library
             this.judge = judge;
            
             listWhiteCardsAnswer = new List<Card>();
+            
+
         }
 
         /// <summary>
