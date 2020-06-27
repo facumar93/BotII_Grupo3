@@ -5,6 +5,11 @@ namespace Library
 {
     public class Round 
     {
+        /// <summary>
+        /// Propiedad para obtener los distintos tipos de juego
+        /// </summary>
+        /// <value>tipo enum</value>
+        public TypeOfGameOptions GameType { get; set; }
         public IJudge judge;
         public Card BlackCard { get; set;}
         private List<Card> listWhiteCardsAnswer { get; set; }
@@ -14,11 +19,12 @@ namespace Library
         /// </summary>
         /// <param name="judge">juez</param>
         /// <param name="blackCard">carta negra</param>
-        public Round(IJudge judge, Card blackCard)
+        public Round(IJudge judge)
         {
             this.judge = judge;
-            this.BlackCard = blackCard;
+           
             listWhiteCardsAnswer = new List<Card>();
+            
 
         }
 

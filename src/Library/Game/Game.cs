@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Library;
 namespace Library
 {
     /// <summary>
@@ -7,11 +8,7 @@ namespace Library
     /// </summary>
     public class Game 
     {
-        /// <summary>
-        /// Propiedad para obtener los distintos tipos de juego
-        /// </summary>
-        /// <value>tipo enum</value>
-        public TypeOfGameOptions GameType { get; set; }
+        
 
         /// <summary>
         /// Lista que almacena los usuarios.
@@ -35,17 +32,17 @@ namespace Library
         /// Propiedad para obtener la posición de los jugadores en la lista de usuarios "userList" del juego.
         /// </summary>
         /// <value></value>
-        public int NextPositionPlayer { get; set;} 
+        private int NextPositionPlayer { get; set;} 
         
-
+        private Configuration Configuration{get;set;}
         /// <summary>
         /// Constructor de Game
         /// Patrón Creator para generar un mazo "Deck" al inicializar un juego
         /// </summary>
-        /// <param name="typeOfGameOption">Tipo de juego</param>
-        public Game(TypeOfGameOptions typeOfGameOption)
+        
+        public Game(Configuration configuration)
         {
-            this.GameType = typeOfGameOption;
+            Configuration=configuration;
             userList = new List<User>();
 
             rounds=new List<Round>();
@@ -54,6 +51,11 @@ namespace Library
             NextPositionPlayer = 0;
         }
         
+        public int CountPlayer()
+        {
+            return userList.Count;
+        }
+
         /// <summary>
         /// Obtiene el juez "Judge" de la ronda actual
         /// </summary>
@@ -67,10 +69,10 @@ namespace Library
         /// Agrega una ronda "round" a la lista de rondas "roundList".
         /// </summary>
         /// <param name = "round">Una ronda</param>
-        public void Add(Round round)
+        /*public void Add(Round round)
         {
             rounds.Add(round);
-        }
+        }*/
 
         /// <summary>
         /// Agrega un usuario a la lista de usuarios "userList"
@@ -81,7 +83,7 @@ namespace Library
             if(!userList.Contains(user))
                 userList.Add(user);
             else
-                throw new Exception("Usuario ya esta registrado");
+                throw new UserException("Usuario ya esta registrado");
         }
 
         
@@ -107,9 +109,16 @@ namespace Library
             }
 
             User lastUserInList = userList[userList.Count-1];
-            Round round = new Round(lastUserInList, Deck.GetNextCardBlack(GameType)); 
+            Round round = new Round(lastUserInList); 
             rounds.Add(round);
         }
+
+        public void ConfigRound( )
+        {
+            rounds[rounds.Count-1].BlackCard=Deck.GetNextCardBlack(Configuration.GameType);
+            rounds[rounds.Count-1].GameType=Configuration.GameType;
+        }
+
 
         /// <summary>
         /// Método para que el juez seleccione al jugador.
@@ -187,7 +196,7 @@ namespace Library
             bool validate = false;
             if(SingletonBot.Instance.configuration.RoundsCount() > rounds.Count)
             {
-                Round round=new Round(userList[NextPositionPlayer], Deck.GetNextCardBlack(GameType));
+                Round round=new Round(userList[NextPositionPlayer]);
                 rounds.Add(round);
                 validate = true;
             }
@@ -201,6 +210,11 @@ namespace Library
         public IEnumerator<Card> EnumeratorCardsAnswer() 
         {
             return rounds[rounds.Count - 1].GetEnumeratorForListWhiteCardsAnswer();
+        }
+
+        public IEnumerator<User> EnumeratorUser()
+        {
+            return userList.GetEnumerator();
         }
 
     }

@@ -21,7 +21,7 @@ namespace Library
             if(obj is BlackCardImage)
             {
                 BlackCardImage image = (BlackCardImage)obj;
-                if(image.id == id)
+                if(image.Id == Id)
                     valid = true;
             }
             return valid;
