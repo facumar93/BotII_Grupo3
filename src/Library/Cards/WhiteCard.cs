@@ -11,7 +11,7 @@ namespace Library
     /// </summary>
     public class WhiteCard : Card
     {
-        public WhiteCard(int id) : base(id)
+        public WhiteCard(int id, string text) : base(id)
         {
             
         }
@@ -22,7 +22,7 @@ namespace Library
             if(obj is WhiteCard)
             {
                 WhiteCard white=(WhiteCard)obj;
-                if(white.id==id)
+                if(white.Id == Id)
                     valido=true;
             }
             return valido;

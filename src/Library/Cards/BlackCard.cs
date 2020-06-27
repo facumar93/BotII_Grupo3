@@ -25,7 +25,7 @@ namespace Library
             if(obj is BlackCard)
             {
                 BlackCard black = (BlackCard)obj;
-                if(black.id == id)
+                if (black.Id == Id)
                     valid = true;
             }
             return valid;

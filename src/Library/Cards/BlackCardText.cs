@@ -9,11 +9,13 @@ namespace Library
     /// </summary>
     public class BlackCardText : BlackCard
     {
+        private string text;
 
-        public BlackCardText(int id) : base(id)
+        public BlackCardText(int id, string text) : base(id)
         {
-
+    
         }
+
 
         public override bool Equals(object obj)
         {
@@ -21,7 +23,7 @@ namespace Library
             if(obj is BlackCardText)
             {
                 BlackCardText text = (BlackCardText)obj;
-                if(text.id == id)
+                if(text.Id == Id)
                     valid = true;
             }
             return valid;

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -97,14 +97,8 @@ namespace Telegram.Bot.Examples.Echo
             
         }
 
-
-
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
-        /// Lo único que hacemos por ahora es escuchar 3 tipos de mensajes:
-        /// - "hola": responde con texto
-        /// - "chau": responde con texto
-        /// - "foto": responde con una foto
         /// </summary>
         /// <param name="message">El mensaje recibido</param>
         /// <returns></returns>
@@ -131,18 +125,16 @@ namespace Telegram.Bot.Examples.Echo
                             notifyPlayer(bot.GetListUser());
                         }
                     
-                    }catch(UserException user)
+                    }catch(UserException e)
                     {
-                        
-
-                        response="Lamentablemente te ganaron de mano el alias. Ingrese otra alias";
+                        response = e.Message;
                     }
-                    
                     
                     catch(FormatException ex)
                     {
 
                     }
+
                     catch(IndexOutOfRangeException ex)
                     {
                         response="Che, te dije alias separado con un espacio";

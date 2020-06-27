@@ -3,6 +3,20 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Library;
 
+namespace Library.Test
+{
+    public class TestDeck
+    {
+    {
+}
+
+
+
+/*using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using Library;
+
 
 
 namespace Library.Test
@@ -27,8 +41,6 @@ namespace Library.Test
             blackImage= new BlackCardImage(7);
             deck = new Deck();
             deck.Load();
-
-            
         }
 
         [Test]
@@ -59,5 +71,5 @@ namespace Library.Test
             Assert.AreEqual(blackImage, deck.GetNextCardBlack(tipo));
         }
     }
-}
+}*/
 

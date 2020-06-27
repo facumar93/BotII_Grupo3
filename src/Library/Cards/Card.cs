@@ -9,12 +9,16 @@ namespace Library
     /// </summary>
     public abstract class Card 
     {
-        public int id{get;set;}
+        /// <summary>
+        /// Identificador único de la carta
+        /// </summary>
+        public int Id{ get; private set;}
+
         public bool Free { get; set; }
 
         public Card(int id)
         {
-            this.id=id;
+            this.Id = id;
             Free = true; 
         }
     }

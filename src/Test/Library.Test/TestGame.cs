@@ -1,4 +1,4 @@
-using NUnit.Framework;
+/*using NUnit.Framework;
 using Library;
 
 namespace Library.Test
@@ -11,22 +11,22 @@ namespace Library.Test
         User testJudge;
         BlackCard black;
         Round testRound;
+        long id;
+        Configuration configuration;
 
         [SetUp]
         public void Setup()
         {
-
-
-            testPlayer = new User("testPlayer");
-            testJudge = new User("testJudge");
+            testPlayer = new User("testPlayer", id);
+            testJudge = new User("testJudge", id);
             black = new BlackCardText(1);
-            testRound = new Round(testJudge,black);
+            testRound = new Round(testJudge);
             typeOfGameOptions=TypeOfGameOptions.IncompletTextAndFreeAnswer;
-            game = new Game(typeOfGameOptions);
+            game = new Game(configuration);
             
             game.AddUserToUserList(testJudge);
             game.AddUserToUserList(testPlayer);
-           
+            
             game.Add(testRound);
             game.NextPositionPlayer = 1;
         }
@@ -47,9 +47,9 @@ namespace Library.Test
         [Test]
         public void GetCurrentPlayer()
         {
-            User testPlayer = new User("testPlayer");           
+            User testPlayer = new User("testPlayer", id);           
             User user=game.GetCurrentPlayer();
             Assert.AreEqual(testPlayer, user);
         }
     }
-}
+}*/

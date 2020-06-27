@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Library
 {
@@ -35,27 +36,37 @@ namespace Library
         /// </summary>
         
         //***
-        public void Load()
+        public void Load(string path)
         {
-            WhiteCard white0 = new WhiteCard(1);
-            BlackCard black0 = new  BlackCardText(2);
-            WhiteCard white1 = new WhiteCard(3);
-            BlackCard black1 = new  BlackCardText(4);
-            WhiteCard white2 = new WhiteCard(5);
-            BlackCard black2 = new  BlackCardText(6);
-            BlackCard blackImage=new BlackCardImage(7);
-            cards.Add(white0);
-            cards.Add(black0);
-            cards.Add(white1);
-            cards.Add(black1);
-            cards.Add(blackImage);
-            cards.Add(white2);
-            cards.Add(black2);
-
-            foreach(Card card in cards) 
+            List<string> cardListFromArchive;
+            try
             {
-                Console.WriteLine(card);
+                cardListFromArchive = Archive.Read(path);
+            
+                foreach (string card in cardListFromArchive)
+                {
+                    string[] cardItem = card.Split(";");
+                    int cardId = 0;
+                    if (cardItem[0] == "blackCardText")
+                    {
+                        BlackCard blackCard = new BlackCardText(cardId, cardItem[1]);
+                        cards.Add(blackCard);
+                        cardId ++;
+                    }
+                    else if (cardItem[0] == "whiteCardText")
+                    {
+                        WhiteCard whiteCard = new WhiteCard(cardId, cardItem[1]);
+                        cards.Add(whiteCard);
+                        cardId ++;
+                    }
+                }
             }
+           
+            catch(IndexOutOfRangeException e)
+            {
+                throw new IndexOutOfRangeException("Archivo incompleto");
+            }
+
         }
 
         /// <summary>

@@ -5,17 +5,29 @@ public class Archive
 {
     public static List<string> Read(string path)
     {
-        List<string> response = new List<string>();
-        using(StreamReader streamReader = new StreamReader(path))
+        List<string> listGenerated = new List<string>();
+        
+        try
         {
-            	String linea = streamReader.ReadLine();
-                while(linea != null)
+            using (StreamReader sr = new StreamReader(path))
+            {
+                String line = sr.ReadLine();
+                while (line != null)
                 {
-                    response.Add(linea);
-                    linea=streamReader.ReadLine();
+                    listGenerated.Add(line);
+                    line=sr.ReadLine();
                 }
-                return response;
+                return listGenerated;
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new FileNotFoundException("No se encontró el archivo", e);
+        }
 
+        catch (IOException e)
+        {
+           throw new IOException("No se pudo abrir el archivo", e); 
         }
     }
 }
