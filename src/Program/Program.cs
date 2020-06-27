@@ -33,10 +33,13 @@ namespace Telegram.Bot.Examples.Echo
         /// </summary>
         public static void Main()
         {
+            try{
+
+            
             Bot = new TelegramBotClient(Token);
             var cts = new CancellationTokenSource();
             SingletonBot bot = SingletonBot.Instance; 
-            bot.CreateGame("configuration.csv");
+            bot.CreateGame("configuration.csv","cards.csv");
             // Comenzamos a escuchar mensajes. Esto se hace en otro hilo (en _background_).
             Bot.StartReceiving(
                 new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
@@ -50,6 +53,16 @@ namespace Telegram.Bot.Examples.Echo
 
             // Terminamos el bot.
             cts.Cancel();
+            }catch(IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error,revise los archivos de configuracion o de cartas");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
         /// <summary>
@@ -94,7 +107,21 @@ namespace Telegram.Bot.Examples.Echo
                 Library.User user=listUser.Current;
                 await Bot.SendTextMessageAsync(user.ID, "Empieza el juego");
             }
-            
+            SingletonBot.Instance.StartGame();
+            Library.User judge=(Library.User)SingletonBot.Instance.GetJudge();
+            await Bot.SendTextMessageAsync(judge.ID, "Usted ahora es el juez");
+            await Bot.SendTextMessageAsync(judge.ID, SingletonBot.Instance.AskBlackCard().ToString());
+
+            listUser.Reset();
+            while(listUser.MoveNext())
+            {
+                Library.User user=listUser.Current;
+                if(user.ID!=judge.ID)
+                {
+                    await Bot.SendTextMessageAsync(user.ID, "Empieza el juego");
+                }
+                
+            }
         }
 
         /// <summary>

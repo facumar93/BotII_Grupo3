@@ -40,7 +40,7 @@ namespace Library
         /// Patrón Creator para generar un mazo "Deck" al inicializar un juego
         /// </summary>
         
-        public Game(Configuration configuration)
+        public Game(Configuration configuration,string pathCards)
         {
             Configuration=configuration;
             userList = new List<User>();
@@ -48,6 +48,7 @@ namespace Library
             rounds=new List<Round>();
 
             Deck deck = new Deck();
+            deck.Load(pathCards);
             NextPositionPlayer = 0;
         }
         

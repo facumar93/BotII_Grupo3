@@ -61,10 +61,10 @@ namespace Library
         /// Instancia un nuevo jeugo y lo agrega a una lista
         /// </summary>
         /// <param name="typeOfGameOption"></param>
-        public void CreateGame(string path)
+        public void CreateGame(string path,string pathCards)
         {
             configuration=new Configuration(path);
-            Game game = new Game(configuration);
+            Game game = new Game(configuration,pathCards);
             listOfGames.Add(game);
             
         }

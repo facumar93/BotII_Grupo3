@@ -20,6 +20,7 @@ namespace Library
             lastCardBlack = -1;
         }
 
+
         /// <summary>
         /// Método para entreverar el orden de la lista de cartas "cards".
         /// Agregado por Expert dado que Deck conoce todas las cartas.
@@ -42,23 +43,24 @@ namespace Library
             try
             {
                 cardListFromArchive = Archive.Read(path);
-            
+                Card card1=null;
                 foreach (string card in cardListFromArchive)
                 {
                     string[] cardItem = card.Split(";");
-                    int cardId = 0;
+                    
                     if (cardItem[0] == "blackCardText")
                     {
-                        BlackCard blackCard = new BlackCardText(cardId, cardItem[1]);
-                        cards.Add(blackCard);
-                        cardId ++;
+                        card1 = new BlackCardText(cards.Count, cardItem[1]);
+                        cards.Add(card1);
+                        
                     }
                     else if (cardItem[0] == "whiteCardText")
                     {
-                        WhiteCard whiteCard = new WhiteCard(cardId, cardItem[1]);
-                        cards.Add(whiteCard);
-                        cardId ++;
+                        card1 = new WhiteCard(cards.Count, cardItem[1]);
+                        cards.Add(card1);
+                        
                     }
+                    
                 }
             }
            
