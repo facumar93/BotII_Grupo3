@@ -66,7 +66,6 @@ namespace Library
             configuration=new Configuration(path);
             Game game = new Game(configuration);
             listOfGames.Add(game);
-            
         }
 
         
