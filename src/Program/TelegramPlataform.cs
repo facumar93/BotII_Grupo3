@@ -74,22 +74,11 @@ namespace Telegram.Bot.Examples.Echo
             }
         }
 
-        private string Analysis(string texto)
-        {
-            if(texto.ToLower().Contains("jugar"))
-                return "jugar";
-            else
-                if(texto.ToLower().Contains("alias"))
-                    return "alias";
-                else
-                    return "chau";
-            
-        }
         private async void notifyPlayer(IEnumerator<Library.User> listUser)
         {
             while(listUser.MoveNext())
             {
-                Library.User user=listUser.Current;
+                Library.User user = listUser.Current;
                 await Bot.SendTextMessageAsync(user.ID, "Empieza el juego");
             }
             
@@ -102,23 +91,42 @@ namespace Telegram.Bot.Examples.Echo
         /// <returns></returns>
         private async Task HandleMessageReceived(Message message)
         {
+            string Analysis(string text)
+            {
+                if (text.ToLower().Contains("alias"))
+                    return "alias";
+                else
+                    return message.Text.ToLower();
+            }
+            
             Console.WriteLine($"Received a message from {message.From.FirstName} saying: {message.Text}");
             SingletonBot bot = SingletonBot.Instance;
             string response = "";
-            string comando=Analysis(message.Text);
-            switch(comando)
+            string comand = Analysis(message.Text);
+
+            switch(comand)
             {
-                case "jugar": 
-                    response="Excelente, dame un alias. Por favor ingrese la palabra alias";
+                case "/start":
+                case "hola":
+                    response = "Bienvenid@ a Cards Against Programming! ¿Quieres jugar? Responde sí o no";
+                    break;
+
+                case "no":
+                    response = "Te lo pierdes! Esperamos verte pronto.";
+                    break;
+                
+                case "si":
+                case "sí":
+                    response = "Excelente! Responde cómo quieres llamarte seguido de la palabra alias. Ejemplo: alias Carmen.";
                     break;
                 case "alias":
                     try{
-                        string userName=message.Text.Split(" ")[1];
-                        bot.CreatUser(userName,message.Chat.Id);
-                        bool empezo=bot.StartGame();
-                        response="Bienvenido "+userName;
+                        string userName = message.Text.Split(" ")[1];
+                        bot.CreatUser(userName, message.Chat.Id);
+                        bool isStart = bot.StartGame();
+                        response = "Bien " + userName + "! Se creó tu alias correctamente.";
                     
-                        if (empezo)
+                        if (isStart)
                         {
                             notifyPlayer(bot.GetListUser());
                         }

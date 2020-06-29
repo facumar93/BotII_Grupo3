@@ -35,29 +35,26 @@ namespace Library
         /// Contenido de prueba para los test.
         /// </summary>
         
-        //***
         public void Load(string path)
         {
             List<string> cardListFromArchive;
             try
             {
                 cardListFromArchive = Archive.Read(path);
+                Card card1 = null;
             
                 foreach (string card in cardListFromArchive)
                 {
-                    string[] cardItem = card.Split(";");
-                    int cardId = 0;
+                    string [] cardItem = card.Split(";");
                     if (cardItem[0] == "blackCardText")
                     {
-                        BlackCard blackCard = new BlackCardText(cardId, cardItem[1]);
-                        cards.Add(blackCard);
-                        cardId ++;
+                        card1 = new BlackCardText(cards.Count, cardItem[1].Trim());
+                        cards.Add(card1);
                     }
                     else if (cardItem[0] == "whiteCardText")
                     {
-                        WhiteCard whiteCard = new WhiteCard(cardId, cardItem[1]);
-                        cards.Add(whiteCard);
-                        cardId ++;
+                        card1 = new WhiteCard(cards.Count, cardItem[1].Trim());
+                        cards.Add(card1);
                     }
                 }
             }
