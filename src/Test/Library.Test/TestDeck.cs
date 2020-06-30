@@ -7,7 +7,49 @@ namespace Library.Test
 {
     public class TestDeck
     {
-    {
+        Deck deck;
+
+        [SetUp]
+        public void Setup()
+        {
+            deck = new Deck();
+            deck.Load("/Users/anakaprielian/Documents/UCU/2020/ProgramacionII/Proyecto/ultimo/BotII_Grupo3/BotII_Grupo3/src/Test/Library.Test/ArchiveTestCards.csv");
+        }
+
+        [Test]
+        public void VeryfyIdOfFirstWhiteCardInArchiveUsignLoadMethod()
+        {
+            Assert.AreEqual(10, deck.GetNextCardWhite().Id);
+        }
+
+        [Test]
+        public void VerifyTextOfFirstCardWhiteUsingLoad()
+        {
+            Assert.AreEqual("wa", deck.GetNextCardWhite().Text);
+        }
+
+        [Test]
+        public void VerifySecondCardUsingGetNextCardWhite()
+        {
+            deck.GetNextCardWhite();
+            Assert.AreEqual("wb", deck.GetNextCardWhite().Text);
+        }
+
+        [Test]
+        public void VerifyFirstBlackCardTextInDeck()
+        {   
+            Assert.AreEqual(0, deck.GetNextCardBlack().Id);
+        }
+
+        [Test]
+        public void CardIsFalseWhenUsed()
+        {   
+            Card card = deck.GetNextCardBlack();
+            Assert.AreEqual(false, card.Free);
+        }
+
+
+    }
 }
 
 

@@ -1,31 +1,29 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Library
 {
     /// <summary>
-    /// Esta clase representa las cartas negras y hereda de la clase "Card".
-    /// Implementación de polimorfismo por abstracción al heredar de la clase abstracta Card
+    /// Esta clase representa una carta negra de tipo texto
+    /// Implementación de Polimorfismo al heredar de la clase BlackCard
     /// </summary>
-    public class BlackCard : Card 
+    public class BlackCardImage : Picture
     {
-        public BlackCard(int id) : base(id)
-        {
+        private string text;
 
+        public BlackCardImage(int id) : base(id)
+        {
+    
         }
 
-        /// <summary>
-        /// Permite comparar los ID de las cartas
-        /// </summary>
-        /// <param name="obj">Un objeto</param>
-        /// <returns>true o false</returns>
+
         public override bool Equals(object obj)
         {
             bool valid = false;
-            if(obj is BlackCard)
+            if(obj is Picture)
             {
-                BlackCard black = (BlackCard)obj;
-                if (black.Id == Id)
+                Picture text = (Picture)obj;
+                if(text.Id == Id)
                     valid = true;
             }
             return valid;

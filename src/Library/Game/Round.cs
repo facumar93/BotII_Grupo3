@@ -19,10 +19,10 @@ namespace Library
         /// </summary>
         /// <param name="judge">juez</param>
         /// <param name="blackCard">carta negra</param>
-        public Round(IJudge judge)
+        public Round(IJudge judge,Card blackCard)
         {
             this.judge = judge;
-           
+            BlackCard=blackCard;
             listWhiteCardsAnswer = new List<Card>();
             
 
@@ -49,13 +49,13 @@ namespace Library
         /// <summary>
         /// Cambia el estado de la carta para que esté disponible en el mazo.
         /// </summary>
-        public void GiveBackBlackCard()
+        public void GiveBackCard()
         {
             BlackCard.Free = true;
-            foreach (Card card in listWhiteCardsAnswer)
+            /*foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;
-            }
+            }*/
         }
 
         /// <summary>

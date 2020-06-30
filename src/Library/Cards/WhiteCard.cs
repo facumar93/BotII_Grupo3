@@ -11,9 +11,9 @@ namespace Library
     /// </summary>
     public class WhiteCard : Card
     {
-        public WhiteCard(int id, string text) : base(id)
+        public WhiteCard(int id, string text) : base(id, text)
         {
-            
+
         }
 
         public override bool Equals(object obj)

@@ -15,7 +15,7 @@ public class Archive
                 while (line != null)
                 {
                     listGenerated.Add(line);
-                    line=sr.ReadLine();
+                    line = sr.ReadLine();
                 }
                 return listGenerated;
             }

@@ -7,11 +7,11 @@ namespace Library
     /// Esta clase representa una carta negra de tipo texto
     /// Implementación de Polimorfismo al heredar de la clase BlackCard
     /// </summary>
-    public class BlackCardText : BlackCard
+    public class BlackCardText : Card
     {
         private string text;
 
-        public BlackCardText(int id, string text) : base(id)
+        public BlackCardText(int id, string text) : base(id, text)
         {
     
         }
