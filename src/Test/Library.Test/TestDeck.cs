@@ -35,10 +35,18 @@ namespace Library.Test
             Assert.AreEqual("wb", deck.GetNextCardWhite().Text);
         }
 
+        [Test]
+        public void VerifyFirstBlackCardTextInDeck()
+        {   
+            Assert.AreEqual(0, deck.GetNextCardBlack().Id);
+        }
 
-
-
-
+        [Test]
+        public void CardIsFalseWhenUsed()
+        {   
+            Card card = deck.GetNextCardBlack();
+            Assert.AreEqual(false, card.Free);
+        }
 
 
     }

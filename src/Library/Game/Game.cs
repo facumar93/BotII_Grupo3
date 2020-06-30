@@ -115,7 +115,7 @@ namespace Library
 
         public void ConfigRound( )
         {
-            rounds[rounds.Count-1].BlackCard=Deck.GetNextCardBlack(Configuration.GameType);
+            rounds[rounds.Count-1].BlackCard=Deck.GetNextCardBlack();
             rounds[rounds.Count-1].GameType=Configuration.GameType;
         }
 
@@ -189,7 +189,7 @@ namespace Library
         /// <returns></returns>
         public bool CreateNextRound() 
         {
-            rounds[rounds.Count - 1].GiveBackBlackCard();
+            rounds[rounds.Count - 1].GiveBackCard();
             NextPositionPlayer++;
             if(NextPositionPlayer == userList.Count)
                 NextPositionPlayer = 0;

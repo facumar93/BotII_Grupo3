@@ -49,9 +49,9 @@ namespace Library
         /// <summary>
         /// Cambia el estado de la carta para que esté disponible en el mazo.
         /// </summary>
-        public void GiveBackBlackCard()
+        public void GiveBackCard()
         {
-            BlackCard.Free = true;
+            //BlackCard.Free = true;
             foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;

@@ -88,7 +88,7 @@ namespace Library
             return cards[lastCardWhite];
         }
         
-    
+/*
         private bool IsBlack(TypeOfGameOptions typeOfGameOptions, int position) 
         {
             
@@ -98,6 +98,8 @@ namespace Library
                 return cards[position] is BlackCardImage;
         }
 
+
+/*
         /// <summary>
         /// Retorna la primera carta negra de la lista de cartas "cards", teniendo en cuenta que puede ser tipo imagen o texto.
         /// </summary>
@@ -118,6 +120,26 @@ namespace Library
             cards[lastCardBlack].Free = false;
             return cards[lastCardBlack];
 
+        }
+*/
+//comenté lo de arriba porque ahora solo vamos a jugar con cartas tipo texto
+//habría q cambiar el path del load si se quiere agragar otro archivo con cartas tipo imagen
+//lo de respuesta libre no sé como manejarlo ni si lo vamos a hacer
+        public Card GetNextCardBlack()
+        {
+            lastCardBlack++;
+            if(lastCardBlack==cards.Count)
+                lastCardBlack=0;
+            while (!cards[lastCardBlack].Free || !(cards[lastCardBlack] is BlackCardText))
+            {
+                lastCardBlack++;
+                if(lastCardBlack == cards.Count)
+                    lastCardBlack = 0;
+            }
+                
+            cards[lastCardBlack].Free = false;
+
+            return cards[lastCardBlack];
         }
     }
 }

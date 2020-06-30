@@ -119,6 +119,7 @@ namespace Telegram.Bot.Examples.Echo
                 case "sí":
                     response = "Excelente! Responde cómo quieres llamarte seguido de la palabra alias. Ejemplo: alias Carmen.";
                     break;
+                
                 case "alias":
                     try{
                         string userName = message.Text.Split(" ")[1];
@@ -151,13 +152,6 @@ namespace Telegram.Bot.Examples.Echo
                     }
                     break;
                     
-                case "¿Cómo está el día?": 
-                    response = "El día se presenta nublado con probabildiad de precipitaciones";
-                    break;
-
-                case "chau": 
-                    response = "Chau! Que andes bien!";
-                    break;
 
                 case "foto":
                     // si nos piden una foto, mandamos la foto en vez de responder
