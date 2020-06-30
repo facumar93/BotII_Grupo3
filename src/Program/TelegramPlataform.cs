@@ -34,7 +34,7 @@ namespace Telegram.Bot.Examples.Echo
             Bot = new TelegramBotClient(Token);
             var cts = new CancellationTokenSource();
             SingletonBot bot = SingletonBot.Instance; 
-            bot.CreateGame("configuration.csv");
+            bot.CreateGame("configuration.csv","cards.csv");
             // Comenzamos a escuchar mensajes. Esto se hace en otro hilo (en _background_).
             Bot.StartReceiving(
                 new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
@@ -49,7 +49,14 @@ namespace Telegram.Bot.Examples.Echo
             // Terminamos el bot.
             cts.Cancel();
         }
-
+        private async void notifyJudge()
+        {
+            SingletonBot bot = SingletonBot.Instance;
+            Library.User judge=(Library.User)bot.GetJudge();
+            Card cardBlack=bot.AskBlackCard();
+            await Bot.SendTextMessageAsync(judge.ID, "Sos el juez");
+            await Bot.SendTextMessageAsync(judge.ID,"Tu carta es "+ cardBlack.ToString());
+        }
         /// <summary>
         /// Maneja las actualizaciones del bot (todo lo que llega), incluyendo
         /// mensajes, ediciones de mensajes, respuestas a botones, etc. En este
@@ -74,16 +81,49 @@ namespace Telegram.Bot.Examples.Echo
             }
         }
 
-        private async void notifyPlayer(IEnumerator<Library.User> listUser)
+        private async void notifyPlayer()
         {
+            SingletonBot bot = SingletonBot.Instance;
+            IEnumerator<Library.User> listUser=bot.GetListUser();
             while(listUser.MoveNext())
             {
                 Library.User user = listUser.Current;
-                await Bot.SendTextMessageAsync(user.ID, "Empieza el juego");
+                await Bot.SendTextMessageAsync(user.ID, "Empieza el juego, espere recibir su carta");
             }
             
         }
 
+        private async void notifyPlayerCardBlack()
+        {
+            //IEnumerator<Library.User> listUser=bot.GetListUser();
+
+             SingletonBot bot = SingletonBot.Instance;
+            Card cardBlack=bot.AskBlackCard();
+            Library.User user=bot.AskCurrentPlayer();
+            await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto :"+cardBlack.Text);
+            IEnumerator<Card>iteratorCardWhite=   user.EnumeratorCards();
+            int i=1;
+            while(iteratorCardWhite.MoveNext())
+            {
+                Card card=iteratorCardWhite.Current;
+                await Bot.SendTextMessageAsync(user.ID, "Opcion "+i+" :"+card.ToString());
+                i++;
+            }
+            await Bot.SendTextMessageAsync(user.ID, "Seleccione una carta : ");
+        }
+
+        private string Analysis(string text)
+            {
+                if (text.ToLower().Contains("alias"))
+                    return "alias";
+                else
+                    if (text.ToLower().Contains("opcion"))
+                    {
+                        return "opcion";
+                    }
+                    else
+                        return text.ToLower();
+            }
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
         /// </summary>
@@ -91,13 +131,7 @@ namespace Telegram.Bot.Examples.Echo
         /// <returns></returns>
         private async Task HandleMessageReceived(Message message)
         {
-            string Analysis(string text)
-            {
-                if (text.ToLower().Contains("alias"))
-                    return "alias";
-                else
-                    return message.Text.ToLower();
-            }
+            
             
             Console.WriteLine($"Received a message from {message.From.FirstName} saying: {message.Text}");
             SingletonBot bot = SingletonBot.Instance;
@@ -129,7 +163,9 @@ namespace Telegram.Bot.Examples.Echo
                     
                         if (isStart)
                         {
-                            notifyPlayer(bot.GetListUser());
+                            notifyPlayer();
+                            notifyJudge();
+                            notifyPlayerCardBlack();
                         }
                     
                     }catch(UserException e)
@@ -139,20 +175,48 @@ namespace Telegram.Bot.Examples.Echo
                     
                     catch(FormatException ex)
                     {
-
+                         Console.WriteLine(ex.Message);
                     }
 
                     catch(IndexOutOfRangeException ex)
                     {
+                         Console.WriteLine(ex.Message);
                         response="Che, te dije alias separado con un espacio";
                     }
                     catch(Exception ex)
                     {
+                        Console.WriteLine(ex.Message);
                         response="Sabes que, no tengo ni idea que paso";
                     }
                     break;
-                    
-
+                /*    
+                case "opcion":
+                    try{
+                        int number = Convert.ToInt32(message.Text.Split(" ")[1]);
+                        if(number<1 || number>10)
+                        {
+                            response="Sabes contar? Tenes 10 cartas";
+                        }
+                        else
+                            {
+                             Library.User user=bot.GetUserActually();
+                             if(message.Chat.Id!=user.ID)
+                             {
+                                    response="Apurado, espere que su compa;éro no ha jugador";
+                             }
+                                else
+                                {
+                                    bot.AskNextPlayer();
+                                    notifyPlayerCardBlack();
+                                }
+                            }
+                        }
+                   
+                    catch(FormatException)
+                    {
+                        response="Sabe poner numeros?";
+                    }
+                */ 
                 case "foto":
                     // si nos piden una foto, mandamos la foto en vez de responder
                     // con un mensaje de texto.
