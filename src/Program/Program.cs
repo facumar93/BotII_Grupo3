@@ -9,11 +9,10 @@ namespace Program
     {
         public static void Main()
         {
-            //TelegramPlataform telegram = new TelegramPlataform();
-            //telegram.StartTelegram();
+            TelegramPlataform telegram = new TelegramPlataform();
+            telegram.StartTelegram();
             Console.WriteLine("hola");
-            List<string> lista = Archive.Read("cards.csv");
-            Console.WriteLine(lista[0]);
+            
             
         }
 

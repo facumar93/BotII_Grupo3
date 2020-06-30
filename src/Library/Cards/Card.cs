@@ -23,5 +23,10 @@ namespace Library
             this.Text = text;
             Free = true; 
         }
+
+        public override string ToString()
+        {
+            return this.Text;
+        }
     }
 }

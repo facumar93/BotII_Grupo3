@@ -61,9 +61,9 @@ namespace Library
         /// Instancia un nuevo jeugo y lo agrega a una lista
         /// </summary>
         /// <param name="typeOfGameOption"></param>
-        public void CreateGame(string path)
+        public void CreateGame(string path,string pathCard)
         {
-            configuration=new Configuration(path);
+            configuration=new Configuration(path,pathCard);
             Game game = new Game(configuration);
             listOfGames.Add(game);
         }
@@ -123,11 +123,11 @@ namespace Library
         /// </summary>
         public bool StartGame()
         {
-            Console.WriteLine("entro");
+            
             Console.WriteLine(this.configuration.CountPlayer);
             if(GetCurrentGame().CountPlayer()==this.configuration.CountPlayer)
             {
-         //       GetCurrentGame().DealCards();
+                GetCurrentGame().DealCards();
                 return true;
             }
             else
