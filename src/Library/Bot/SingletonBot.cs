@@ -100,6 +100,11 @@ namespace Library
            return GetCurrentGame().GetJudge();
         }
 
+        public Card CardSelectWhite(int position)
+        {
+            return GetCurrentGame().CardSelectWhite(position);
+        }
+
         /// <summary>
         /// Se recupera el usuario de la mano actual
         /// </summary>

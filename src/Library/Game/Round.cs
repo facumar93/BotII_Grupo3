@@ -66,5 +66,10 @@ namespace Library
         {
             return listWhiteCardsAnswer.GetEnumerator();
         }
+
+        public Card CardSelectWhite(int position)
+        {
+            return listWhiteCardsAnswer[position];
+        }
     }
 }

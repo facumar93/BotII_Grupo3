@@ -187,7 +187,10 @@ namespace Library
             return current;
 
         }
-
+        public Card CardSelectWhite(int position)
+        {
+            return rounds[rounds.Count - 1].CardSelectWhite(position);
+        }
         /// <summary>
         /// Crear siguientes rondas, devolviendo al mazo (vuelve a estar desocupada - True) la carta negra "blackCard" usada en la ronda anterior.
         /// </summary>

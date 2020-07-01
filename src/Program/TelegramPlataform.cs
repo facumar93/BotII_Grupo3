@@ -124,6 +124,33 @@ namespace Telegram.Bot.Examples.Echo
                     else
                         return text.ToLower();
             }
+
+        private async void    notifyJudge2()
+        {
+            SingletonBot bot=SingletonBot.Instance;
+            IEnumerator<Card>iteratorCardWhite=   bot.AskEnumeratorCardsAnswer();
+            int i=1;
+            Library.User judge=(Library.User)bot.GetJudge();
+            while(iteratorCardWhite.MoveNext())
+            {
+                Card card=iteratorCardWhite.Current;
+                await Bot.SendTextMessageAsync(judge.ID, "Opcion "+i+" :"+card.ToString());
+                i++;
+            }
+
+            await Bot.SendTextMessageAsync(judge.ID, "Seleccione una carta : ");
+        }
+
+        private async void notifyWin(Card card)
+        {
+            SingletonBot bot = SingletonBot.Instance;
+            IEnumerator<Library.User> listUser=bot.GetListUser();
+            while(listUser.MoveNext())
+            {
+                Library.User user = listUser.Current;
+                await Bot.SendTextMessageAsync(user.ID, "El juez selecciono esta carta :"+card);
+            }
+        }
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
         /// </summary>
@@ -189,9 +216,11 @@ namespace Telegram.Bot.Examples.Echo
                         response="Sabes que, no tengo ni idea que paso";
                     }
                     break;
-                /*    
+                    
                 case "opcion":
                     try{
+                        Library.User user=bot.GetUserActually();
+                        Library.User judge=(Library.User)bot.GetJudge(); 
                         int number = Convert.ToInt32(message.Text.Split(" ")[1]);
                         if(number<1 || number>10)
                         {
@@ -199,15 +228,39 @@ namespace Telegram.Bot.Examples.Echo
                         }
                         else
                             {
-                             Library.User user=bot.GetUserActually();
-                             if(message.Chat.Id!=user.ID)
+                            
+                             
+                             if(user.ID!=judge.ID && message.Chat.Id!=user.ID)
                              {
                                     response="Apurado, espere que su compa;éro no ha jugador";
                              }
                                 else
                                 {
-                                    bot.AskNextPlayer();
-                                    notifyPlayerCardBlack();
+                                    
+                                    
+                                    if(bot.AskNextPlayer())
+                                    {
+                                        Card cardSelect=user.GetCard(number);
+                                        bot.AddAnswer(cardSelect);
+                                        //Siguiente jugador, si hay muestro sus cartas y la pregunta
+                                        notifyPlayerCardBlack();
+                                    }
+                                    else{//Empieza el veredicto del juez
+                                        if(message.Chat.Id==user.ID)
+                                        {
+                                            Card cardSelect=user.GetCard(number);
+                                            bot.AddAnswer(cardSelect);
+                                            //Mostrar las cartas de respuesta de cada jugador
+                                            notifyJudge2();
+                                        }
+                                        else{//Responde el juez
+                                            Card cardWin=bot.CardSelectWhite(number);
+                                            notifyWin(cardWin);
+                                            bot.AskWinner(cardWin);
+                                        }
+                                        
+                                    }
+                                    
                                 }
                             }
                         }
@@ -216,7 +269,7 @@ namespace Telegram.Bot.Examples.Echo
                     {
                         response="Sabe poner numeros?";
                     }
-                */ 
+                break;
                 case "foto":
                     // si nos piden una foto, mandamos la foto en vez de responder
                     // con un mensaje de texto.
