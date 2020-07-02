@@ -19,13 +19,11 @@ namespace Library
         /// </summary>
         /// <param name="judge">juez</param>
         /// <param name="blackCard">carta negra</param>
-        public Round(IJudge judge,Card blackCard)
+        public Round(IJudge judge, Card blackCard)
         {
             this.judge = judge;
-            BlackCard=blackCard;
+            BlackCard = blackCard;
             listWhiteCardsAnswer = new List<Card>();
-            
-
         }
 
         /// <summary>
@@ -52,10 +50,10 @@ namespace Library
         public void GiveBackCard()
         {
             BlackCard.Free = true;
-            /*foreach (Card card in listWhiteCardsAnswer)
+            foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;
-            }*/
+            }
         }
 
         /// <summary>
@@ -65,6 +63,11 @@ namespace Library
         public IEnumerator<Card> GetEnumeratorForListWhiteCardsAnswer()
         {
             return listWhiteCardsAnswer.GetEnumerator();
+        }
+
+        public Card CardSelectWhite(int position)
+        {
+            return listWhiteCardsAnswer[position];
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Telegram.Bot.Examples.Echo
         /// <summary>
         /// El token provisto por Telegram al crear el bot.
         /// </summary>
-        private string Token = "1197891428:AAHjKKfBOPX2cryAx_a1af8RYj14fXePPUg";
+        private string Token = "1233573256:AAHEaVfEcObCTrJ27hQJOclZ-eTtRKS8JPE";
 
         /// <summary>
         /// Punto de entrada.
@@ -34,7 +34,7 @@ namespace Telegram.Bot.Examples.Echo
             Bot = new TelegramBotClient(Token);
             var cts = new CancellationTokenSource();
             SingletonBot bot = SingletonBot.Instance; 
-            bot.CreateGame("configuration.csv","cards.csv");
+            bot.CreateGame("configuration.csv", "cards.csv");
             // Comenzamos a escuchar mensajes. Esto se hace en otro hilo (en _background_).
             Bot.StartReceiving(
                 new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
@@ -52,10 +52,10 @@ namespace Telegram.Bot.Examples.Echo
         private async void notifyJudge()
         {
             SingletonBot bot = SingletonBot.Instance;
-            Library.User judge=(Library.User)bot.GetJudge();
-            Card cardBlack=bot.AskBlackCard();
+            Library.User judge = (Library.User)bot.GetJudge();
+            Card cardBlack = bot.AskBlackCard();
             await Bot.SendTextMessageAsync(judge.ID, "Sos el juez");
-            await Bot.SendTextMessageAsync(judge.ID,"Tu carta es "+ cardBlack.ToString());
+            await Bot.SendTextMessageAsync(judge.ID, "Tu carta es" + cardBlack.ToString());
         }
         /// <summary>
         /// Maneja las actualizaciones del bot (todo lo que llega), incluyendo
@@ -81,10 +81,11 @@ namespace Telegram.Bot.Examples.Echo
             }
         }
 
+        //notifica a todos que empez'o el juego
         private async void notifyPlayer()
         {
             SingletonBot bot = SingletonBot.Instance;
-            IEnumerator<Library.User> listUser=bot.GetListUser();
+            IEnumerator<Library.User> listUser = bot.GetListUser();
             while(listUser.MoveNext())
             {
                 Library.User user = listUser.Current;
@@ -95,21 +96,32 @@ namespace Telegram.Bot.Examples.Echo
 
         private async void notifyPlayerCardBlack()
         {
-            //IEnumerator<Library.User> listUser=bot.GetListUser();
-
-             SingletonBot bot = SingletonBot.Instance;
-            Card cardBlack=bot.AskBlackCard();
-            Library.User user=bot.AskCurrentPlayer();
-            await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto :"+cardBlack.Text);
-            IEnumerator<Card>iteratorCardWhite=   user.EnumeratorCards();
+            SingletonBot bot = SingletonBot.Instance;
+            Card cardBlack = bot.AskBlackCard();
+            Library.User user = bot.AskCurrentPlayer();
+            await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto :" + cardBlack.Text);
+            IEnumerator<Card> iteratorCardWhite = user.EnumeratorCards();
             int i=1;
             while(iteratorCardWhite.MoveNext())
             {
-                Card card=iteratorCardWhite.Current;
-                await Bot.SendTextMessageAsync(user.ID, "Opcion "+i+" :"+card.ToString());
+                Card card = iteratorCardWhite.Current;
+                await Bot.SendTextMessageAsync(user.ID, "Opcion " + i + " :" + card.ToString());
                 i++;
             }
-            await Bot.SendTextMessageAsync(user.ID, "Seleccione una carta : ");
+            await Bot.SendTextMessageAsync(user.ID, "Selecciona tu respuesta! Ejemplo: Opción 1 ");
+
+            /*SingletonBot bot = SingletonBot.Instance;
+            IEnumerator<Library.User> listUser = bot.GetListUser();
+            while(listUser.MoveNext())
+            {
+                if (listUser.Current != bot.GetJudge())
+                {
+                    Card cardBlack = bot.AskBlackCard();
+                    await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto: " + cardBlack.Text);
+
+
+                }
+            }*/
         }
 
         private string Analysis(string text)
@@ -124,6 +136,39 @@ namespace Telegram.Bot.Examples.Echo
                     else
                         return text.ToLower();
             }
+
+        //notifica el juez las cartas jugadas de los jugadores y
+        //se le pide que seleccione la carta ganadora
+        private async void notifyJudge2()
+        {
+            SingletonBot bot = SingletonBot.Instance;
+            IEnumerator<Card> iteratorCardWhite = bot.AskEnumeratorCardsAnswer();
+            int i = 1;
+            Library.User judge = (Library.User)bot.GetJudge();
+            while(iteratorCardWhite.MoveNext())
+            {
+                Card card = iteratorCardWhite.Current;
+                //ana//await Bot.SendTextMessageAsync(judge.ID, "Opción "+ i + ": " + card.ToString());
+                await Bot.SendTextMessageAsync(judge.ID, "Opción "+ i + ": " + card.Text);
+                i++;
+            }
+
+            await Bot.SendTextMessageAsync(judge.ID, "Estas son las respuestas! Elije la opción ganadora. Ejemplo: Opción 1");
+        }
+
+        //notifica a todos los jugadores la carta ganadora
+        private async void notifyWin(Card card)
+        {
+            SingletonBot bot = SingletonBot.Instance;
+            IEnumerator<Library.User> listUser = bot.GetListUser();
+            while(listUser.MoveNext())
+            {
+                Library.User user = listUser.Current;
+                //agregue .Text a card ANA abajo
+                await Bot.SendTextMessageAsync(user.ID, "El juez seleccionó esta carta: " + card.Text);
+            }
+        }
+
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
         /// </summary>
@@ -131,8 +176,6 @@ namespace Telegram.Bot.Examples.Echo
         /// <returns></returns>
         private async Task HandleMessageReceived(Message message)
         {
-            
-            
             Console.WriteLine($"Received a message from {message.From.FirstName} saying: {message.Text}");
             SingletonBot bot = SingletonBot.Instance;
             string response = "";
@@ -141,7 +184,6 @@ namespace Telegram.Bot.Examples.Echo
             switch(comand)
             {
                 case "/start":
-                case "hola":
                     response = "Bienvenid@ a Cards Against Programming! ¿Quieres jugar? Responde sí o no";
                     break;
 
@@ -155,20 +197,22 @@ namespace Telegram.Bot.Examples.Echo
                     break;
                 
                 case "alias":
-                    try{
+                    try
+                    {
                         string userName = message.Text.Split(" ")[1];
-                        bot.CreatUser(userName, message.Chat.Id);
-                        bool isStart = bot.StartGame();
-                        response = "Bien " + userName + "! Se creó tu alias correctamente.";
-                    
+                        bot.CreateUser(userName, message.Chat.Id);
+                        response = "Bien " + userName + "! Se creó tu alias correctamente. Aguarda que se unan más personas.";
+                        bool isStart = bot.isStartGame();
+                        IEnumerator<Library.User> listUser = bot.GetListUser();
+
                         if (isStart)
                         {
                             notifyPlayer();
                             notifyJudge();
                             notifyPlayerCardBlack();
                         }
-                    
-                    }catch(UserException e)
+                    }
+                    catch(UserException e)
                     {
                         response = e.Message;
                     }
@@ -181,33 +225,58 @@ namespace Telegram.Bot.Examples.Echo
                     catch(IndexOutOfRangeException ex)
                     {
                          Console.WriteLine(ex.Message);
-                        response="Che, te dije alias separado con un espacio";
+                        response = "Che, te dije alias separado con un espacio";
                     }
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        response="Sabes que, no tengo ni idea que paso";
+                        response = "Sabes que, no tengo ni idea que paso";
                     }
                     break;
-                /*    
+                  
                 case "opcion":
-                    try{
+                case "opción":
+                    try
+                    {
+                        Library.User user = bot.GetUserActually();
+                        Library.User judge = (Library.User)bot.GetJudge(); 
                         int number = Convert.ToInt32(message.Text.Split(" ")[1]);
-                        if(number<1 || number>10)
+                        if(number < 1 || number > 10)
                         {
-                            response="Sabes contar? Tenes 10 cartas";
+                            response = "Debes elegir una carta del 1 al 10! Ejemplo: Opción 1";
                         }
                         else
                             {
-                             Library.User user=bot.GetUserActually();
-                             if(message.Chat.Id!=user.ID)
+                             if(user.ID! == judge.ID && message.Chat.Id! == user.ID)
                              {
-                                    response="Apurado, espere que su compa;éro no ha jugador";
+                                    response = "Estás apurado! Espera la respuesta de todos los jugadores";
                              }
                                 else
                                 {
-                                    bot.AskNextPlayer();
-                                    notifyPlayerCardBlack();
+                                    if(bot.isNextPlayer())
+                                    {
+                                        Card cardSelect = user.GetCard(number);
+                                        bot.AddAnswer(cardSelect);
+                                        //Siguiente jugador, si hay muestro sus cartas y la pregunta
+                                        notifyPlayerCardBlack();
+                                    }
+                                    else
+                                    //Empieza el veredicto del juez
+                                    {
+                                        if(message.Chat.Id == user.ID)
+                                        {
+                                            Card cardSelect = user.GetCard(number);
+                                            bot.AddAnswer(cardSelect);
+                                            //Mostrar las cartas de respuesta de cada jugador
+                                            notifyJudge2();
+                                        }
+                                        else
+                                        {//Responde el juez
+                                            Card cardWin = bot.CardSelectWhite(number);
+                                            notifyWin(cardWin);
+                                            bot.AskWinner(cardWin);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -216,16 +285,10 @@ namespace Telegram.Bot.Examples.Echo
                     {
                         response="Sabe poner numeros?";
                     }
-                */ 
-                case "foto":
-                    // si nos piden una foto, mandamos la foto en vez de responder
-                    // con un mensaje de texto.
-                    await SendProfileImage(message);
-                    return;
+                    break;
                 
-
                 default: 
-                    response = "Disculpa, no se qué hacer con ese mensaje!";
+                    response = "Me mataste con ese mensaje! No olvides que soy un robot";
                     break;
             }
 

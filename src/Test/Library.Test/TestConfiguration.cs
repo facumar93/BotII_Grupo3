@@ -1,11 +1,22 @@
-/*using NUnit.Framework;
+using NUnit.Framework;
 using Library;
 
 namespace Library.Test
 {
     public class TestConfig
     {
-        
+        Configuration configuration;
+
+        int JudgeNum;
+        int CountPlayer
+
+        [SetUp]
+        public void Setup()
+        {
+            JudgeNum { get; set; }  
+            CountPlayer { get; set; }
+            configuration = new Configuration("../../../ConfiguationTest.csv", "../../../ArchiveTestCards.csv");
+        }
         
         [Test]
         public void NumberOfConfigurationListElementMustBeThree()
@@ -20,9 +31,6 @@ namespace Library.Test
                 result += 1;
             }
             Assert.AreEqual(result, excpected);
-
         }
-
-        
     }
-}*/
+}

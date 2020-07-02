@@ -44,14 +44,12 @@ namespace Library
         {
             Configuration=configuration;
             userList = new List<User>();
-
-            rounds=new List<Round>();
-
+            rounds = new List<Round>();
             Deck  = new Deck();
             Deck.Load(configuration.PathCards);
             NextPositionPlayer = 0;
         }
-        
+
         public int CountPlayer()
         {
             return userList.Count;
@@ -113,7 +111,7 @@ namespace Library
 
             User lastUserInList = userList[userList.Count-1];
             Console.WriteLine("Entro");
-            Round round = new Round(lastUserInList,Deck.GetNextCardBlack()); 
+            Round round = new Round(lastUserInList, Deck.GetNextCardBlack()); 
             rounds.Add(round);
         }
 
@@ -167,7 +165,7 @@ namespace Library
         ///  Agregado por patrón Iterator 
         /// </summary>
         /// <returns>booleano</returns>
-        public bool ToNextPlayer()
+        public bool isToNextPlayer()
         {
             return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
         }
@@ -185,7 +183,27 @@ namespace Library
             if(NextPositionPlayer == userList.Count)
                 NextPositionPlayer = 0;
             return current;
+        }
 
+        // public User CurrentPlayer2(long ide)
+        // {
+        //     if (userList.Count > 0)
+        //     {
+        //         foreach (User user in userList)
+        //         {  
+        //             if (user.ID == ide)
+        //             return user;
+        //             else
+        //             return null;
+        //         }
+        //     }
+        //     else
+        //     return null;
+        // }
+
+        public Card CardSelectWhite(int position)
+        {
+            return rounds[rounds.Count - 1].CardSelectWhite(position);
         }
 
         /// <summary>
@@ -201,7 +219,7 @@ namespace Library
             bool validate = false;
             if(SingletonBot.Instance.configuration.RoundsCount() > rounds.Count)
             {
-                Round round=new Round(userList[NextPositionPlayer],Deck.GetNextCardBlack());
+                Round round = new Round(userList[NextPositionPlayer], Deck.GetNextCardBlack());
                 rounds.Add(round);
                 validate = true;
             }

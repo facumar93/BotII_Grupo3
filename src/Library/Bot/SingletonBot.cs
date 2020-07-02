@@ -61,9 +61,9 @@ namespace Library
         /// Instancia un nuevo jeugo y lo agrega a una lista
         /// </summary>
         /// <param name="typeOfGameOption"></param>
-        public void CreateGame(string path,string pathCard)
+        public void CreateGame(string path, string pathCard)
         {
-            configuration=new Configuration(path,pathCard);
+            configuration = new Configuration(path, pathCard);
             Game game = new Game(configuration);
             listOfGames.Add(game);
         }
@@ -76,9 +76,9 @@ namespace Library
         /// Agregado por Creator
         /// </summary>
         /// <param name="name">parameter represents the name of the player</param>
-        public void CreatUser(string name,long id)
+        public void CreateUser(string name,long id)
         {
-            User user = new User(name,id);
+            User user = new User(name, id);
             listOfGames[listOfGames.Count-1].AddUserToUserList(user);
             
         }
@@ -98,6 +98,11 @@ namespace Library
         public IJudge GetJudge()
         {
            return GetCurrentGame().GetJudge();
+        }
+
+        public Card CardSelectWhite(int position)
+        {
+            return GetCurrentGame().CardSelectWhite(position);
         }
 
         /// <summary>
@@ -121,11 +126,11 @@ namespace Library
         /// <summary>
         /// Comienza el juego repartiendo cartas y eligiendo un juez
         /// </summary>
-        public bool StartGame()
+        public bool isStartGame()
         {
             
             Console.WriteLine(this.configuration.CountPlayer);
-            if(GetCurrentGame().CountPlayer()==this.configuration.CountPlayer)
+            if(GetCurrentGame().CountPlayer() == this.configuration.CountPlayer)
             {
                 GetCurrentGame().DealCards();
                 return true;
@@ -150,9 +155,9 @@ namespace Library
         /// Verifica si hay mas jugadores para jugar
         /// </summary>
         /// <returns>retorna true si hay mas jugadores</returns>
-        public bool AskNextPlayer()
+        public bool isNextPlayer()
         {
-            return GetCurrentGame().ToNextPlayer();
+            return GetCurrentGame().isToNextPlayer();
         }
 
         /// <summary>
