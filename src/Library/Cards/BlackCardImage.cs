@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace Library
 {
     /// <summary>
-    /// Esta clase representa una carta negra de tipo texto
-    /// Implementación de Polimorfismo al heredar de la clase BlackCard
+    /// Esta clase representa una carta negra de tipo imagen
+    /// Implementación de Polimorfismo al heredar de la clase Picture
     /// </summary>
     public class BlackCardImage : Picture
     {

@@ -6,7 +6,11 @@ namespace Library
 {
 
     /// <summary>
-    /// Representa al bot. Patrón Singleton y Facade
+    /// Representa al bot. 
+    /// Patrón Singleton para asegurarse de que una clase tenga solo una instancia, 
+    /// al tiempo que proporciona un punto de acceso global
+    /// Patrón Facade, Una clase que proporciona una interfaz simple
+    /// a un subsistema complejo que contiene muchas partes móviles(las demas clases)
     /// </summary>
     public class SingletonBot
     {

@@ -10,7 +10,7 @@ namespace Library
         /// </summary>
         /// <value>tipo enum</value>
         public TypeOfGameOptions GameType { get; set; }
-        public IJudge judge;
+        public IJudge judge{get;set;}
         public Card BlackCard { get; set;}
         private List<Card> listWhiteCardsAnswer { get; set; }
 

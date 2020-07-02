@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Library
 {
     /// <summary>
-    /// Clase abstracta que repesenta las cartas.
+    /// Clase abstracta que repesenta las cartas de tipo imagen.
     /// Implementación de polimorfismo por abstracción.
     /// </summary>
     public abstract class Picture

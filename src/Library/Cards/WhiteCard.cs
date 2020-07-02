@@ -6,8 +6,8 @@ using System;
 namespace Library 
 {
     /// <summary>
-    /// Esta clase representa una carta blanca (de respuesta) y hereda de de la clase "Card" 
-    /// Implementa Polimorfismos por abstracción.
+    /// Esta clase representa una carta blanca y hereda de de la clase "Card" 
+    /// Implementa Polimorfismo por abstracción.
     /// </summary>
     public class WhiteCard : Card
     {

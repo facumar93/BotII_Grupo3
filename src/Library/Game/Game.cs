@@ -169,7 +169,10 @@ namespace Library
         /// <returns>booleano</returns>
         public bool ToNextPlayer()
         {
-            return !userList[NextPositionPlayer].Equals(rounds[rounds.Count - 1].judge);
+            Console.WriteLine(userList[NextPositionPlayer].Name);
+            Console.WriteLine(((User)rounds[rounds.Count - 1].judge).Name);
+            Console.WriteLine(userList[NextPositionPlayer].ID!=(((User)rounds[rounds.Count - 1].judge).ID));
+            return userList[NextPositionPlayer].ID!=(((User)rounds[rounds.Count - 1].judge).ID);
         }
 
        
@@ -180,8 +183,12 @@ namespace Library
         /// <returns></returns>
         public User GetCurrentPlayer()
         {
+            Console.WriteLine("Antes:"+NextPositionPlayer);
             User current = userList[NextPositionPlayer];
+            
+           
             NextPositionPlayer++;
+            Console.WriteLine("Despues:"+NextPositionPlayer);
             if(NextPositionPlayer == userList.Count)
                 NextPositionPlayer = 0;
             return current;
@@ -198,13 +205,14 @@ namespace Library
         public bool CreateNextRound() 
         {
             rounds[rounds.Count - 1].GiveBackCard();
-            NextPositionPlayer++;
-            if(NextPositionPlayer == userList.Count)
-                NextPositionPlayer = 0;
+            int newJugde=NextPositionPlayer+1;
+            
+            if(newJugde == userList.Count)
+                newJugde = 0;
             bool validate = false;
             if(SingletonBot.Instance.configuration.RoundsCount() > rounds.Count)
             {
-                Round round=new Round(userList[NextPositionPlayer],Deck.GetNextCardBlack());
+                Round round=new Round(userList[newJugde],Deck.GetNextCardBlack());
                 rounds.Add(round);
                 validate = true;
             }

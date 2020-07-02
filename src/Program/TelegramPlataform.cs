@@ -14,13 +14,17 @@ namespace Telegram.Bot.Examples.Echo
 
 
 {
+    /// <summary>
+    /// Patrón Facade, Una clase que proporciona una interfaz simple
+    /// a un subsistema complejo que contiene muchas partes móviles
+    /// </summary>
     public class TelegramPlataform
     {
         /// <summary>
         /// La instancia del bot.
         /// </summary>
         private TelegramBotClient Bot;
-
+        private Library.User userLast;
         /// <summary>
         /// El token provisto por Telegram al crear el bot.
         /// </summary>
@@ -99,17 +103,17 @@ namespace Telegram.Bot.Examples.Echo
 
              SingletonBot bot = SingletonBot.Instance;
             Card cardBlack=bot.AskBlackCard();
-            Library.User user=bot.AskCurrentPlayer();
-            await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto :"+cardBlack.Text);
-            IEnumerator<Card>iteratorCardWhite=   user.EnumeratorCards();
+            
+            await Bot.SendTextMessageAsync(userLast.ID, "El juez le pregunta esto :"+cardBlack.Text);
+            IEnumerator<Card>iteratorCardWhite=   userLast.EnumeratorCards();
             int i=1;
             while(iteratorCardWhite.MoveNext())
             {
                 Card card=iteratorCardWhite.Current;
-                await Bot.SendTextMessageAsync(user.ID, "Opcion "+i+" :"+card.ToString());
+                await Bot.SendTextMessageAsync(userLast.ID, "Opcion "+i+" :"+card.ToString());
                 i++;
             }
-            await Bot.SendTextMessageAsync(user.ID, "Seleccione una carta : ");
+            await Bot.SendTextMessageAsync(userLast.ID, "Seleccione una carta : ");
         }
 
         private string Analysis(string text)
@@ -131,6 +135,7 @@ namespace Telegram.Bot.Examples.Echo
             IEnumerator<Card>iteratorCardWhite=   bot.AskEnumeratorCardsAnswer();
             int i=1;
             Library.User judge=(Library.User)bot.GetJudge();
+            await Bot.SendTextMessageAsync(judge.ID, "Selecciona una carta de otros jugadores");
             while(iteratorCardWhite.MoveNext())
             {
                 Card card=iteratorCardWhite.Current;
@@ -192,6 +197,7 @@ namespace Telegram.Bot.Examples.Echo
                         {
                             notifyPlayer();
                             notifyJudge();
+                            userLast=bot.AskCurrentPlayer();
                             notifyPlayerCardBlack();
                         }
                     
@@ -219,10 +225,10 @@ namespace Telegram.Bot.Examples.Echo
                     
                 case "opcion":
                     try{
-                        Library.User user=bot.GetUserActually();
+                        //
                         Library.User judge=(Library.User)bot.GetJudge(); 
-                        int number = Convert.ToInt32(message.Text.Split(" ")[1]);
-                        if(number<1 || number>10)
+                        int number = Convert.ToInt32(message.Text.Split(" ")[1])-1;
+                        if(number<0 || number>9)
                         {
                             response="Sabes contar? Tenes 10 cartas";
                         }
@@ -230,38 +236,48 @@ namespace Telegram.Bot.Examples.Echo
                             {
                             
                              
-                             if(user.ID!=judge.ID && message.Chat.Id!=user.ID)
-                             {
-                                    response="Apurado, espere que su compa;éro no ha jugador";
-                             }
-                                else
-                                {
+                           //  if(user.ID!=judge.ID && message.Chat.Id!=user.ID)
+                           //  {
+                           //         response="Apurado, espere que su compa;éro no ha jugador";
+                           //  }
+                             //   else
+                               // {
                                     
                                     
                                     if(bot.AskNextPlayer())
                                     {
-                                        Card cardSelect=user.GetCard(number);
+                                        Console.WriteLine("Muestro");
+                                        userLast=bot.GetUserActually();
+                                        Card cardSelect=userLast.GetCard(number);
                                         bot.AddAnswer(cardSelect);
                                         //Siguiente jugador, si hay muestro sus cartas y la pregunta
                                         notifyPlayerCardBlack();
                                     }
                                     else{//Empieza el veredicto del juez
-                                        if(message.Chat.Id==user.ID)
+                                        if(message.Chat.Id!=judge.ID)
                                         {
-                                            Card cardSelect=user.GetCard(number);
+                                            Console.WriteLine("Decide el juez");
+                                            Console.WriteLine(number);
+                                            Card cardSelect=userLast.GetCard(number);
+                                            Console.WriteLine(cardSelect);
                                             bot.AddAnswer(cardSelect);
+                                            Console.WriteLine("Decide el juez");
                                             //Mostrar las cartas de respuesta de cada jugador
                                             notifyJudge2();
                                         }
                                         else{//Responde el juez
+                                            Console.WriteLine("Muestro ");
                                             Card cardWin=bot.CardSelectWhite(number);
                                             notifyWin(cardWin);
                                             bot.AskWinner(cardWin);
+                                            notifyJudge();
+                                            userLast=bot.GetUserActually();
+                                            notifyPlayerCardBlack();
                                         }
                                         
                                     }
                                     
-                                }
+                                //}
                             }
                         }
                    
