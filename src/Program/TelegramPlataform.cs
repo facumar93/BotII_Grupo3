@@ -190,7 +190,7 @@ namespace Telegram.Bot.Examples.Echo
                     try{
                         string userName = message.Text.Split(" ")[1];
                         bot.CreatUser(userName, message.Chat.Id);
-                        bool isStart = bot.StartGame();
+                        bool isStart = bot.St2artGame();
                         response = "Bien " + userName + "! Se creó tu alias correctamente.";
                     
                         if (isStart)
