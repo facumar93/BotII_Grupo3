@@ -11,10 +11,6 @@ namespace Program
         {
             TelegramPlataform telegram = new TelegramPlataform();
             telegram.StartTelegram();
-            Console.WriteLine("hola");
-            
-            
         }
-
     }
 }

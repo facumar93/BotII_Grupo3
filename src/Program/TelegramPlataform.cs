@@ -14,12 +14,18 @@ namespace Telegram.Bot.Examples.Echo
 
 
 {
-    public class TelegramPlataform
+    /// <summary>
+    /// Patrón Facade, Una clase que proporciona una interfaz simple
+    /// a un subsistema complejo que contiene muchas partes móviles
+    /// Polimorfismo, implementa interfaz IPlataform, la cual debe implementarse si se agregan otras plataformas.
+    /// </summary>
+    public class TelegramPlataform : Iplataform
     {
         /// <summary>
         /// La instancia del bot.
         /// </summary>
         private TelegramBotClient Bot;
+        private Library.User userLast;
 
         /// <summary>
         /// El token provisto por Telegram al crear el bot.
@@ -34,7 +40,7 @@ namespace Telegram.Bot.Examples.Echo
             Bot = new TelegramBotClient(Token);
             var cts = new CancellationTokenSource();
             SingletonBot bot = SingletonBot.Instance; 
-            bot.CreateGame("configuration.csv", "cards.csv");
+            bot.CreateGame("configuration.csv","cards.csv");
             // Comenzamos a escuchar mensajes. Esto se hace en otro hilo (en _background_).
             Bot.StartReceiving(
                 new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
@@ -49,13 +55,18 @@ namespace Telegram.Bot.Examples.Echo
             // Terminamos el bot.
             cts.Cancel();
         }
-        private async void notifyJudge()
+
+        /// <summary>
+        /// Notifica al juez y le muestra su carta negra
+        /// </summary>
+        /// <returns></returns>
+        private async void NotifyJudge()
         {
             SingletonBot bot = SingletonBot.Instance;
             Library.User judge = (Library.User)bot.GetJudge();
             Card cardBlack = bot.AskBlackCard();
             await Bot.SendTextMessageAsync(judge.ID, "Sos el juez");
-            await Bot.SendTextMessageAsync(judge.ID, "Tu carta es" + cardBlack.ToString());
+            await Bot.SendTextMessageAsync(judge.ID, "Tu carta es "+ cardBlack.ToString());
         }
         /// <summary>
         /// Maneja las actualizaciones del bot (todo lo que llega), incluyendo
@@ -81,49 +92,47 @@ namespace Telegram.Bot.Examples.Echo
             }
         }
 
-        //notifica a todos que empez'o el juego
-        private async void notifyPlayer()
+        /// <summary>
+        /// Notifica a todos los jugadores que empezó el juego.
+        /// </summary>
+        /// <returns></returns>
+        private async void NotifyPlayer()
         {
             SingletonBot bot = SingletonBot.Instance;
             IEnumerator<Library.User> listUser = bot.GetListUser();
             while(listUser.MoveNext())
             {
                 Library.User user = listUser.Current;
-                await Bot.SendTextMessageAsync(user.ID, "Empieza el juego, espere recibir su carta");
+                await Bot.SendTextMessageAsync(user.ID, "Empieza el juego, espera que se repartan las cartas");
             }
-            
         }
 
-        private async void notifyPlayerCardBlack()
+        /// <summary>
+        /// Muestra a los jugadores que no son juez la carta negra, y sus cartas como opciones de respuesta.
+        /// </summary>
+        /// <returns></returns>
+        private async void NotifyPlayerBlackCardAndWhiteCards()
         {
             SingletonBot bot = SingletonBot.Instance;
-            Card cardBlack = bot.AskBlackCard();
-            Library.User user = bot.AskCurrentPlayer();
-            await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto :" + cardBlack.Text);
-            IEnumerator<Card> iteratorCardWhite = user.EnumeratorCards();
-            int i=1;
+            Card blackCard = bot.AskBlackCard();
+            await Bot.SendTextMessageAsync(userLast.ID, "Carta del juez: "+ blackCard.Text);
+            IEnumerator<Card> iteratorCardWhite = userLast.EnumeratorCards();
+            int i = 1;
             while(iteratorCardWhite.MoveNext())
             {
                 Card card = iteratorCardWhite.Current;
-                await Bot.SendTextMessageAsync(user.ID, "Opcion " + i + " :" + card.ToString());
+                await Bot.SendTextMessageAsync(userLast.ID, "Opcion "+ i + ": " + card.ToString());
                 i++;
             }
-            await Bot.SendTextMessageAsync(user.ID, "Selecciona tu respuesta! Ejemplo: Opción 1 ");
-
-            /*SingletonBot bot = SingletonBot.Instance;
-            IEnumerator<Library.User> listUser = bot.GetListUser();
-            while(listUser.MoveNext())
-            {
-                if (listUser.Current != bot.GetJudge())
-                {
-                    Card cardBlack = bot.AskBlackCard();
-                    await Bot.SendTextMessageAsync(user.ID, "El juez le pregunta esto: " + cardBlack.Text);
-
-
-                }
-            }*/
+            await Bot.SendTextMessageAsync(userLast.ID, "Seleccione una carta ingresando el número elegido seguido de Opción. Ejemplo: Opción 1");
         }
 
+        /// <summary>
+        /// Método para captar determinadas palabras como parte del texto y retornarlas.
+        /// De lo contrario devuelve el texto completo.
+        /// </summary>
+        /// <param name="text">texto que contiene la palabra a capturar</param>
+        /// <returns>palabra capturada, de lo contrario texto completo</returns>
         private string Analysis(string text)
             {
                 if (text.ToLower().Contains("alias"))
@@ -137,38 +146,42 @@ namespace Telegram.Bot.Examples.Echo
                         return text.ToLower();
             }
 
-        //notifica el juez las cartas jugadas de los jugadores y
-        //se le pide que seleccione la carta ganadora
-        private async void notifyJudge2()
+        /// <summary>
+        /// Se muestra al juez las opciones de respuestas, y se le pide que seleccione la ganadora.
+        /// </summary>
+        /// <returns></returns>
+        private async void NotifyJudge2()
         {
             SingletonBot bot = SingletonBot.Instance;
             IEnumerator<Card> iteratorCardWhite = bot.AskEnumeratorCardsAnswer();
-            int i = 1;
+            int i=1;
             Library.User judge = (Library.User)bot.GetJudge();
+            await Bot.SendTextMessageAsync(judge.ID, "Selecciona la carta ganadora. Ejemplo: Opción 1");
             while(iteratorCardWhite.MoveNext())
             {
-                Card card = iteratorCardWhite.Current;
-                //ana//await Bot.SendTextMessageAsync(judge.ID, "Opción "+ i + ": " + card.ToString());
-                await Bot.SendTextMessageAsync(judge.ID, "Opción "+ i + ": " + card.Text);
+                Card card=iteratorCardWhite.Current;
+                await Bot.SendTextMessageAsync(judge.ID, "Opcion " + i + ": " + card.ToString());
                 i++;
             }
 
-            await Bot.SendTextMessageAsync(judge.ID, "Estas son las respuestas! Elije la opción ganadora. Ejemplo: Opción 1");
+            await Bot.SendTextMessageAsync(judge.ID, "Seleccione una carta: ");
         }
 
-        //notifica a todos los jugadores la carta ganadora
+        /// <summary>
+        /// Notifica la carta ganadora a los jugadores
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
         private async void notifyWin(Card card)
         {
             SingletonBot bot = SingletonBot.Instance;
-            IEnumerator<Library.User> listUser = bot.GetListUser();
+            IEnumerator<Library.User> listUser=bot.GetListUser();
             while(listUser.MoveNext())
             {
                 Library.User user = listUser.Current;
-                //agregue .Text a card ANA abajo
-                await Bot.SendTextMessageAsync(user.ID, "El juez seleccionó esta carta: " + card.Text);
+                await Bot.SendTextMessageAsync(user.ID, "El juez seleccionó esta carta :"+card);
             }
         }
-
         /// <summary>
         /// Maneja los mensajes que se envían al bot.
         /// </summary>
@@ -197,124 +210,95 @@ namespace Telegram.Bot.Examples.Echo
                     break;
                 
                 case "alias":
-                    try
-                    {
+                    try{
                         string userName = message.Text.Split(" ")[1];
-                        bot.CreateUser(userName, message.Chat.Id);
-                        response = "Bien " + userName + "! Se creó tu alias correctamente. Aguarda que se unan más personas.";
-                        bool isStart = bot.isStartGame();
-                        IEnumerator<Library.User> listUser = bot.GetListUser();
-
+                        bot.CreatUser(userName, message.Chat.Id);
+                        bool isStart = bot.StartGame();
+                        response = "Bien " + userName + "! Se creó tu alias correctamente.";
+                    
                         if (isStart)
                         {
-                            notifyPlayer();
-                            notifyJudge();
-                            notifyPlayerCardBlack();
+                            NotifyPlayer();
+                            NotifyJudge();
+                            userLast = bot.AskCurrentPlayer();
+                            NotifyPlayerBlackCardAndWhiteCards();
                         }
-                    }
-                    catch(UserException e)
+                    
+                    }catch(UserException e)
                     {
                         response = e.Message;
                     }
-                    
-                    catch(FormatException ex)
-                    {
-                         Console.WriteLine(ex.Message);
-                    }
 
-                    catch(IndexOutOfRangeException ex)
+                    catch(IndexOutOfRangeException)
                     {
-                         Console.WriteLine(ex.Message);
                         response = "Che, te dije alias separado con un espacio";
                     }
-                    catch(Exception ex)
+
+                    catch(Exception)
                     {
-                        Console.WriteLine(ex.Message);
-                        response = "Sabes que, no tengo ni idea que paso";
+                        response="Sabes que, no tengo ni idea que paso";
                     }
                     break;
-                  
+                    
                 case "opcion":
                 case "opción":
                     try
                     {
-                        Library.User user = bot.GetUserActually();
                         Library.User judge = (Library.User)bot.GetJudge(); 
-                        int number = Convert.ToInt32(message.Text.Split(" ")[1]);
-                        if(number < 1 || number > 10)
+                        int number = Convert.ToInt32(message.Text.Split(" ")[1])-1;
+                        if(number < 0 || number > 9)
                         {
-                            response = "Debes elegir una carta del 1 al 10! Ejemplo: Opción 1";
+                            response = "Debes elegir una opción del 1 al 10. Elemplo: Opción 1";
                         }
                         else
-                            {
-                             if(user.ID! == judge.ID && message.Chat.Id! == user.ID)
-                             {
-                                    response = "Estás apurado! Espera la respuesta de todos los jugadores";
-                             }
-                                else
-                                {
-                                    if(bot.isNextPlayer())
+                               {
+                                    if(bot.isAskNextPlayer())
                                     {
-                                        Card cardSelect = user.GetCard(number);
+                                        userLast = bot.GetUserActually();
+                                        Card cardSelect=userLast.GetCard(number);
                                         bot.AddAnswer(cardSelect);
                                         //Siguiente jugador, si hay muestro sus cartas y la pregunta
-                                        notifyPlayerCardBlack();
+                                        NotifyPlayerBlackCardAndWhiteCards();
                                     }
                                     else
-                                    //Empieza el veredicto del juez
                                     {
-                                        if(message.Chat.Id == user.ID)
+                                        if(message.Chat.Id != judge.ID)
                                         {
-                                            Card cardSelect = user.GetCard(number);
+                                            Card cardSelect = userLast.GetCard(number);
+                                            Console.WriteLine(cardSelect);
                                             bot.AddAnswer(cardSelect);
                                             //Mostrar las cartas de respuesta de cada jugador
-                                            notifyJudge2();
+                                            NotifyJudge2();
                                         }
-                                        else
-                                        {//Responde el juez
+                                        else{//Responde el juez
                                             Card cardWin = bot.CardSelectWhite(number);
                                             notifyWin(cardWin);
                                             bot.AskWinner(cardWin);
+                                            NotifyJudge();
+                                            userLast = bot.GetUserActually();
+                                            NotifyPlayerBlackCardAndWhiteCards();
                                         }
+                                        
                                     }
+                                    
                                 }
-                            }
+                            
                         }
-                   
+
                     catch(FormatException)
                     {
-                        response="Sabe poner numeros?";
+                        response = "Debes elegir un número del 1 al 10. Elemplo: Opción 1";
                     }
-                    break;
-                
+
+                break;
+               
                 default: 
-                    response = "Me mataste con ese mensaje! No olvides que soy un robot";
+                    response = "Disculpa, no se qué hacer con ese mensaje!";
                     break;
             }
 
             // enviamos el texto de respuesta
-           await Bot.SendTextMessageAsync(message.Chat.Id, response);
-            
-        }
-
-        /// <summary>
-        /// Envía una imágen como respuesta al mensaje recibido.
-        /// Como ejemplo enviamos siempre la misma foto.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        async Task SendProfileImage(Message message)
-        {
-            await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
-
-            const string filePath = @"profile.jpeg";
-            using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var fileName = filePath.Split(Path.DirectorySeparatorChar).Last();
-            await Bot.SendPhotoAsync(
-                chatId: message.Chat.Id,
-                photo: new InputOnlineFile(fileStream, fileName),
-                caption: "Te ves bien!"
-            );
+           await Bot.SendTextMessageAsync(message.Chat.Id, response);  
         }
 
         /// <summary>

@@ -89,12 +89,12 @@ namespace Library
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            bool valido = false;
+            bool valido=false;
             if (obj is User)
             {
-            User user = (User)obj;
-                if (user.Name == this.Name)
-                    valido = true;
+            User user=(User)obj;
+                if (user.ID==this.ID)
+                    valido=true;
 
             }
             return valido;
