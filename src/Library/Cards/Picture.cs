@@ -5,7 +5,8 @@ namespace Library
 {
     /// <summary>
     /// Clase abstracta que repesenta las cartas de tipo imagen.
-    /// Implementación de polimorfismo por abstracción.
+    /// Implementación de polimorfismo por abstracción, a efecto de obligar
+    /// a las subclases a tener los métodos.
     /// </summary>
     public abstract class Picture
     {
