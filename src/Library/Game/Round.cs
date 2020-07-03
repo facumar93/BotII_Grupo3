@@ -10,26 +10,26 @@ namespace Library
         /// </summary>
         /// <value>tipo enum</value>
         public TypeOfGameOptions GameType { get; set; }
-        public IJudge judge;
+        public IJudge judge { get; set; }
         public Card BlackCard { get; set;}
         private List<Card> listWhiteCardsAnswer { get; set; }
 
         /// <summary>
         /// Constructor de una ronda "round"
+        /// Patrón Creator, al crear una ronda se crea una lista de cartas.
         /// </summary>
         /// <param name="judge">juez</param>
         /// <param name="blackCard">carta negra</param>
-        public Round(IJudge judge,Card blackCard)
+        public Round(IJudge judge, Card blackCard)
         {
             this.judge = judge;
             BlackCard=blackCard;
             listWhiteCardsAnswer = new List<Card>();
-            
-
         }
 
         /// <summary>
         /// Agrega las cartas blancas de respuesta a una lista "listWhiteCarsArwer"
+        /// Agregado por Expert ya que la ronda conoce las cartas pertenecientes a la misma.
         /// </summary>
         /// <param name="card"></param>
         public void AddAnswer(Card card)
@@ -52,19 +52,26 @@ namespace Library
         public void GiveBackCard()
         {
             BlackCard.Free = true;
-            /*foreach (Card card in listWhiteCardsAnswer)
+            foreach (Card card in listWhiteCardsAnswer)
             {
                 card.Free = true;
-            }*/
+            }
         }
 
         /// <summary>
         /// Enumera la lista de cartas blancas de respuesta "listWhiteCardsAnswer".
+        /// Agregado por patrón Iterator para poder acceder a los elementos de la lista de cartas de respuesta
+        /// sin exponer sus elementos.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<Card> GetEnumeratorForListWhiteCardsAnswer()
         {
             return listWhiteCardsAnswer.GetEnumerator();
+        }
+
+        public Card CardSelectWhite(int position)
+        {
+            return listWhiteCardsAnswer[position];
         }
     }
 }

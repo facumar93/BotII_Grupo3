@@ -93,7 +93,7 @@ namespace Library
             if (obj is User)
             {
             User user=(User)obj;
-                if (user.Name==this.Name)
+                if (user.ID==this.ID)
                     valido=true;
 
             }

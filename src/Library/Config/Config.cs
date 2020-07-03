@@ -5,7 +5,7 @@ namespace Library
 {
     /// <summary>
     /// Esta clase representa la configuracion del juego.
-    /// Agregado por SRP.
+    /// Agregado por SRP. La única razón de cambio es cambiar la configuración.
     /// </summary>
     public class Configuration
     {
@@ -13,9 +13,9 @@ namespace Library
         public int JudgeNum { get; set; }  
         public int CountPlayer{ get; set; }
 
-        public string PathCards {get;set;}
-        public TypeOfGameOptions GameType{get;set;}
-        public Configuration(string path,string pathCard)
+        public string PathCards { get; set; }
+        public TypeOfGameOptions GameType{ get; set; }
+        public Configuration(string path, string pathCard)
         {   
             List<string> config = Archive.Read(path);
             string aux = config[0];
@@ -23,17 +23,16 @@ namespace Library
             this.JudgeNum = Convert.ToInt32(paraments[0]);
             this.CountPlayer = Convert.ToInt32(paraments[1]);
             this.GameType=(TypeOfGameOptions)Convert.ToInt32(paraments[2]);
-            PathCards=pathCard;
+            PathCards = pathCard;
         }
         /// <summary>
         /// Este método calcula la cantidad de rondas que va a tener un juego según la cantidad de veces que un jugador es juez.
-        /// Se realiza teniendo en cuenta la cantidad de jugadores.
-        /// Falta implentación.
+        /// Se realiza teniendo en cuenta la cantidad de jugadores dispuesta en la configuración.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>número de rondas</returns>
         public int RoundsCount()
         {
-            return JudgeNum*CountPlayer;
+            return JudgeNum * CountPlayer;
         }
     }
 }

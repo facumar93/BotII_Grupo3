@@ -12,22 +12,22 @@ namespace Library.Test
         [SetUp]
         public void Setup()
         {
-            //no me funciona la ruta directa dont know why
-            //lista = Archive.Read("/../ArchiveTestCards.csv");
-            lista = Archive.Read("/Users/anakaprielian/Documents/UCU/2020/ProgramacionII/Proyecto/ultimo/BotII_Grupo3/BotII_Grupo3/src/Test/Library.Test/ArchiveTestCards.csv");
+            lista = Archive.Read("../../../ArchiveTestCards.csv");
         }
 
         [Test]
         public void OpenAndReadArchiveCorrectlyFirstLine()
         {
-            Assert.AreEqual("blackCardText;ba",lista[0]);
+            Assert.AreEqual("blackCardText;ba", lista[0]);
         }
 
         [Test]
         public void OpenAndReadArchiveCorrectlySecondLine()
         {
-            Assert.AreEqual("blackCardText;bb",lista[1]);
+            Assert.AreEqual("blackCardText;bb", lista[1]);
         }
+
+
 
     }
 }

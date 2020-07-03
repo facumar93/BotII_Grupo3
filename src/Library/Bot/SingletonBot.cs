@@ -4,9 +4,14 @@ using static Library.Game;
 
 namespace Library 
 {
-
     /// <summary>
-    /// Representa al bot. Patrón Singleton y Facade
+    /// Representa al bot
+    /// Patrón Singleton para asegurarse de que una clase tenga solo una instancia, 
+    /// al tiempo que proporciona un punto de acceso global
+    /// Patrón Facade, Una clase que proporciona una interfaz simple
+    /// a un subsistema complejo que contiene muchas partes móviles(las demas clases)
+    /// Patrón Mediator, reduce las dependencias entre los objetos
+
     /// </summary>
     public class SingletonBot
     {
@@ -18,9 +23,8 @@ namespace Library
         /// <summary>
         /// Método para instanciar el Bot o retornarlo
         /// </summary>
-        /// <value></value>
-        
-        //****
+        /// <value>instancia</value>
+
         public static SingletonBot Instance 
         {
             get 
@@ -34,23 +38,8 @@ namespace Library
             }
         }
 
-
         /// <summary>
-        /// Método para instanciar una configuración
-        /// Agregado por Creator
-        /// </summary>
-        /// <param name="judgeNum">Cantidad de </param>
-        /// <param name="countPlayer"></param>
-       /* public void CreateConfiguration(int judgeNum , int countPlayer) //No se usa.
-        { 
-            if(judgeNum > 0 && countPlayer > 3)  //Ya controlamos en Screen
-                configuration = new Configuration(judgeNum , countPlayer);
-            else
-                throw new Exception("Número no adecuado al juego."); 
-        }*/
-
-        /// <summary>
-        /// Constructor, instancia una nueva lista de juegos 
+        /// Constructor del Juego, instancia una nueva lista de juegos 
         /// </summary>
         private SingletonBot()
         {
@@ -58,18 +47,17 @@ namespace Library
         }
 
         /// <summary>
-        /// Instancia un nuevo jeugo y lo agrega a una lista
+        /// Instancia un nuevo juego y lo agrega a una lista de juegos.
+        /// Patrón Creator al crear una configuración y un juego.
+        /// 
         /// </summary>
         /// <param name="typeOfGameOption"></param>
         public void CreateGame(string path,string pathCard)
         {
-            configuration=new Configuration(path,pathCard);
+            configuration = new Configuration(path,pathCard);
             Game game = new Game(configuration);
             listOfGames.Add(game);
         }
-
-        
-
 
         /// <summary>
         /// Instancia un usuario y guarda en una lista de juegos
@@ -100,6 +88,11 @@ namespace Library
            return GetCurrentGame().GetJudge();
         }
 
+        public Card CardSelectWhite(int position)
+        {
+            return GetCurrentGame().CardSelectWhite(position);
+        }
+
         /// <summary>
         /// Se recupera el usuario de la mano actual
         /// </summary>
@@ -123,9 +116,7 @@ namespace Library
         /// </summary>
         public bool StartGame()
         {
-            
-            Console.WriteLine(this.configuration.CountPlayer);
-            if(GetCurrentGame().CountPlayer()==this.configuration.CountPlayer)
+            if(GetCurrentGame().CountPlayer() == this.configuration.CountPlayer)
             {
                 GetCurrentGame().DealCards();
                 return true;
@@ -141,18 +132,14 @@ namespace Library
         {
             return GetCurrentGame().EnumeratorUser();
         }
-       /* public void ConfigRound(TypeOfGameOptions typeGame)
-        {
-            GetCurrentGame().ConfigRound(typeGame);
-        }*/
 
         /// <summary>
         /// Verifica si hay mas jugadores para jugar
         /// </summary>
         /// <returns>retorna true si hay mas jugadores</returns>
-        public bool AskNextPlayer()
+        public bool isAskNextPlayer()
         {
-            return GetCurrentGame().ToNextPlayer();
+            return GetCurrentGame().isToNextPlayer();
         }
 
         /// <summary>
@@ -165,11 +152,10 @@ namespace Library
         }
         
         /// <summary>
-        /// Agrega un una carta White a una Round, es la jugada de Player 
+        /// Agrega un una carta Blanca a una ronda, es la jugada de Player 
         /// </summary>
         /// <param name="card"></param>
         public void AddAnswer(Card card)
-
         {
             GetCurrentGame().AddAnswer(card);
         }
